@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: Cuadrantes
+        psr4_prefix: Cuadrantes
         src_path: app

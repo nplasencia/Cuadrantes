@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entities;
+namespace Cuadrantes\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Buses extends Model
+class Bus extends Model
 {
     //
 }

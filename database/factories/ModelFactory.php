@@ -11,11 +11,59 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+use Cuadrantes\Entities\Bus;
+use Cuadrantes\Entities\User;
+use Cuadrantes\Entities\Driver;
+use Cuadrantes\Entities\DriverRestDays;
+use Cuadrantes\Entities\DriverHolidays;
+
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'name'              => $faker->name,
+        'email'             => $faker->safeEmail,
+        'password'          => bcrypt(str_random(10)),
+        'remember_token'    => str_random(10),
+    ];
+});
+
+$factory->define(Driver::class, function (Faker\Generator $faker) {
+   return [
+        'first_name'        => $faker->firstName,
+        'last_name'         => $faker->lastName,
+        'dni'               => $faker->numerify('########').strtoupper($faker->randomLetter),
+        'telephone'         => '6'.$faker->numerify('########'),
+        'extension'         => $faker->numerify('########'),
+        'email'             => $faker->email,
+        'cap'               => $faker->date(),
+        'driver_expiration' => $faker->date(),
+        'active'            => $faker->randomElement([0, 1])
+   ];
+});
+
+$factory->define(DriverRestDays::class, function (Faker\Generator $faker) {
+   return [
+        'driver_id'         => $faker->numberBetween(1, 300),
+        'rest_day_id'       => $faker->numberBetween(1, 7),
+        'active'            => $faker->randomElement([0, 1])
+   ];
+});
+
+$factory->define(DriverHolidays::class, function (Faker\Generator $faker) {
+   return [
+       'driver_id'          => $faker->numberBetween(1, 300),
+       'date_from'          => $faker->date(),
+       'date_to'            => $faker->date(),
+       'active'             => $faker->randomElement([0, 1])
+   ];
+});
+
+$factory->define(Bus::class, function (Faker\Generator $faker) {
+    return [
+        'brand_id'          => $faker->numberBetween(1, 5),
+        'license'           => $faker->numerify('####').'-'.strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter),
+        'seats'             => $faker->numberBetween(20, 55),
+        'stands'            => $faker->numberBetween(3, 55),
+        'registration'      => $faker->date('Y-m-d', 'now'),
+        'active'            => $faker->randomElement([0, 1])
     ];
 });

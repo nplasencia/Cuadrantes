@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Cuadrantes\Events;
 
 abstract class Event
 {

@@ -19,7 +19,7 @@ class CreateDriverRestDaysTable extends Migration
             $table->boolean('active');
             $table->timestamps();
 
-            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->foreign('rest_day_id')->references('id')->on('weekdays');
         });
     }

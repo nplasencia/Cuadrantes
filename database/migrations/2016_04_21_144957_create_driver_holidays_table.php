@@ -20,7 +20,7 @@ class CreateDriverHolidaysTable extends Migration
             $table->boolean('active');
             $table->timestamps();
 
-            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
         });
     }
 

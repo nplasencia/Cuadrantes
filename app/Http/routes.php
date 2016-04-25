@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('login', function () {
+    return view('login');
+});
+
+Route::get('conductores', [
+    'as'   => 'drivers',
+    'uses' => 'DriversController@getAll'
+]);
+
+Route::get('conductor/{id}', [
+    'as'   => 'driver.details',
+    'uses' => 'DriversController@details'
+]);

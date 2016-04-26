@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="index.html" class="navbar-brand">
-                <img src="{{ URL::asset('assets/img/logoIntercity_min.png') }}" alt="" style="margin: 13px 0px 0px 5px;">
+                <img src="{{ asset('assets/img/logoIntercity_min.png') }}" alt="" style="margin: 13px 0px 0px 5px;">
             </a>
         </header>
         <div class="topnav">
@@ -83,6 +83,7 @@
     </div><!-- /.search-bar -->
     <div class="main-bar">
         <h3>
-            <i class="fa fa-home"></i>&nbsp; Metis</h3>
+            <i class="{{ $iconClass }}"></i>&nbsp; {{ $title }}
+        </h3>
     </div><!-- /.main-bar -->
 </header><!-- /.head -->

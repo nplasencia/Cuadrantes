@@ -13,7 +13,11 @@
         @include('includes.left_menu')
     </div>
     <div id="content">
-        @yield('content')
+        <div class="outer">
+            <div class="inner bg-light lter">
+                @yield('content')
+            </div>
+        </div>
     </div>
 </div>
 

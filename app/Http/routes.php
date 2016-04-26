@@ -15,12 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login', function () {
-    return view('login');
-});
+Route::get('login', [
+    'as'   => 'login',
+    'uses' => function () { return view('login'); }
+]);
 
 Route::get('conductores', [
-    'as'   => 'drivers',
+    'as'   => 'allDrivers',
     'uses' => 'DriversController@getAll'
 ]);
 

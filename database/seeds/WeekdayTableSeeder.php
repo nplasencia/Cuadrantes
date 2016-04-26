@@ -13,31 +13,31 @@ class WeekdayTableSeeder extends Seeder
     {
         DB::table('weekdays')->insert([
             'code'  => 'MON',
-            'value' => '1'
+            'value' => 'Lunes'
         ]);
         DB::table('weekdays')->insert([
             'code'  => 'TUE',
-            'value' => '2'
+            'value' => 'Martes'
         ]);
         DB::table('weekdays')->insert([
             'code'  => 'WED',
-            'value' => '3'
+            'value' => 'Miércoles'
         ]);
         DB::table('weekdays')->insert([
             'code'  => 'THU',
-            'value' => '4'
+            'value' => 'Jueves'
         ]);
         DB::table('weekdays')->insert([
             'code'  => 'FRI',
-            'value' => '5'
+            'value' => 'Viernes'
         ]);
         DB::table('weekdays')->insert([
             'code'  => 'SAT',
-            'value' => '6'
+            'value' => 'Sábado'
         ]);
         DB::table('weekdays')->insert([
             'code'  => 'SUN',
-            'value' => '7'
+            'value' => 'Domingo'
         ]);
     }
 }

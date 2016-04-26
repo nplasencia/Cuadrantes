@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Cuadrantes\Entities\DriverRestDays;
+use Cuadrantes\Entities\DriverRestDay;
 
 class DriverRestTableSeeder extends Seeder
 {
@@ -14,12 +14,12 @@ class DriverRestTableSeeder extends Seeder
     {
         $drivers = DB::table('drivers')->get();
         foreach ($drivers as $driver) {
-            factory(DriverRestDays::class)->create([
+            factory(DriverRestDay::class)->create([
                 'driver_id' => $driver->id,
                 'active'    => 1
             ]);
 
-            factory(DriverRestDays::class)->create([
+            factory(DriverRestDay::class)->create([
                 'driver_id' => $driver->id,
                 'active'    => 1
             ]);

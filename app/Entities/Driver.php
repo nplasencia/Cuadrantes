@@ -2,9 +2,13 @@
 
 namespace Cuadrantes\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Driver extends Model
+class Driver extends Entity
 {
-    //
+    public function restDays() {
+        return $this->hasMany(DriverRestDay::getClass());
+    }
+
+    public function holidays() {
+        return $this->hasMany(DriverHoliday::getClass());
+    }
 }

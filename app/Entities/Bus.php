@@ -2,9 +2,9 @@
 
 namespace Cuadrantes\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Bus extends Model
+class Bus extends Entity
 {
-    //
+    public function getBrand() {
+        return $this->belongsTo(BusBrand::getClass());
+    }
 }

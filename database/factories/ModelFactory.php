@@ -14,8 +14,8 @@
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Entities\User;
 use Cuadrantes\Entities\Driver;
-use Cuadrantes\Entities\DriverRestDays;
-use Cuadrantes\Entities\DriverHolidays;
+use Cuadrantes\Entities\DriverRestDay;
+use Cuadrantes\Entities\DriverHoliday;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
@@ -32,7 +32,7 @@ $factory->define(Driver::class, function (Faker\Generator $faker) {
         'last_name'         => $faker->lastName,
         'dni'               => $faker->numerify('########').strtoupper($faker->randomLetter),
         'telephone'         => '6'.$faker->numerify('########'),
-        'extension'         => $faker->numerify('########'),
+        'extension'         => $faker->numerify('####'),
         'email'             => $faker->email,
         'cap'               => $faker->date(),
         'driver_expiration' => $faker->date(),
@@ -40,7 +40,7 @@ $factory->define(Driver::class, function (Faker\Generator $faker) {
    ];
 });
 
-$factory->define(DriverRestDays::class, function (Faker\Generator $faker) {
+$factory->define(DriverRestDay::class, function (Faker\Generator $faker) {
    return [
         'driver_id'         => $faker->numberBetween(1, 300),
         'rest_day_id'       => $faker->numberBetween(1, 7),
@@ -48,7 +48,7 @@ $factory->define(DriverRestDays::class, function (Faker\Generator $faker) {
    ];
 });
 
-$factory->define(DriverHolidays::class, function (Faker\Generator $faker) {
+$factory->define(DriverHoliday::class, function (Faker\Generator $faker) {
    return [
        'driver_id'          => $faker->numberBetween(1, 300),
        'date_from'          => $faker->date(),

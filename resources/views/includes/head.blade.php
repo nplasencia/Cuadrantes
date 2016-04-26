@@ -15,22 +15,33 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <!-- Metis core stylesheet -->
-<link rel="stylesheet" href="{{ URL::asset('assets/css/main.min.css') }}">
+{!! Html::style('assets/css/main.min.css') !!}
 
 <!-- metisMenu stylesheet -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/metisMenu/1.1.3/metisMenu.min.css">
+{!! Html::style('assets/lib/jquery-inputlimiter/jquery.inputlimiter.1.0.css') !!}
+{!! Html::style('assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css') !!}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Uniform.js/2.1.2/themes/default/css/uniform.default.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.3/jquery.tagsinput.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.6/css/bootstrap3/bootstrap-switch.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker3.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.0.1/css/bootstrap-colorpicker.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/css/bootstrap-datetimepicker.min.css">
+
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 
 <!--[if lt IE 9]>
-    <script src = "{{ URL::asset('assets/lib/html5shiv/html5shiv.js') }}"></script>
-    <script src = "{{ URL::asset('assets/lib/respond/respond.min.js') }}"></script>
+    <script src = "{{ asset('assets/lib/html5shiv/html5shiv.js') }}"></script>
+    <script src = "{{ asset('assets/lib/respond/respond.min.js') }}"></script>
 <![endif]-->
 
-<link rel="stylesheet" href="{{ URL::asset('assets/css/style-switcher.css') }}">
-<link rel="stylesheet/less" type="text/css" href="{{ URL::asset('assets/less/theme.less') }}">
+{!! Html::style('assets/css/style-switcher.css') !!}
+{!! Html::style('assets/less/theme.less') !!}
 <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.2.0/less.min.js"></script>
 
 <!--Modernizr-->

@@ -15,12 +15,12 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
 
     <!-- Metis core stylesheet -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/main.min.css') }}">
+    {!! Html::style('assets/css/main.min.css') !!}
 </head>
 <body class="login">
 <div class="form-signin">
     <div class="text-center">
-        <img src="{{ URL::asset('assets/img/logoIntercity.png') }}" alt="Intercity Bus Logo">
+        <img src="{{ asset('assets/img/logoIntercity.png') }}" alt="Intercity Bus Logo">
     </div>
     <hr>
     <div class="tab-content">

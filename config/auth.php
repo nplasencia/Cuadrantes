@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => Cuadrantes\User::class,
+    'model' => Cuadrantes\Entities\User::class,
 
     /*
     |--------------------------------------------------------------------------

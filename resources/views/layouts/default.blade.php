@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-    @include('includes.head')
+    @include('partials.head')
 </head>
 
 <body class="  ">
 <div class="bg-dark dk" id="wrap">
     <div id="top">
-        @include('includes.header')
+        @include('partials.header')
     </div>
     <div id="left">
-        @include('includes.left_menu')
+        @include('partials.menu_user')
+
+        {{--{!! Html::menu('cuadrantes.menu') !!}--}}
+        @include('partials.menu')
     </div>
     <div id="content">
         <div class="outer">
@@ -21,6 +24,6 @@
     </div>
 </div>
 
-@include('includes.footer')
+@include('partials.footer')
 </body>
 </html>

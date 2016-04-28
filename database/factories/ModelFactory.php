@@ -43,7 +43,7 @@ $factory->define(Driver::class, function (Faker\Generator $faker) {
 $factory->define(DriverRestDay::class, function (Faker\Generator $faker) {
    return [
         'driver_id'         => $faker->numberBetween(1, 300),
-        'rest_day_id'       => $faker->numberBetween(1, 7),
+        'weekday_id'       => $faker->numberBetween(1, 7),
         'active'            => $faker->randomElement([0, 1])
    ];
 });
@@ -59,7 +59,7 @@ $factory->define(DriverHoliday::class, function (Faker\Generator $faker) {
 
 $factory->define(Bus::class, function (Faker\Generator $faker) {
     return [
-        'brand_id'          => $faker->numberBetween(1, 5),
+        'brand'             => $faker->randomElement(['Irisbus', 'Irizar', 'Iveco', 'Scania', 'Mercedes']),
         'license'           => $faker->numerify('####').'-'.strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter),
         'seats'             => $faker->numberBetween(20, 55),
         'stands'            => $faker->numberBetween(3, 55),

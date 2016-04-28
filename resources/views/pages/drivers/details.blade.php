@@ -5,6 +5,7 @@
             width: 50% !important;
         }
     </style>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="box">
@@ -30,45 +31,87 @@
                     </div><!-- /.toolbar -->
                 </header>
                 <div id="div-2" class="body">
-                    <form class="form-horizontal" id="popup-validation">
+
+                    @include('partials.msg_success')
+
+                    @include('partials.errors')
+
+                    {!! Form::open(['route' => ['driver.update', $driver->id], 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'popup-validation']) !!}
                         <div class="form-group">
                             <label class="control-label col-lg-4">Apellidos</label>
                             <div class="col-lg-4">
                                 <input type="text" class="validate[required] form-control" name="lastName" id="lastName" value="{{ $driver->last_name }}">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="control-label col-lg-4">Nombre</label>
                             <div class="col-lg-4">
                                 <input type="text" class="validate[required] form-control" name="firstName" id="firstName" value="{{ $driver->first_name }}">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="control-label col-lg-4">DNI</label>
                             <div class=" col-lg-4">
                                 <input class="validate[required,minSize[8]] form-control" type="text" name="dni" id="dni" value="{{ $driver->dni }}"/>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">Teléfono</label>
+                            <div class=" col-lg-4">
+                                <input class="validate[required] form-control" type="number" name="telephone" id="telephone" value="{{ $driver->telephone }}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">Extensión</label>
+                            <div class=" col-lg-4">
+                                <input class="validate[required] form-control" type="number" name="extension" id="extension" value="{{ $driver->extension }}"/>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-lg-4">E-mail</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required,custom[email]] form-control" type="text" name="email" id="email" value="{{ $driver->email }}"/>
+                                <input class="validate[required,custom[email]] form-control" type="email" name="email" id="email" value="{{ $driver->email }}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">CAP</label>
+                            <div class=" col-lg-4">
+                                <input class="validate[required] form-control" type="date" name="cap" id="cap" value="{{ $driver->cap }}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">Carnet de conducir</label>
+                            <div class=" col-lg-4">
+                                <input class="validate[required] form-control" type="date" name="license" id="license" value="{{ $driver->driver_expiration }}"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-4">Días de descanso</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona los días" multiple class="form-control chzn-select" tabindex="8">
+                                <select data-placeholder="Selecciona los días" multiple class="form-control chzn-select" tabindex="8" name="restDays[]">
                                     @foreach($weekdays as $weekday)
-                                        <option value="{{ $weekday->id }}" selected="selected">{{ $weekday->value }}</option>
+                                        <option value="{{ $weekday->id }}"
+                                            @if( $driver->isRestDay($weekday))
+                                                selected="selected"
+                                            @endif
+                                        >
+                                            {{ $weekday->value }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="form-actions no-margin-bottom">
-                            <input type="submit" value="Validate" class="btn btn-primary">
+                        <div class="form-actions no-margin-bottom text-center">
+                            <input type="submit" value="Actualizar" class="btn btn-primary">
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div><!--box-->
             <div class="box">
@@ -93,19 +136,17 @@
                         </nav>
                     </div><!-- /.toolbar -->
                 </header>
-                <div id="dateRangePickerBlock" class="body">
+                <div id="dateRangePickerBlock" class="body" style="display: none;">
                     <form class="form-horizontal" id="popup-validation">
-                        @foreach($driver->holidays as $holiday)
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="reservation">Reservation dates</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="reservation" id="reservation" class="form-control">
-                                    </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="reservation">Vacaciones primera quincena</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" name="reservation" id="reservation" class="form-control">
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
                         <div class="form-actions no-margin-bottom">
                             <input type="submit" value="Validate" class="btn btn-primary">
                         </div>

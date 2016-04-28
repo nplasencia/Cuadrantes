@@ -14,13 +14,14 @@ class CreateBusesTable extends Migration
     {
         Schema::create('buses', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('brand_id');
+            $table->string('brand');
             $table->string('license');
             $table->unsignedSmallInteger('seats');
             $table->unsignedSmallInteger('stands');
             $table->date('registration');
             $table->boolean('active');
             $table->timestamps();
+
         });
     }
 

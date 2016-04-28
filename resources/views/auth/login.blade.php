@@ -25,22 +25,24 @@
     <hr>
     <div class="tab-content">
         <div id="login" class="tab-pane active">
-            <form action="index.html">
+            <form method="POST" action="{{ route('login') }}">
+                {!! csrf_field() !!}
+                @include('partials.errors')
                 <p class="text-muted text-center">
                     Introduce tu usuario y contraseña
                 </p>
-                <input type="text" placeholder="Usuario" class="form-control top">
-                <input type="password" placeholder="Contraseña" class="form-control bottom">
+                <input type="text" name="email" placeholder="Usuario" class="form-control top" value="{{ old('email') }}">
+                <input type="password" name="password" placeholder="Contraseña" class="form-control bottom">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox"> Recuérdame
+                        <input type="checkbox" name="remember"> Recuérdame
                     </label>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
             </form>
         </div>
         <div id="forgot" class="tab-pane">
-            <form action="index.html">
+            <form action="#">
                 <p class="text-muted text-center">Introduce un email válido</p>
                 <input type="email" placeholder="mail@domain.com" class="form-control">
                 <br>

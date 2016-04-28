@@ -15,12 +15,12 @@ class CreateDriverRestDaysTable extends Migration
         Schema::create('driver_rest_days', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('driver_id');
-            $table->unsignedInteger('rest_day_id');
+            $table->unsignedInteger('weekday_id');
             $table->boolean('active');
             $table->timestamps();
 
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
-            $table->foreign('rest_day_id')->references('id')->on('weekdays');
+            $table->foreign('weekday_id')->references('id')->on('weekdays');
         });
     }
 

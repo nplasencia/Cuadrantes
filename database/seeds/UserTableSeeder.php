@@ -18,8 +18,9 @@ class UserTableSeeder extends Seeder
     private function createAdmin()
     {
         User::create([
-            'name'     => 'Nauzet Plaencia',
+            'name'     => 'Nauzet Plasencia',
             'email'    => 'nplasencia@auret.es',
+            'role'     => 'administrator',
             'password' =>  bcrypt('admin')
         ]);
     }

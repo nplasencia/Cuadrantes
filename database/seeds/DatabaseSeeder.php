@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call(UserTableSeeder::class);
+        $this->call(UserTableSeeder::class);
         $this->call(DriverTableSeeder::class);
         $this->call(WeekdayTableSeeder::class);
         $this->call(DriverRestTableSeeder::class);

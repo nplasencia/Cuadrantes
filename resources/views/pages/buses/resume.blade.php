@@ -8,15 +8,28 @@
                 @include('partials.msg_success')
 
                 <div id="sortableTable" class="body collapse in">
+
+                    <div class="row" style="margin-left: 0px; margin-bottom: 10px;">
+                        <div class="btn-group">
+                            <a href="{{ route('bus.create') }}" class="btn btn-success">
+                                <i class="fa fa-plus-circle"></i>
+                                <span class="link-title">&nbsp;Nueva guagua</span>
+                            </a>
+                        </div>
+
+                        @include('partials.searchbox')
+
+                    </div>
+
                     <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
                         <thead>
                         <tr>
-                            <th>Matrícula</th>
-                            <th>Marca</th>
-                            <th>Plazas<br>sentadas</th>
-                            <th>Plazas<br>de pie</th>
-                            <th>Total plazas</th>
-                            <th>Matriculación</th>
+                            <th class="text-center">Matrícula</th>
+                            <th class="text-center">Marca</th>
+                            <th class="text-center">Plazas sentadas</th>
+                            <th class="text-center">Plazas de pie</th>
+                            <th class="text-center">Total plazas</th>
+                            <th class="text-center">Matriculación</th>
                             <th>&nbsp;</th>
                         </tr>
                         </thead>
@@ -24,24 +37,25 @@
                         @foreach($buses as $bus)
                             <tr>
                                 <td>{{ $bus->license }}</td>
-                                <td>{{ $bus->brand }}</td>
+                                <td>{{ $bus->brand->name }}</td>
                                 <td>{{ $bus->seats }}</td>
                                 <td>{{ $bus->stands }}</td>
                                 <td>{{ $bus->seats + $bus->stands }}</td>
                                 <td>{{ date('d-m-Y', strtotime($bus->registration)) }}</td>
-                                <td align="left">
-
+                                <td align="right">
                                     <div class="btn-group">
-                                        <a href="{{ route('bus.details', $bus->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-default">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
+                                        <div class="btn-group pull-right">
+                                            <a href="{{ route('bus.details', $bus->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </div>
                                     </div>
-
-
                                     <div class="btn-group">
-                                        <a href="{{ route('bus.destroy', $bus->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-default">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
+                                        <div class="btn-group pull-right">
+                                            <a href="{{ route('bus.destroy', $bus->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -51,7 +65,13 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                Mostrando del {{ ($buses->currentPage()-1) * $buses->perPage() + 1}} al {{ $buses->currentPage() * $buses->perPage() }} de {{ $buses->total() }} guaguas
+                                Mostrando del {{ ($buses->currentPage()-1) * $buses->perPage() + 1}} al
+                                @if(($buses->currentPage() * $buses->perPage())>$buses->total())
+                                    {{ $buses->total() }}
+                                @else
+                                    {{ $buses->currentPage() * $buses->perPage() }}
+                                @endif
+                                de {{ $buses->total() }} guaguas
                             </div>
                         </div>
                     </div>

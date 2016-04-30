@@ -145,6 +145,11 @@ return [
         Cuadrantes\Providers\EventServiceProvider::class,
         Cuadrantes\Providers\RouteServiceProvider::class,
         Cuadrantes\Providers\HtmlServiceProvider::class,
+
+        /*
+         * Debugbar
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -198,6 +203,11 @@ return [
          */
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
+
+        /*
+         * Debugbar
+         */
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

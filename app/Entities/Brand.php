@@ -2,9 +2,12 @@
 
 namespace Cuadrantes\Entities;
 
-class BusBrand extends Entity
+class Brand extends Entity
 {
-    public function getBuses() {
+    protected $table = 'brands';
+
+    public function buses()
+    {
         return $this->hasMany(Bus::getClass());
     }
 }

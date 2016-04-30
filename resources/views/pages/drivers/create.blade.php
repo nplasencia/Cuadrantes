@@ -111,7 +111,7 @@
                             </div>
                         </div>
 
-                        <div id="dateRangePickerBlock" class="body">
+                        {{--<div id="dateRangePickerBlock" class="body">
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="reservation">Vacaciones primera quincena</label>
                                 <div class="col-lg-4">
@@ -130,7 +130,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--}}
 
                         <div class="form-actions no-margin-bottom text-center">
                             <input type="submit" value="Guardar" class="btn btn-primary">

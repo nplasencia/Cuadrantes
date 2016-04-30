@@ -58,4 +58,4 @@
         Metis.formGeneral();
     });
 </script>
-<{{--<script src="{{ asset('assets/js/style-switcher.min.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/js/style-switcher.min.js') }}"></script>--}}

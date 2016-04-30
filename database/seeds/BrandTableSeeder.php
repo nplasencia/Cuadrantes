@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class BusBrandTableSeeder extends Seeder
+class BrandTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,19 +11,19 @@ class BusBrandTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('bus_brands')->insert([
+        DB::table('brands')->insert([
             'name'  => 'Irisbus'
         ]);
-        DB::table('bus_brands')->insert([
+        DB::table('brands')->insert([
             'name'  => 'Irizar'
         ]);
-        DB::table('bus_brands')->insert([
+        DB::table('brands')->insert([
             'name'  => 'Iveco'
         ]);
-        DB::table('bus_brands')->insert([
+        DB::table('brands')->insert([
             'name'  => 'Mercedes'
         ]);
-        DB::table('bus_brands')->insert([
+        DB::table('brands')->insert([
             'name'  => 'Scania'
         ]);
     }

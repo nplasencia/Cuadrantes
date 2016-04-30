@@ -14,13 +14,15 @@ class CreateBusesTable extends Migration
     {
         Schema::create('buses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('brand');
+            $table->unsignedInteger('brand_id');
             $table->string('license');
             $table->unsignedSmallInteger('seats');
             $table->unsignedSmallInteger('stands');
             $table->date('registration');
             $table->boolean('active');
             $table->timestamps();
+
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
 
         });
     }

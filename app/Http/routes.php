@@ -27,6 +27,10 @@ Route::get ('auth/logout', [
 Route::get ('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+Route::get('test', function() {
+   return view('pages.test.sortabletable');
+});
+
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/', [
@@ -99,8 +103,16 @@ Route::group(['middleware' => 'auth'], function() {
     ]);
 
     // Eliminar guagua
+
     Route::get('busDestroy/{id}', [
         'as'   => 'bus.destroy',
         'uses' => 'BusesController@destroy'
     ]);
+
+    // Buscar guagua
+    Route::post('busSearch', [
+        'as'   => 'bus.search',
+        'uses' => 'BusesController@search'
+    ]);
+
 });

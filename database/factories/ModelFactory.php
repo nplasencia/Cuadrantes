@@ -59,7 +59,7 @@ $factory->define(DriverHoliday::class, function (Faker\Generator $faker) {
 
 $factory->define(Bus::class, function (Faker\Generator $faker) {
     return [
-        'brand'             => $faker->randomElement(['Irisbus', 'Irizar', 'Iveco', 'Scania', 'Mercedes']),
+        'brand_id'          => $faker->numberBetween(1, 5),
         'license'           => $faker->numerify('####').'-'.strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter),
         'seats'             => $faker->numberBetween(20, 55),
         'stands'            => $faker->numberBetween(3, 55),

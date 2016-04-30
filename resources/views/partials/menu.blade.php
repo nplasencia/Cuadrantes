@@ -26,13 +26,13 @@
     <li class="">
         <a href="#">
             <i class="fa fa-dashboard"></i>
-            <span class="link-title">&nbsp;Principal</span>
+            <span class="link-title">&nbsp; Principal</span>
         </a>
     </li>
     <li class="">
         <a href="">
             <i class="fa fa-users "></i>
-            <span class="link-title">Conductores</span>
+            <span class="link-title">&nbsp; Conductores</span>
             <span class="fa arrow"></span>
         </a>
     <ul>
@@ -51,25 +51,10 @@
      </ul>
     </li>
     <li class="">
-        <a href="">
+        <a href="{{ route('bus.all') }}">
             <i class="fa fa-car "></i>
-            <span class="link-title">Guaguas</span>
-            <span class="fa arrow"></span>
+            <span class="link-title">&nbsp; Guaguas</span>
         </a>
-        <ul>
-            <li>
-                <a href="{{ route('bus.create') }}">
-                    <i class="fa fa-angle-right"></i>
-                    &nbsp; Nueva guagua
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('bus.all') }}">
-                    <i class="fa fa-angle-right"></i>
-                    &nbsp; Todas las guaguas
-                </a>
-            </li>
-        </ul>
     </li>
 
     <li class="nav-divider"></li>

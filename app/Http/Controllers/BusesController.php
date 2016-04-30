@@ -3,7 +3,7 @@
 namespace Cuadrantes\Http\Controllers;
 
 use Cuadrantes\Entities\Bus;
-use Cuadrantes\Entities\BusBrand;
+use Cuadrantes\Entities\Brand;
 use Illuminate\Http\Request;
 
 use Cuadrantes\Http\Requests;
@@ -11,75 +11,76 @@ use Illuminate\Support\Facades\Redirect;
 
 class BusesController extends Controller
 {
+    protected $defaultPagination = 25;
+    protected $iconClass = 'fa fa-car';
+    protected $title = "Guaguas";
+
+    protected function genericValidation(Request $request) {
+        $this->validate($request, [
+            'license'      => 'required|string',
+            'brand_id'     => 'required|numeric',
+            'seats'        => 'required|numeric',
+            'stands'       => 'required|numeric',
+            'registration' => 'required|date'
+        ]);
+    }
+
+    protected function resume($buses) {
+        $title = $this->title;
+        $iconClass = $this->iconClass;
+        return view('pages.buses.resume', compact('buses', 'title', 'iconClass'));
+    }
+
     public function create()
     {
         $title = 'Nueva guagua';
-        $iconClass = 'fa fa-car';
-        $busBrands = BusBrand::orderBy('name')->get();
-        return view('pages.buses.create', compact('title', 'iconClass', 'busBrands'));
+        $iconClass = $this->iconClass;
+        $brands = Brand::orderBy('name')->get();
+        return view('pages.buses.details', compact('brands', 'title', 'iconClass'));
     }
 
     public function all()
     {
-        $buses = Bus::orderBy('license', 'ASC')->paginate(20);
-        $title = 'Guaguas';
-        $iconClass = 'fa fa-car';
-        return view('pages.buses.resume', compact('buses', 'title', 'iconClass'));
+        $buses = Bus::orderBy('license', 'ASC')->with('brand')->paginate($this->defaultPagination);
+        return $this->resume($buses);
+
     }
 
     public function details($id)
     {
         $bus = Bus::findOrFail($id);
-        $busBrands = BusBrand::orderBy('name')->get();
-        $title = $bus->brand.' - Matrícula: '.$bus->license;
-        $iconClass = 'fa fa-car';
-        return view('pages.buses.details', compact('bus', 'title', 'iconClass', 'busBrands'));
+        $brands = Brand::orderBy('name')->get();
+        $title = $bus->brand->name.' - Matrícula: '.$bus->license;
+        $iconClass = $this->iconClass;
+        return view('pages.buses.details', compact('bus', 'brands', 'title', 'iconClass'));
     }
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'busLicense'   => 'required|string',
-            'brand'        => 'required|string',
-            'seats'        => 'required|digits_between:0,100',
-            'stands'       => 'required|digits_between:0,100',
-            'registration' => 'required|date'
-        ]);
-
-        $bus = new Bus();
-        $bus->license      = $request->get('busLicense');
-        $bus->brand        = $request->get('brand');
-        $bus->seats        = $request->get('seats');
-        $bus->stands       = $request->get('stands');
-        $bus->registration = $request->get('registration');
-        $bus->active       = true;
+        $this->genericValidation($request);
+        $bus = new Bus($request->all());
+        $bus->active = true;
         $bus->save();
 
-        session()->flash('success', 'La guagua '.$bus->brand.' de matrícula '.$bus->license.' ha sido creada exitosamente');
+        session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido creada exitosamente');
 
         return Redirect::route('bus.details', $bus->id);
     }
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'busLicense'   => 'required|string',
-            'brand'        => 'required|string',
-            'seats'        => 'required|digits_between:0,100',
-            'stands'       => 'required|digits_between:0,100',
-            'registration' => 'required|date'
-        ]);
+        $this->genericValidation($request);
 
         $bus = Bus::findOrFail($id);
-        $bus->license      = $request->get('busLicense');
-        $bus->brand        = $request->get('brand');
+        $bus->license      = $request->get('license');
+        $bus->brand_id     = $request->get('brand_id');
         $bus->seats        = $request->get('seats');
         $bus->stands       = $request->get('stands');
         $bus->registration = $request->get('registration');
         $bus->active       = true;
         $bus->save();
 
-        session()->flash('success', 'La guagua '.$bus->brand.' de matrícula '.$bus->license.' ha sido actualizada exitosamente');
+        session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido actualizada exitosamente');
         return Redirect::route('bus.details', $bus->id);
     }
 
@@ -87,7 +88,24 @@ class BusesController extends Controller
     {
         $bus = Bus::findOrFail($id);
         $bus->delete();
-        session()->flash('success', 'La guagua '.$bus->brand.' de matrícula '.$bus->license.' ha sido eliminada exitosamente');
-        return Redirect::back();
+        session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido eliminada exitosamente');
+        return $this->all();
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->get('item') != '') {
+            $buses = Bus::with('brand')
+                ->where('license', 'LIKE', '%'.$request->get('item').'%')
+                ->orderBy('license', 'ASC')
+                ->paginate(20);
+
+            if (sizeof($buses) != 0) {
+                return $this->resume($buses);
+            }
+            session()->flash('info', 'No se han encontrado guaguas que sigan este criterio de búsqueda');
+        }
+        return $this->all();
+
     }
 }

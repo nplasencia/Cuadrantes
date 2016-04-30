@@ -109,6 +109,7 @@
                             </div>
                         </div>
                         <div class="form-actions no-margin-bottom text-center">
+                            <a class="btn btn-default btn-sm" href="{{ Route('driver.all') }}">Cancelar</a>
                             <input type="submit" value="Actualizar" class="btn btn-primary">
                         </div>
                     {!! Form::close() !!}
@@ -148,6 +149,7 @@
                             </div>
                         </div>
                         <div class="form-actions no-margin-bottom">
+                            <button class="btn btn-default btn-sm" href="{{ Route('driver.all') }}">Cancelar</button>
                             <input type="submit" value="Validate" class="btn btn-primary">
                         </div>
                     </form>

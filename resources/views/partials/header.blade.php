@@ -45,13 +45,12 @@
                 <a data-placement="bottom" data-original-title="Show / Hide Right" data-toggle="tooltip" class="btn btn-default btn-sm toggle-right"> <span class="glyphicon glyphicon-comment"></span>  </a>
             </div>
         </div>
-        {{--<div class="collapse navbar-collapse navbar-ex1-collapse">
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
 
             <!-- .nav -->
             <ul class="nav navbar-nav">
-                <li> <a href="dashboard.html">Dashboard</a>  </li>
-                <li> <a href="table.html">Tables</a>  </li>
-                <li> <a href="file.html">File Manager</a>  </li>
+                <li> <a href="{{ route('driver.create') }}">Nuevo conductor</a>  </li>
+                <li> <a href="{{ route('bus.create') }}">Nueva guagua</a>  </li>
                 <li class='dropdown '>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Form Elements
@@ -65,12 +64,12 @@
                     </ul>
                 </li>
             </ul><!-- /.nav -->
-        </div>--}}
+        </div>
     </div><!-- /.container-fluid -->
 </nav><!-- /.navbar -->
 <header class="head">
     <div class="search-bar">
-        {{--<form class="main-search" action="">
+        <form class="main-search" action="">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Live Search ...">
                     <span class="input-group-btn">
@@ -79,11 +78,11 @@
                         </button>
                     </span>
             </div>
-        </form><!-- /.main-search -->--}}
+        </form><!-- /.main-search -->
     </div><!-- /.search-bar -->
     <div class="main-bar">
         <h3>
             <i class="{{ $iconClass }}"></i>&nbsp; {{ $title }}
         </h3>
-    </div><!-- /.main-bar -->
+    </div>
 </header><!-- /.head -->

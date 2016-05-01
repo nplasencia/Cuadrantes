@@ -11,20 +11,41 @@ use Illuminate\Support\Facades\Redirect;
 
 class DriversController extends Controller
 {
+    protected $defaultPagination = 25;
+    protected $iconClass = 'fa fa-users';
+    protected $title = "Conductores";
+
+    protected function genericValidation(Request $request) {
+        $this->validate($request, [
+            'lastName'  => 'required|max:250|string',
+            'firstName' => 'required|max:250|string',
+            'dni'       => 'required|string',
+            'telephone' => 'required|digits:9',
+            'extension' => 'required|digits_between:0,9999',
+            'email'     => 'required|email',
+            'cap'       => 'required|date',
+            'license'   => 'required|date'
+        ]);
+    }
+
+    private function resume($drivers) {
+        $title = $this->title;
+        $iconClass = $this->iconClass;
+        return view('pages.drivers.resume', compact('drivers', 'title', 'iconClass'));
+    }
+
     public function create()
     {
         $title = 'Nuevo conductor';
-        $iconClass = 'fa fa-user';
+        $iconClass = $this->iconClass;
         $weekdays = Weekday::all();
-        return view('pages.drivers.create', compact('title', 'iconClass', 'weekdays'));
+        return view('pages.drivers.create', compact('weekdays', 'title', 'iconClass'));
     }
 
     public function all()
     {
-        $drivers = Driver::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->paginate(20);
-        $title = 'Conductores';
-        $iconClass = 'fa fa-users';
-        return view('pages.drivers.resume', compact('drivers', 'title', 'iconClass'));
+        $drivers = Driver::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->paginate($this->defaultPagination);
+        return $this->resume($drivers);
     }
 
     public function details($id)
@@ -33,21 +54,12 @@ class DriversController extends Controller
         $weekdays = Weekday::all();
         $title = $driver->last_name . ', ' . $driver->first_name;
         $iconClass = 'fa fa-user';
-        return view('pages.drivers.details', compact('driver', 'title', 'iconClass', 'weekdays'));
+        return view('pages.drivers.details', compact('driver', 'weekdays', 'title', 'iconClass'));
     }
 
-    public function store(Request $request, Guard $auth)
+    public function store(Request $request)
     {
-        $this->validate($request, [
-            'lastName'  => 'required|max:250|string',
-            'firstName' => 'required|max:250|string',
-            'dni'       => 'required',
-            'telephone' => 'required|digits:9',
-            'extension' => 'required|digits_between:0,9999',
-            'email'     => 'required|email',
-            'cap'       => 'required|date',
-            'license'   => 'required|date'
-        ]);
+        $this->genericValidation($request);
 
         $driver = new Driver();
         $driver->last_name         = $request->get('lastName');

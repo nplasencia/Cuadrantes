@@ -2,6 +2,8 @@
 
 namespace Cuadrantes\Http\Controllers;
 
+use Cuadrantes\Commons\BrandContract;
+use Cuadrantes\Commons\BusContract;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Entities\Brand;
 use Illuminate\Http\Request;
@@ -25,7 +27,7 @@ class BusesController extends Controller
         ]);
     }
 
-    protected function resume($buses) {
+    private function resume($buses) {
         $title = $this->title;
         $iconClass = $this->iconClass;
         return view('pages.buses.resume', compact('buses', 'title', 'iconClass'));
@@ -35,13 +37,13 @@ class BusesController extends Controller
     {
         $title = 'Nueva guagua';
         $iconClass = $this->iconClass;
-        $brands = Brand::orderBy('name')->get();
+        $brands = Brand::orderBy(BrandContract::NAME)->get();
         return view('pages.buses.details', compact('brands', 'title', 'iconClass'));
     }
 
     public function all()
     {
-        $buses = Bus::orderBy('license', 'ASC')->with('brand')->paginate($this->defaultPagination);
+        $buses = Bus::orderBy(BusContract::LICENSE, 'ASC')->with('brand')->paginate($this->defaultPagination);
         return $this->resume($buses);
 
     }
@@ -49,7 +51,7 @@ class BusesController extends Controller
     public function details($id)
     {
         $bus = Bus::findOrFail($id);
-        $brands = Brand::orderBy('name')->get();
+        $brands = Brand::orderBy(BrandContract::NAME)->get();
         $title = $bus->brand->name.' - Matrícula: '.$bus->license;
         $iconClass = $this->iconClass;
         return view('pages.buses.details', compact('bus', 'brands', 'title', 'iconClass'));
@@ -58,8 +60,7 @@ class BusesController extends Controller
     public function store(Request $request)
     {
         $this->genericValidation($request);
-        $bus = new Bus($request->all());
-        $bus->active = true;
+        $bus = new Bus($request->all(), true);
         $bus->save();
 
         session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido creada exitosamente');
@@ -96,8 +97,8 @@ class BusesController extends Controller
     {
         if ($request->get('item') != '') {
             $buses = Bus::with('brand')
-                ->where('license', 'LIKE', '%'.$request->get('item').'%')
-                ->orderBy('license', 'ASC')
+                ->where(BusContract::LICENSE, 'LIKE', '%'.$request->get('item').'%')
+                ->orderBy(BusContract::LICENSE, 'ASC')
                 ->paginate(20);
 
             if (sizeof($buses) != 0) {

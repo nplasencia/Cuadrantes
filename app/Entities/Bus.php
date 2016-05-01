@@ -2,14 +2,17 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\BusContract;
+
 class Bus extends Entity
 {
-    protected $table = 'buses';
+    protected $table = BusContract::TABLE_NAME;
 
-    protected $fillable = ['license', 'brand_id', 'seats', 'stands', 'registration'];
+    protected $fillable = [BusContract::LICENSE, BusContract::BRAND_ID,     BusContract::SEATS,
+                           BusContract::STANDS,  BusContract::REGISTRATION, BusContract::ACTIVE];
 
     public function brand()
     {
-        return $this->belongsTo(Brand::getClass(), 'brand_id');
+        return $this->belongsTo(Brand::class, BusContract::BRAND_ID);
     }
 }

@@ -4,7 +4,8 @@ namespace Cuadrantes\Entities;
 
 class DriverHoliday extends Entity
 {
-    public function getDriver() {
-        return $this->belongsTo(Driver::getClass());
+    public function getDriver()
+    {
+        return $this->belongsTo(Driver::class);
     }
 }

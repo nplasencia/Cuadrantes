@@ -2,7 +2,11 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\WeekdayContract;
+
 class Weekday extends Entity
 {
-    //
+    protected $table = WeekdayContract::TABLE_NAME;
+
+    protected $fillable = [WeekdayContract::CODE, WeekdayContract::VALUE];
 }

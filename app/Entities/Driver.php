@@ -2,21 +2,34 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\DriverContract;
+use Cuadrantes\Commons\DriverRestdayContract;
+
 class Driver extends Entity
 {
-    public function restDays() {
-        return $this->belongsToMany(Weekday::getClass(), 'driver_rest_days');
+    protected $table = 'drivers';
+
+    protected $fillable = [DriverContract::FIRST_NAME, DriverContract::LAST_NAME, DriverContract::DNI, DriverContract::TELEPHONE,
+                           DriverContract::EXTENSION,  DriverContract::EMAIL,     DriverContract::CAP, DriverContract::EXPIRATION,
+                           DriverContract::ACTIVE];
+
+    public function restDays()
+    {
+        return $this->belongsToMany(Weekday::class, 'driver_rest_days');
     }
 
-    public function holidays() {
-        return $this->hasMany(DriverHoliday::getClass());
+    public function holidays()
+    {
+        return $this->hasMany(DriverHoliday::class);
     }
 
-    public function isRestDay(Weekday $weekday) {
-        return $this->restDays()->where('weekday_id', $weekday->id)->where('active', true)->count();
+    public function isRestDay(Weekday $weekday)
+    {
+        return $this->restDays()->where(DriverRestdayContract::WEEKDAY_ID, $weekday->id)->where(DriverContract::ACTIVE, true)->count();
     }
 
-    public function addRestDay(array $weekdays) {
+    public function addRestDay(array $weekdays)
+    {
         foreach($weekdays as $weekday) {
             if (! $this->isRestDay($weekday)) {
                 $this->restDays()->attach($weekday);

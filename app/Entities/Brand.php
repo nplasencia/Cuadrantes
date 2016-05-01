@@ -2,12 +2,16 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\BrandContract;
+
 class Brand extends Entity
 {
-    protected $table = 'brands';
+    protected $table = BrandContract::TABLE_NAME;
+
+    protected $fillable = [BrandContract::NAME];
 
     public function buses()
     {
-        return $this->hasMany(Bus::getClass());
+        return $this->hasMany(Bus::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Cuadrantes\Entities\Weekday;
 use Illuminate\Database\Seeder;
 
 class WeekdayTableSeeder extends Seeder
@@ -11,33 +12,14 @@ class WeekdayTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('weekdays')->insert([
-            'code'  => 'MON',
-            'value' => 'Lunes'
-        ]);
-        DB::table('weekdays')->insert([
-            'code'  => 'TUE',
-            'value' => 'Martes'
-        ]);
-        DB::table('weekdays')->insert([
-            'code'  => 'WED',
-            'value' => 'Miércoles'
-        ]);
-        DB::table('weekdays')->insert([
-            'code'  => 'THU',
-            'value' => 'Jueves'
-        ]);
-        DB::table('weekdays')->insert([
-            'code'  => 'FRI',
-            'value' => 'Viernes'
-        ]);
-        DB::table('weekdays')->insert([
-            'code'  => 'SAT',
-            'value' => 'Sábado'
-        ]);
-        DB::table('weekdays')->insert([
-            'code'  => 'SUN',
-            'value' => 'Domingo'
-        ]);
+        $weekdays = ['MON' => 'Lunes', 'TUE' => 'Martes', 'WED' => 'Miércoles', 'THU' => 'Jueves', 'FRI' => 'Viernes', 'SAT' => 'Sábado', 'SUN' => 'Domingo'];
+
+        foreach ($weekdays as $code => $name) {
+            $weekday = new Weekday();
+            $weekday->code       = $code;
+            $weekday->value      = $name;
+            $weekday->timestamps = false;
+            $weekday->save();
+        }
     }
 }

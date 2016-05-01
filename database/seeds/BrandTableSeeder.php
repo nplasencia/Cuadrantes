@@ -1,5 +1,6 @@
 <?php
 
+use Cuadrantes\Entities\Brand;
 use Illuminate\Database\Seeder;
 
 class BrandTableSeeder extends Seeder
@@ -11,20 +12,13 @@ class BrandTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('brands')->insert([
-            'name'  => 'Irisbus'
-        ]);
-        DB::table('brands')->insert([
-            'name'  => 'Irizar'
-        ]);
-        DB::table('brands')->insert([
-            'name'  => 'Iveco'
-        ]);
-        DB::table('brands')->insert([
-            'name'  => 'Mercedes'
-        ]);
-        DB::table('brands')->insert([
-            'name'  => 'Scania'
-        ]);
+        $brandNames = ['Irisbus', 'Irizar', 'Iveco', 'Mercedes', 'Scania'];
+        
+        foreach ($brandNames as $brandName) {
+            $brand = new Brand();
+            $brand->name = $brandName;
+            $brand->timestamps = false;
+            $brand->save();
+        }
     }
 }

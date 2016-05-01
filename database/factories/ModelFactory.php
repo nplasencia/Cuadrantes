@@ -11,6 +11,7 @@
 |
 */
 
+use Cuadrantes\Commons\BusContract;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Entities\User;
 use Cuadrantes\Entities\Driver;
@@ -59,11 +60,11 @@ $factory->define(DriverHoliday::class, function (Faker\Generator $faker) {
 
 $factory->define(Bus::class, function (Faker\Generator $faker) {
     return [
-        'brand_id'          => $faker->numberBetween(1, 5),
-        'license'           => $faker->numerify('####').'-'.strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter),
-        'seats'             => $faker->numberBetween(20, 55),
-        'stands'            => $faker->numberBetween(3, 55),
-        'registration'      => $faker->date('Y-m-d', 'now'),
-        'active'            => $faker->randomElement([0, 1])
+        BusContract::BRAND_ID          => $faker->numberBetween(1, 5),
+        BusContract::LICENSE           => $faker->numerify('####').'-'.strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter),
+        BusContract::SEATS             => $faker->numberBetween(20, 55),
+        BusContract::STANDS            => $faker->numberBetween(3, 55),
+        BusContract::REGISTRATION      => $faker->date('Y-m-d', 'now'),
+        BusContract::ACTIVE            => $faker->randomElement([0, 1])
     ];
 });

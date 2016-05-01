@@ -1,5 +1,7 @@
 <?php
 
+use Cuadrantes\Commons\BusContract;
+use Cuadrantes\Commons\BrandContract;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -12,17 +14,17 @@ class CreateBusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('buses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('brand_id');
-            $table->string('license');
-            $table->unsignedSmallInteger('seats');
-            $table->unsignedSmallInteger('stands');
-            $table->date('registration');
-            $table->boolean('active');
+        Schema::create(BusContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(BusContract::ID);
+            $table->unsignedInteger(BusContract::BRAND_ID);
+            $table->string(BusContract::LICENSE);
+            $table->unsignedSmallInteger(BusContract::SEATS);
+            $table->unsignedSmallInteger(BusContract::STANDS);
+            $table->date(BusContract::REGISTRATION);
+            $table->boolean(BusContract::ACTIVE);
             $table->timestamps();
 
-            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign(BusContract::BRAND_ID)->references(BrandContract::ID)->on(BrandContract::TABLE_NAME)->onDelete('cascade');
 
         });
     }
@@ -34,6 +36,6 @@ class CreateBusesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('buses');
+        Schema::drop(BusContract::TABLE_NAME);
     }
 }

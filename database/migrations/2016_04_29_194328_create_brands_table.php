@@ -1,5 +1,6 @@
 <?php
 
+use Cuadrantes\Commons\BrandContract;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -12,9 +13,9 @@ class CreateBrandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+        Schema::create(BrandContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(BrandContract::ID);
+            $table->string(BrandContract::NAME);
         });
     }
 
@@ -25,6 +26,6 @@ class CreateBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('brands');
+        Schema::drop(BrandContract::TABLE_NAME);
     }
 }

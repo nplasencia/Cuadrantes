@@ -10,8 +10,7 @@ class Driver extends Entity
     protected $table = 'drivers';
 
     protected $fillable = [DriverContract::FIRST_NAME, DriverContract::LAST_NAME, DriverContract::DNI, DriverContract::TELEPHONE,
-                           DriverContract::EXTENSION,  DriverContract::EMAIL,     DriverContract::CAP, DriverContract::EXPIRATION,
-                           DriverContract::ACTIVE];
+                           DriverContract::EXTENSION,  DriverContract::EMAIL,     DriverContract::CAP, DriverContract::EXPIRATION];
 
     public function restDays()
     {

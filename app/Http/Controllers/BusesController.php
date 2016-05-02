@@ -19,8 +19,8 @@ class BusesController extends Controller
 
     protected function genericValidation(Request $request) {
         $this->validate($request, [
-            'license'      => 'required|string',
             'brand_id'     => 'required|numeric',
+            'license'      => 'required|string',
             'seats'        => 'required|numeric',
             'stands'       => 'required|numeric',
             'registration' => 'required|date'
@@ -30,7 +30,9 @@ class BusesController extends Controller
     private function resume($buses) {
         $title = $this->title;
         $iconClass = $this->iconClass;
-        return view('pages.buses.resume', compact('buses', 'title', 'iconClass'));
+        $paginationClass = $buses;
+        $searchRoute = 'bus.search';
+        return view('pages.buses.resume', compact('buses', 'title', 'iconClass', 'searchRoute', 'paginationClass'));
     }
 
     public function create()
@@ -60,7 +62,7 @@ class BusesController extends Controller
     public function store(Request $request)
     {
         $this->genericValidation($request);
-        $bus = new Bus($request->all(), true);
+        $bus = new Bus($request->all());
         $bus->save();
 
         session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido creada exitosamente');
@@ -96,10 +98,9 @@ class BusesController extends Controller
     public function search(Request $request)
     {
         if ($request->get('item') != '') {
-            $buses = Bus::with('brand')
-                ->where(BusContract::LICENSE, 'LIKE', '%'.$request->get('item').'%')
-                ->orderBy(BusContract::LICENSE, 'ASC')
-                ->paginate(20);
+            $buses = Bus::where(BusContract::LICENSE, 'LIKE', '%'.$request->get('item').'%')
+                          ->orderBy(BusContract::LICENSE, 'ASC')
+                          ->paginate($this->defaultPagination);
 
             if (sizeof($buses) != 0) {
                 return $this->resume($buses);

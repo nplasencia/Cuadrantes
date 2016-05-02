@@ -8,8 +8,7 @@ class Bus extends Entity
 {
     protected $table = BusContract::TABLE_NAME;
 
-    protected $fillable = [BusContract::LICENSE, BusContract::BRAND_ID,     BusContract::SEATS,
-                           BusContract::STANDS,  BusContract::REGISTRATION, BusContract::ACTIVE];
+    protected $fillable = [BusContract::LICENSE, BusContract::BRAND_ID, BusContract::SEATS, BusContract::STANDS, BusContract::REGISTRATION];
 
     public function brand()
     {

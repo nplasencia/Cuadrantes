@@ -62,24 +62,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                Mostrando del {{ ($buses->currentPage()-1) * $buses->perPage() + 1}} al
-                                @if(($buses->currentPage() * $buses->perPage())>$buses->total())
-                                    {{ $buses->total() }}
-                                @else
-                                    {{ $buses->currentPage() * $buses->perPage() }}
-                                @endif
-                                de {{ $buses->total() }} guaguas
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                            {!! $buses->render() !!}
-                        </div>
-                    </div>
+                    @include ('partials.pagination')
                 </div>
             </div>
         </div>

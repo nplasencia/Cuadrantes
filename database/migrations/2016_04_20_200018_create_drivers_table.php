@@ -22,7 +22,7 @@ class CreateDriversTable extends Migration
             $table->string('email');
             $table->date('cap');
             $table->date('driver_expiration');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

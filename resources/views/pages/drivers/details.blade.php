@@ -1,10 +1,5 @@
 @extends('layouts.default')
 @section('content')
-    <style>
-        .form-control.col-lg-6 {
-            width: 50% !important;
-        }
-    </style>
 
     <div class="row">
         <div class="col-lg-12">
@@ -15,81 +10,80 @@
                     </div>
                     <h5>Datos personales</h5>
 
-                    <!-- .toolbar -->
-                    <div class="toolbar">
-                        <nav style="padding: 8px;">
-                            <a href="javascript:;" class="btn btn-default btn-xs collapse-box">
-                                <i class="fa fa-minus"></i>
-                            </a>
-                            <a href="javascript:;" class="btn btn-default btn-xs full-box">
-                                <i class="fa fa-expand"></i>
-                            </a>
-                            <a href="javascript:;" class="btn btn-danger btn-xs close-box">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </nav>
-                    </div><!-- /.toolbar -->
+                    @include('partials.window_options')
                 </header>
-                <div id="div-2" class="body">
+
+                <div class="body">
 
                     @include('partials.msg_success')
 
                     @include('partials.errors')
 
-                    {!! Form::open(['route' => ['driver.update', $driver->id], 'method' => 'POST', 'class' => 'form-horizontal', 'id' => 'popup-validation']) !!}
+                    <form class="form-horizontal" method="POST"
+                          action="@if(isset($driver) && $driver != null){{ Route('driver.update', $driver->id) }}@else{{ Route('driver.create') }}@endif">
+
+                        {{ csrf_field() }}
                         <div class="form-group">
                             <label class="control-label col-lg-4">Apellidos</label>
                             <div class="col-lg-4">
-                                <input type="text" class="validate[required] form-control" name="lastName" id="lastName" value="{{ $driver->last_name }}">
+                                <input type="text" class="form-control" name="last_name" id="last_name"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->last_name }}@else{{ old('last_name') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">Nombre</label>
                             <div class="col-lg-4">
-                                <input type="text" class="validate[required] form-control" name="firstName" id="firstName" value="{{ $driver->first_name }}">
+                                <input type="text" class="form-control" name="first_name" id="first_name"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->first_name }}@else{{ old('first_name') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">DNI</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required,minSize[8]] form-control" type="text" name="dni" id="dni" value="{{ $driver->dni }}"/>
+                                <input class="form-control" type="text" name="dni" id="dni"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->dni }}@else{{ old('dni') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">Teléfono</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required] form-control" type="number" name="telephone" id="telephone" value="{{ $driver->telephone }}"/>
+                                <input class="form-control" type="number" name="telephone" id="telephone"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->telephone }}@else{{ old('telephone') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">Extensión</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required] form-control" type="number" name="extension" id="extension" value="{{ $driver->extension }}"/>
+                                <input class="form-control" type="number" name="extension" id="extension"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->extension }}@else{{ old('extension') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">E-mail</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required,custom[email]] form-control" type="email" name="email" id="email" value="{{ $driver->email }}"/>
+                                <input class="form-control" type="email" name="email" id="email"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->email }}@else{{ old('email') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">CAP</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required] form-control" type="date" name="cap" id="cap" value="{{ $driver->cap }}"/>
+                                <input class="form-control" type="date" name="cap" id="cap"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->cap }}@else{{ old('cap') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4">Carnet de conducir</label>
                             <div class=" col-lg-4">
-                                <input class="validate[required] form-control" type="date" name="license" id="license" value="{{ $driver->driver_expiration }}"/>
+                                <input class="form-control" type="date" name="driver_expiration" id="driver_expiration"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->driver_expiration }}@else{{ old('driver_expiration') }}@endif" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -98,9 +92,11 @@
                                 <select data-placeholder="Selecciona los días" multiple class="form-control chzn-select" tabindex="8" name="restDays[]">
                                     @foreach($weekdays as $weekday)
                                         <option value="{{ $weekday->id }}"
-                                            @if( $driver->isRestDay($weekday))
-                                                selected="selected"
-                                            @endif
+                                                @if(isset($driver) && $driver != null)
+                                                    @if( $driver->isRestDay($weekday) ) selected="selected"@endif
+                                                @else
+                                                    @if( old('restDays') == $weekday->id ) selected="selected"@endif
+                                                @endif
                                         >
                                             {{ $weekday->value }}
                                         </option>
@@ -109,13 +105,13 @@
                             </div>
                         </div>
                         <div class="form-actions no-margin-bottom text-center">
-                            <a class="btn btn-default btn-sm" href="{{ Route('driver.all') }}">Cancelar</a>
-                            <input type="submit" value="Actualizar" class="btn btn-primary">
+                            <a class="btn btn-default btn-sm" href="{{ Route('driver.resume') }}">Cancelar</a>
+                            <input type="submit" value="Guardar" class="btn btn-primary">
                         </div>
-                    {!! Form::close() !!}
+                    </form>
                 </div>
             </div><!--box-->
-            <div class="box">
+            {{--<div class="box">
                 <header class="dark">
                     <div class="icons">
                         <i class="fa fa-calendar"></i>
@@ -154,7 +150,7 @@
                         </div>
                     </form>
                 </div>
-            </div><!--box-->
+            </div><!--box-->--}}
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
 @endsection

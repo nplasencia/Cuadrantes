@@ -12,8 +12,7 @@
     <div id="left">
         @include('partials.menu_user')
 
-        {{--{!! Html::menu('cuadrantes.menu') !!}--}}
-        @include('partials.menu')
+        {!! Html::menu('cuadrantes.items') !!}
     </div>
     <div id="content">
         <div class="outer">

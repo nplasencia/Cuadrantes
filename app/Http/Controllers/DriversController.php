@@ -2,10 +2,10 @@
 
 namespace Cuadrantes\Http\Controllers;
 
+use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Entities\Driver;
 use Cuadrantes\Entities\DriverRestDay;
 use Cuadrantes\Entities\Weekday;
-use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -17,21 +17,23 @@ class DriversController extends Controller
 
     protected function genericValidation(Request $request) {
         $this->validate($request, [
-            'lastName'  => 'required|max:250|string',
-            'firstName' => 'required|max:250|string',
-            'dni'       => 'required|string',
-            'telephone' => 'required|digits:9',
-            'extension' => 'required|digits_between:0,9999',
-            'email'     => 'required|email',
-            'cap'       => 'required|date',
-            'license'   => 'required|date'
+            'last_name'         => 'required|max:250|string',
+            'first_name'        => 'required|max:250|string',
+            'dni'               => 'required|string',
+            'telephone'         => 'required|digits:9',
+            'extension'         => 'required|digits_between:0,9999',
+            'email'             => 'required|email',
+            'cap'               => 'required|date',
+            'driver_expiration' => 'required|date'
         ]);
     }
 
     private function resume($drivers) {
         $title = $this->title;
         $iconClass = $this->iconClass;
-        return view('pages.drivers.resume', compact('drivers', 'title', 'iconClass'));
+        $paginationClass = $drivers;
+        $searchRoute = 'driver.search';
+        return view('pages.drivers.resume', compact('drivers', 'title', 'iconClass', 'searchRoute', 'paginationClass'));
     }
 
     public function create()
@@ -39,7 +41,7 @@ class DriversController extends Controller
         $title = 'Nuevo conductor';
         $iconClass = $this->iconClass;
         $weekdays = Weekday::all();
-        return view('pages.drivers.create', compact('weekdays', 'title', 'iconClass'));
+        return view('pages.drivers.details', compact('weekdays', 'title', 'iconClass'));
     }
 
     public function all()
@@ -61,24 +63,16 @@ class DriversController extends Controller
     {
         $this->genericValidation($request);
 
-        $driver = new Driver();
-        $driver->last_name         = $request->get('lastName');
-        $driver->first_name        = $request->get('firstName');
-        $driver->dni               = $request->get('dni');
-        $driver->telephone         = $request->get('telephone');
-        $driver->extension         = $request->get('extension');
-        $driver->email             = $request->get('email');
-        $driver->cap               = $request->get('cap');
-        $driver->driver_expiration = $request->get('license');
-        $driver->active            = true;
+        $driver = new Driver($request->all(), true);
         $driver->save();
 
-        foreach ($request->get('restDays') as $weekday_id) {
-            $driverRestDay = new DriverRestDay();
-            $driverRestDay->driver_id = $driver->id;
-            $driverRestDay->weekday_id = $weekday_id;
-            $driverRestDay->active = true;
-            $driverRestDay->save();
+        if ($request->get('restDays') !== null) {
+            foreach ($request->get('restDays') as $weekday_id) {
+                $driverRestDay = new DriverRestDay();
+                $driverRestDay->driver_id  = $driver->id;
+                $driverRestDay->weekday_id = $weekday_id;
+                $driverRestDay->save();
+            }
         }
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido guardado exitosamente');
         return Redirect::route('driver.details', $driver->id);
@@ -86,27 +80,17 @@ class DriversController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'lastName'  => 'required|max:250|string',
-            'firstName' => 'required|max:250|string',
-            'dni'       => 'required',
-            'telephone' => 'required|digits:9',
-            'extension' => 'required|digits_between:0,9999',
-            'email'     => 'required|email',
-            'cap'       => 'required|date',
-            'license'   => 'required|date'
-        ]);
+        $this->genericValidation($request);
 
         $driver = Driver::findOrFail($id);
-        $driver->last_name         = $request->get('lastName');
-        $driver->first_name        = $request->get('firstName');
+        $driver->last_name         = $request->get('last_name');
+        $driver->first_name        = $request->get('first_name');
         $driver->dni               = $request->get('dni');
         $driver->telephone         = $request->get('telephone');
         $driver->extension         = $request->get('extension');
         $driver->email             = $request->get('email');
         $driver->cap               = $request->get('cap');
-        $driver->driver_expiration = $request->get('license');
-        $driver->active            = true;
+        $driver->driver_expiration = $request->get('driver_expiration');
         $driver->save();
         
         $driverRestDays = DriverRestDay::where('driver_id', $driver->id)->get();
@@ -121,7 +105,6 @@ class DriversController extends Controller
                 $driverRestDay = new DriverRestDay();
                 $driverRestDay->driver_id = $driver->id;
                 $driverRestDay->weekday_id = $weekday_id;
-                $driverRestDay->active = true;
                 $driverRestDay->save();
             }
         }
@@ -135,6 +118,25 @@ class DriversController extends Controller
         $driver->delete();
 
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido eliminado exitosamente');
-        return Redirect::back();
+        return $this->all();
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->get('item') != '') {
+            $buses = Driver::where(DriverContract::FIRST_NAME,    'LIKE', '%'.$request->get('item').'%')
+                             ->orWhere(DriverContract::LAST_NAME, 'LIKE', '%'.$request->get('item').'%')
+                             ->orWhere(DriverContract::DNI,       'LIKE', '%'.$request->get('item').'%')
+                             ->orWhere(DriverContract::EMAIL,     'LIKE', '%'.$request->get('item').'%')
+                             ->orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')
+                             ->paginate($this->defaultPagination);
+
+            if (sizeof($buses) != 0) {
+                return $this->resume($buses);
+            }
+            session()->flash('info', 'No se han encontrado conductores que sigan este criterio de búsqueda');
+        }
+        return $this->all();
+
     }
 }

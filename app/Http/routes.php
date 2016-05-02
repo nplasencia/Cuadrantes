@@ -34,7 +34,7 @@ Route::get('test', function() {
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/', [
-        'as'   => 'driver.all',
+        'as'   => 'driver.resume',
         'uses' => 'DriversController@all'
     ]);
 
@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Mostrar conductores
 
     Route::get('conductores', [
-        'as'   => 'driver.all',
+        'as'   => 'driver.resume',
         'uses' => 'DriversController@all'
     ]);
 
@@ -73,6 +73,12 @@ Route::group(['middleware' => 'auth'], function() {
         'uses' => 'DriversController@destroy'
     ]);
 
+    // Buscar guagua
+    Route::post('driverSearch', [
+        'as'   => 'driver.search',
+        'uses' => 'DriversController@search'
+    ]);
+
     // Crear guagua
 
     Route::get('newBus', [
@@ -87,7 +93,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Mostrar guaguas
 
     Route::get('buses', [
-        'as'   => 'bus.all',
+        'as'   => 'bus.resume',
         'uses' => 'BusesController@all'
     ]);
 

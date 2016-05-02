@@ -107,17 +107,21 @@ return [
 
     'attributes' => [
         // Conductores
-        'lastName'  => 'Apellidos',
-        'firstName' => 'Nombre',
-        'telephone' => 'Teléfono',
-        'extension' => 'Extensión',
-        'license'   => 'Carnet de conducir',
+        'lastName'          => 'Apellidos',
+        'firstName'         => 'Nombre',
+        'telephone'         => 'Teléfono',
+        'extension'         => 'Extensión',
+        'dni'               => 'DNI',
+        'cap'               => 'CAP',
+        'email'             => 'E-mail',
+        'driver_expiration' => 'Carnet de conducir',
         // Buses
-        'busLicense'   => 'Matrícula',
-        'brand'        => 'Marca',
-        'seats'        => 'Plazas sentadas',
-        'stands'       => 'Plazas de pie',
-        'registration' => 'Fecha de matriculación'
+        'license'           => 'Matrícula',
+        'brand'             => 'Marca',
+        'brand_id'          => 'Marca',
+        'seats'             => 'Plazas sentadas',
+        'stands'            => 'Plazas de pie',
+        'registration'      => 'Fecha de matriculación'
 
     ],
 

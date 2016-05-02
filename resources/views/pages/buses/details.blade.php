@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="form-actions no-margin-bottom text-center">
-                            <button class="btn btn-default btn-sm" href="{{ Route('bus.all') }}">Cancelar</button>
+                            <a class="btn btn-default btn-sm" href="{{ Route('bus.resume') }}">Cancelar</a>
                             <input type="submit" value="Guardar" class="btn btn-primary">
                         </div>
                     </form>

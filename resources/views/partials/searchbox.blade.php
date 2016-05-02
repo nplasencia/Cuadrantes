@@ -20,7 +20,7 @@
 
 
 <div class="col-md-3 pull-right">
-    {!! Form::open(['route' => ['bus.search'], 'method' => 'POST', 'class' => 'search-form']) !!}
+    {!! Form::open(['route' => $searchRoute, 'method' => 'POST', 'class' => 'search-form']) !!}
         <div class="input-group">
             <input type="text" class="form-control SearchBar" placeholder="Buscar" name="item" value="{{ old('item') }}">
             <span class="input-group-btn">

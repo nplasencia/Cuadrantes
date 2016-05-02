@@ -2,8 +2,9 @@
 
 return array (
 
-    'menu' => array (
-        'Principal'   => array('link' => 'login', 'icon' => 'fa fa-dashboard', 'items' => ''),
-        'Conductores' => array('link' => 'drivers', 'icon' => 'fa fa-users', 'items' => ''),
+    'items' => array (
+        'Principal'   => array('link' => 'driver.resume', 'icon' => 'fa fa-dashboard'),
+        'Conductores' => array('link' => 'driver.resume', 'icon' => 'fa fa-users'),
+        'Guaguas'     => array('link' => 'bus.resume',    'icon' => 'fa fa-car'),
     )
 );

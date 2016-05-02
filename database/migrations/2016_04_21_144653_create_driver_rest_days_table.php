@@ -16,7 +16,7 @@ class CreateDriverRestDaysTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('driver_id');
             $table->unsignedInteger('weekday_id');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestamps();
 
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');

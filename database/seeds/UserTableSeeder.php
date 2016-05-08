@@ -23,5 +23,12 @@ class UserTableSeeder extends Seeder
             'role'     => 'administrator',
             'password' =>  bcrypt('admin')
         ]);
+
+        User::create([
+            'name'     => 'Patricia Botella',
+            'email'    => 'patriciabotella@arrecifebus.com',
+            'role'     => 'administrator',
+            'password' =>  bcrypt('admin')
+        ]);
     }
 }

@@ -13,7 +13,7 @@
                         <div class="btn-group">
                             <a href="{{ route('driver.create') }}" class="btn btn-success">
                                 <i class="fa fa-plus-circle"></i>
-                                <span class="link-title">&nbsp;Nuevos conductores</span>
+                                <span class="link-title">&nbsp;Nuevo conductor</span>
                             </a>
                         </div>
 

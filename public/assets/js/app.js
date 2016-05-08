@@ -489,7 +489,7 @@
     /*----------- END datepicker CODE -------------------------*/
 
     /*----------- BEGIN daterangepicker CODE -------------------------*/
-    $('#reservation').daterangepicker();
+    
 
     $('#reportrange').daterangepicker(
             {

@@ -53,9 +53,9 @@
 
 <!-- Metis demo scripts -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/js/auret.js') }}"></script>
 <script>
     $(function() {
         Metis.formGeneral();
     });
 </script>
-{{--<script src="{{ asset('assets/js/style-switcher.min.js') }}"></script>--}}

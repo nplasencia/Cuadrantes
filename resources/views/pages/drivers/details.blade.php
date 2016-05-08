@@ -104,6 +104,28 @@
                                 </select>
                             </div>
                         </div>
+
+                        @if(!isset($driver) || $driver == null)
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="holidays1">Vacaciones primera quincena</label>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="holidays1" id="holidays1" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="holidays2">Vacaciones segunda quincena</label>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="holidays2" id="holidays2" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="form-actions no-margin-bottom text-center">
                             <a class="btn btn-default btn-sm" href="{{ Route('driver.resume') }}">Cancelar</a>
                             <input type="submit" value="Guardar" class="btn btn-primary">
@@ -111,46 +133,49 @@
                     </form>
                 </div>
             </div><!--box-->
-            {{--<div class="box">
-                <header class="dark">
-                    <div class="icons">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <h5>Vacaciones</h5>
 
-                    <!-- .toolbar -->
-                    <div class="toolbar">
-                        <nav style="padding: 8px;">
-                            <a href="javascript:;" class="btn btn-default btn-xs collapse-box">
-                                <i class="fa fa-minus"></i>
-                            </a>
-                            <a href="javascript:;" class="btn btn-default btn-xs full-box">
-                                <i class="fa fa-expand"></i>
-                            </a>
-                            <a href="javascript:;" class="btn btn-danger btn-xs close-box">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </nav>
-                    </div><!-- /.toolbar -->
-                </header>
-                <div id="dateRangePickerBlock" class="body" style="display: none;">
-                    <form class="form-horizontal" id="popup-validation">
-                        <div class="form-group">
-                            <label class="control-label col-lg-4" for="reservation">Vacaciones primera quincena</label>
-                            <div class="col-lg-4">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" name="reservation" id="reservation" class="form-control">
+            @if(isset($driver) && $driver != null)
+                <div class="box">
+                    <header class="dark">
+                        <div class="icons">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <h5>Vacaciones</h5>
+
+                        @include('partials.window_options')
+                    </header>
+                    <div id="dateRangePickerBlock" class="body">
+                        <form class="form-horizontal" method="POST"
+                              action="@if(isset($driver) && $driver != null){{ Route('driver.update', $driver->id) }}@else{{ Route('driver.create') }}@endif">
+
+                            {{ csrf_field() }}
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="holidays1">Vacaciones primera quincena</label>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="holidays1" id="holidays1" class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-actions no-margin-bottom">
-                            <button class="btn btn-default btn-sm" href="{{ Route('driver.all') }}">Cancelar</button>
-                            <input type="submit" value="Validate" class="btn btn-primary">
-                        </div>
-                    </form>
-                </div>
-            </div><!--box-->--}}
+                            <div class="form-group">
+                                <label class="control-label col-lg-4" for="holidays2">Vacaciones segunda quincena</label>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="holidays2" id="holidays2" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions no-margin-bottom text-center">
+                                <a class="btn btn-default btn-sm" href="{{ Route('driver.resume') }}">Cancelar</a>
+                                <input type="submit" value="Guardar" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div><!--box-->
+            @endif
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
 @endsection

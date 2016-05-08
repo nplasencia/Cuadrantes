@@ -4,6 +4,7 @@ namespace Cuadrantes\Http\Controllers;
 
 use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Entities\Driver;
+use Cuadrantes\Entities\DriverHoliday;
 use Cuadrantes\Entities\DriverRestDay;
 use Cuadrantes\Entities\Weekday;
 use Illuminate\Http\Request;
@@ -28,6 +29,34 @@ class DriversController extends Controller
         ]);
     }
 
+    private function saveRestdays($restdays, $driver) {
+        if ($restdays !== null) {
+            foreach ($restdays as $weekday_id) {
+                $driverRestDay = new DriverRestDay();
+                $driverRestDay->driver_id  = $driver->id;
+                $driverRestDay->weekday_id = $weekday_id;
+                $driverRestDay->save();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private function saveHolidays($holidaysRaw, $driver) {
+        if (!isset($holidaysRaw) && ($holidaysRaw == null || $holidaysRaw == '')) {
+            return false;
+        }
+        $holidays = str_split(str_replace(' - ', '', $holidaysRaw),strpos($holidaysRaw, ' - '));
+        $driverHoliday = new DriverHoliday();
+        $driverHoliday->driver_id  = $driver->id;
+        $driverHoliday->date_from = date_create_from_format('d/m/Y', $holidays[0]);
+        $driverHoliday->date_to = date_create_from_format('d/m/Y', $holidays[1]);
+        $driverHoliday->active = true;
+        $driverHoliday->save();
+        return true;
+
+    }
+
     private function resume($drivers) {
         $title = $this->title;
         $iconClass = $this->iconClass;
@@ -46,7 +75,10 @@ class DriversController extends Controller
 
     public function all()
     {
-        $drivers = Driver::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->paginate($this->defaultPagination);
+        $drivers = Driver::where(DriverContract::ACTIVE, true)
+                           ->orderBy(DriverContract::LAST_NAME, 'ASC')
+                           ->orderBy(DriverContract::FIRST_NAME, 'ASC')
+                           ->paginate($this->defaultPagination);
         return $this->resume($drivers);
     }
 
@@ -66,14 +98,10 @@ class DriversController extends Controller
         $driver = new Driver($request->all(), true);
         $driver->save();
 
-        if ($request->get('restDays') !== null) {
-            foreach ($request->get('restDays') as $weekday_id) {
-                $driverRestDay = new DriverRestDay();
-                $driverRestDay->driver_id  = $driver->id;
-                $driverRestDay->weekday_id = $weekday_id;
-                $driverRestDay->save();
-            }
-        }
+        $this->saveRestdays($request->get('restDays'), $driver);
+        $this->saveHolidays($request->get('holidays1'), $driver);
+        $this->saveHolidays($request->get('holidays2'), $driver);
+
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido guardado exitosamente');
         return Redirect::route('driver.details', $driver->id);
     }
@@ -98,16 +126,15 @@ class DriversController extends Controller
             $driverRestDay->delete();
         }
 
-        //TODO: Probar método implementado en Driver
-        $restdays = $request->get('restDays');
-        if ($restdays != null) {
-            foreach ($restdays as $weekday_id) {
-                $driverRestDay = new DriverRestDay();
-                $driverRestDay->driver_id = $driver->id;
-                $driverRestDay->weekday_id = $weekday_id;
-                $driverRestDay->save();
-            }
+        $driverHolidays = DriverHoliday::where('driver_id', $driver->id)->get();
+        foreach ($driverHolidays as $driverHoliday) {
+            $driverHoliday->delete();
         }
+        
+        $this->saveRestdays($request->get('restDays'), $driver);
+        $this->saveHolidays($request->get('holidays1'), $driver);
+        $this->saveHolidays($request->get('holidays2'), $driver);
+
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido actualizado exitosamente');
         return Redirect::route('driver.details', $driver->id);
     }
@@ -115,7 +142,8 @@ class DriversController extends Controller
     public function destroy($id)
     {
         $driver = Driver::findOrFail($id);
-        $driver->delete();
+        $driver->active = false;
+        $driver->save();
 
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido eliminado exitosamente');
         return $this->all();
@@ -128,7 +156,8 @@ class DriversController extends Controller
                              ->orWhere(DriverContract::LAST_NAME, 'LIKE', '%'.$request->get('item').'%')
                              ->orWhere(DriverContract::DNI,       'LIKE', '%'.$request->get('item').'%')
                              ->orWhere(DriverContract::EMAIL,     'LIKE', '%'.$request->get('item').'%')
-                             ->orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')
+                             ->orderBy(DriverContract::LAST_NAME, 'ASC')
+                             ->orderBy(DriverContract::FIRST_NAME,'ASC')
                              ->paginate($this->defaultPagination);
 
             if (sizeof($buses) != 0) {

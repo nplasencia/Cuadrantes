@@ -6,6 +6,7 @@ use Cuadrantes\Commons\BrandContract;
 use Cuadrantes\Commons\BusContract;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Entities\Brand;
+use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
 
 use Cuadrantes\Http\Requests;
@@ -45,7 +46,7 @@ class BusesController extends Controller
 
     public function all()
     {
-        $buses = Bus::orderBy(BusContract::LICENSE, 'ASC')->with('brand')->paginate($this->defaultPagination);
+        $buses = Bus::where(BusContract::ACTIVE, true)->orderBy(BusContract::LICENSE, 'ASC')->with('brand')->paginate($this->defaultPagination);
         return $this->resume($buses);
 
     }
@@ -87,10 +88,11 @@ class BusesController extends Controller
         return Redirect::route('bus.details', $bus->id);
     }
 
-    public function destroy($id)
+    public function destroy($id, Guard $auth)
     {
         $bus = Bus::findOrFail($id);
-        $bus->delete();
+        $bus->active = false;
+        $bus->save();
         session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido eliminada exitosamente');
         return $this->all();
     }

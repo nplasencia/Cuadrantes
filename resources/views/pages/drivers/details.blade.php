@@ -105,26 +105,26 @@
                             </div>
                         </div>
 
-                        @if(!isset($driver) || $driver == null)
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="holidays1">Vacaciones primera quincena</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="holidays1" id="holidays1" class="form-control">
-                                    </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="holidays1">Vacaciones primera quincena</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" name="holidays1" id="holidays1" class="form-control"
+                                           value="@if(isset($driver) && $driver != null){{ $holidays1 }}@else{{ old('holidays1') }}@endif" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="holidays2">Vacaciones segunda quincena</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="holidays2" id="holidays2" class="form-control">
-                                    </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="holidays2">Vacaciones segunda quincena</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" name="holidays2" id="holidays2" class="form-control"
+                                           value="@if(isset($driver) && $driver != null){{ $holidays2 }}@else{{ old('holidays2') }}@endif" />
                                 </div>
                             </div>
-                        @endif
+                        </div>
 
                         <div class="form-actions no-margin-bottom text-center">
                             <a class="btn btn-default btn-sm" href="{{ Route('driver.resume') }}">Cancelar</a>
@@ -133,49 +133,6 @@
                     </form>
                 </div>
             </div><!--box-->
-
-            @if(isset($driver) && $driver != null)
-                <div class="box">
-                    <header class="dark">
-                        <div class="icons">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <h5>Vacaciones</h5>
-
-                        @include('partials.window_options')
-                    </header>
-                    <div id="dateRangePickerBlock" class="body">
-                        <form class="form-horizontal" method="POST"
-                              action="@if(isset($driver) && $driver != null){{ Route('driver.update', $driver->id) }}@else{{ Route('driver.create') }}@endif">
-
-                            {{ csrf_field() }}
-
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="holidays1">Vacaciones primera quincena</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="holidays1" id="holidays1" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-lg-4" for="holidays2">Vacaciones segunda quincena</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="holidays2" id="holidays2" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-actions no-margin-bottom text-center">
-                                <a class="btn btn-default btn-sm" href="{{ Route('driver.resume') }}">Cancelar</a>
-                                <input type="submit" value="Guardar" class="btn btn-primary">
-                            </div>
-                        </form>
-                    </div>
-                </div><!--box-->
-            @endif
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
 @endsection

@@ -43,7 +43,7 @@ class DriversController extends Controller
     }
 
     private function saveHolidays($holidaysRaw, $driver) {
-        if (!isset($holidaysRaw) && ($holidaysRaw == null || $holidaysRaw == '')) {
+        if (!isset($holidaysRaw) || $holidaysRaw == null || $holidaysRaw == '') {
             return false;
         }
         $holidays = str_split(str_replace(' - ', '', $holidaysRaw),strpos($holidaysRaw, ' - '));
@@ -55,6 +55,12 @@ class DriversController extends Controller
         $driverHoliday->save();
         return true;
 
+    }
+
+    private function generateUserHolidays($holidays) {
+        $from = date("d/m/Y", strtotime($holidays->date_from));
+        $to = date("d/m/Y", strtotime($holidays->date_to));
+        return $from.' - '.$to;
     }
 
     private function resume($drivers) {
@@ -85,10 +91,19 @@ class DriversController extends Controller
     public function details($id)
     {
         $driver = Driver::findOrFail($id);
+        $holidays = $driver->holidays;
+        $holidays1='';
+        $holidays2='';
+        if (isset($holidays[0])) {
+            $holidays1 = $this->generateUserHolidays($holidays[0]);
+        }
+        if (isset($holidays[1])) {
+            $holidays2 = $this->generateUserHolidays($holidays[1]);
+        }
         $weekdays = Weekday::all();
         $title = $driver->last_name . ', ' . $driver->first_name;
         $iconClass = 'fa fa-user';
-        return view('pages.drivers.details', compact('driver', 'weekdays', 'title', 'iconClass'));
+        return view('pages.drivers.details', compact('driver', 'holidays1', 'holidays2', 'weekdays', 'title', 'iconClass'));
     }
 
     public function store(Request $request)
@@ -142,11 +157,11 @@ class DriversController extends Controller
     public function destroy($id)
     {
         $driver = Driver::findOrFail($id);
-        $driver->active = false;
-        $driver->save();
+        //$driver->active = false;
+        $driver->delete();
 
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido eliminado exitosamente');
-        return $this->all();
+        return Redirect::route('driver.resume');
     }
 
     public function search(Request $request)

@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Cuadrantes\Commons\DriverRestdayContract;
+use Cuadrantes\Commons\DriverContract;
+use Cuadrantes\Commons\WeekdayContract;
 
 class CreateDriverRestDaysTable extends Migration
 {
@@ -12,15 +15,15 @@ class CreateDriverRestDaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('driver_rest_days', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('driver_id');
-            $table->unsignedInteger('weekday_id');
-            $table->boolean('active')->default(true);
+        Schema::create(DriverRestdayContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(DriverRestdayContract::ID);
+            $table->unsignedInteger(DriverRestdayContract::DRIVER_ID);
+            $table->unsignedInteger(DriverRestdayContract::WEEKDAY_ID);
+            $table->boolean(DriverRestdayContract::ACTIVE)->default(true);
             $table->timestamps();
 
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
-            $table->foreign('weekday_id')->references('id')->on('weekdays');
+            $table->foreign(DriverRestdayContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME)->onDelete('cascade');
+            $table->foreign(DriverRestdayContract::WEEKDAY_ID)->references(WeekdayContract::ID)->on(WeekdayContract::TABLE_NAME);
         });
     }
 
@@ -31,6 +34,6 @@ class CreateDriverRestDaysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('driver_rest_days');
+        Schema::drop(DriverRestdayContract::TABLE_NAME);
     }
 }

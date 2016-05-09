@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Cuadrantes\Commons\WeekdayContract;
 
 class CreateWeekdaysTable extends Migration
 {
@@ -12,10 +13,10 @@ class CreateWeekdaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('weekdays', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('code');
-            $table->string('value');
+        Schema::create(WeekdayContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(WeekdayContract::ID);
+            $table->string(WeekdayContract::CODE);
+            $table->string(WeekdayContract::VALUE);
         });
     }
 
@@ -26,6 +27,6 @@ class CreateWeekdaysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('weekdays');
+        Schema::drop(WeekdayContract::TABLE_NAME);
     }
 }

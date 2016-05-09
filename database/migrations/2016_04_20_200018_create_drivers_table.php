@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Cuadrantes\Commons\DriverContract;
 
 class CreateDriversTable extends Migration
 {
@@ -12,17 +13,17 @@ class CreateDriversTable extends Migration
      */
     public function up()
     {
-        Schema::create('drivers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('dni')->unique();
-            $table->string('telephone');
-            $table->unsignedSmallInteger('extension');
-            $table->string('email');
-            $table->date('cap');
-            $table->date('driver_expiration');
-            $table->boolean('active')->default(true);
+        Schema::create(DriverContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(DriverContract::ID);
+            $table->string(DriverContract::FIRST_NAME);
+            $table->string(DriverContract::LAST_NAME);
+            $table->string(DriverContract::DNI)->unique();
+            $table->string(DriverContract::TELEPHONE);
+            $table->unsignedSmallInteger(DriverContract::EXTENSION);
+            $table->string(DriverContract::EMAIL);
+            $table->date(DriverContract::CAP);
+            $table->date(DriverContract::EXPIRATION);
+            $table->boolean(DriverContract::ACTIVE)->default(true);
             $table->timestamps();
         });
     }
@@ -34,6 +35,6 @@ class CreateDriversTable extends Migration
      */
     public function down()
     {
-        Schema::drop('drivers');
+        Schema::drop(DriverContract::TABLE_NAME);
     }
 }

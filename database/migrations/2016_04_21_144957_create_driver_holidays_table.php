@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Cuadrantes\Commons\DriverHolidayContract;
+use Cuadrantes\Commons\DriverContract;
 
 class CreateDriverHolidaysTable extends Migration
 {
@@ -12,15 +14,15 @@ class CreateDriverHolidaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('driver_holidays', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('driver_id');
-            $table->date('date_from');
-            $table->date('date_to');
-            $table->boolean('active')->default(true);
+        Schema::create(DriverHolidayContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(DriverHolidayContract::ID);
+            $table->unsignedInteger(DriverHolidayContract::DRIVER_ID);
+            $table->date(DriverHolidayContract::FROM);
+            $table->date(DriverHolidayContract::TO);
+            $table->boolean(DriverHolidayContract::ACTIVE)->default(true);
             $table->timestamps();
 
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            $table->foreign(DriverHolidayContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME)->onDelete('cascade');
         });
     }
 
@@ -31,6 +33,6 @@ class CreateDriverHolidaysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('driver_holidays');
+        Schema::drop(DriverHolidayContract::TABLE_NAME);
     }
 }

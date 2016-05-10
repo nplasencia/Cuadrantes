@@ -2,11 +2,9 @@
 
 namespace Cuadrantes\Entities;
 
-use Cuadrantes\Commons\DriverRestdayContract;
-
 class DriverRestDay extends Entity
 {
-    protected $fillable = [DriverRestdayContract::DRIVER_ID, DriverRestdayContract::WEEKDAY_ID];
+    protected $fillable = ['driver_id', 'weekday_id'];
 
     public function getDriver()
     {

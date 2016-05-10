@@ -3,7 +3,6 @@
 namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\DriverContract;
-use Cuadrantes\Commons\DriverRestdayContract;
 
 class Driver extends Entity
 {
@@ -14,7 +13,7 @@ class Driver extends Entity
 
     public function restDays()
     {
-        return $this->belongsToMany(Weekday::class, DriverRestdayContract::TABLE_NAME);
+        return $this->belongsToMany(Weekday::class, 'driver_rest_days');
     }
 
     public function holidays()
@@ -24,7 +23,7 @@ class Driver extends Entity
 
     public function isRestDay(Weekday $weekday)
     {
-        return $this->restDays()->where(DriverRestdayContract::WEEKDAY_ID, $weekday->id)->where(DriverContract::ACTIVE, true)->count();
+        return $this->restDays()->where('weekday_id', $weekday->id)->where('active', true)->count();
     }
 
     public function addRestDay(array $weekdays)

@@ -3,7 +3,6 @@
 namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\DriverContract;
-use Cuadrantes\Commons\DriverHolidayContract;
 use Cuadrantes\Commons\DriverRestdayContract;
 
 class Driver extends Entity

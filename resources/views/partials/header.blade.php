@@ -51,7 +51,7 @@
             <ul class="nav navbar-nav">
                 <li> <a href="{{ route('driver.create') }}">Nuevo conductor</a>  </li>
                 <li> <a href="{{ route('bus.create') }}">Nueva guagua</a>  </li>
-                <li class='dropdown '>
+                {{--<li class='dropdown '>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Form Elements
                         <b class="caret"></b>
@@ -62,7 +62,7 @@
                         <li> <a href="form-wysiwyg.html">WYSIWYG</a>  </li>
                         <li> <a href="form-wizard.html">Wizard &amp; File Upload</a>  </li>
                     </ul>
-                </li>
+                </li>--}}
             </ul><!-- /.nav -->
         </div>
     </div><!-- /.container-fluid -->

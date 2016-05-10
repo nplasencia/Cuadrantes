@@ -14,6 +14,7 @@ class CreateTimetablesTable extends Migration
     {
         Schema::create('timetables', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger(DriverHolidayContract::DRIVER_ID);
             $table->timestamps();
         });
     }

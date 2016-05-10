@@ -4,7 +4,7 @@ namespace Cuadrantes\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lines extends Model
+class Service extends Model
 {
     //
 }

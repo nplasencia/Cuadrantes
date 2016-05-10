@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Cuadrantes\Commons\LineContract;
 
 class CreateLinesTable extends Migration
 {
@@ -12,8 +13,10 @@ class CreateLinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lines', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create(LineContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(LineContract::ID);
+            $table->unsignedSmallInteger(LineContract::NUMBER);
+            $table->string(LineContract::NAME)->unique();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ class CreateLinesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('lines');
+        Schema::drop(LineContract::TABLE_NAME);
     }
 }

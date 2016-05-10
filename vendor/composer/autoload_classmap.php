@@ -15,6 +15,7 @@ return array(
     'CreateDriversTable' => $baseDir . '/database/migrations/2016_04_20_200018_create_drivers_table.php',
     'CreateLinesTable' => $baseDir . '/database/migrations/2016_05_09_163348_create_lines_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreatePeriodsTable' => $baseDir . '/database/migrations/2016_05_09_200441_create_periods_table.php',
     'CreateServicesTable' => $baseDir . '/database/migrations/2016_05_09_163422_create_services_table.php',
     'CreateTimetablesTable' => $baseDir . '/database/migrations/2016_05_09_163407_create_timetables_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',

@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         $this->call(DriverHolidayTableSeeder::class);
         $this->call(BrandTableSeeder::class);
         $this->call(BusTableSeeder::class);
+        $this->call(LineTableSeeder::class);
+        $this->call(PeriodTableSeeder::class);
+        $this->call(TimetableTableSeeder::class);
         Model::reguard();
     }
 }

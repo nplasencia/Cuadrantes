@@ -15,8 +15,9 @@ class CreateLinesTable extends Migration
     {
         Schema::create(LineContract::TABLE_NAME, function (Blueprint $table) {
             $table->increments(LineContract::ID);
-            $table->unsignedSmallInteger(LineContract::NUMBER);
-            $table->string(LineContract::NAME)->unique();
+            $table->unsignedSmallInteger(LineContract::NUMBER)->unique();
+            $table->string(LineContract::NAME);
+            $table->boolean(LineContract::ACTIVE)->default(true);
             $table->timestamps();
         });
     }

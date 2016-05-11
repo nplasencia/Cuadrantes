@@ -6,7 +6,8 @@ class LineContract extends CuadrantesContract {
     const
         TABLE_NAME = 'lines',
         NUMBER     = 'number',
-        NAME       = 'name';
+        NAME       = 'name',
+        ACTIVE     = 'active';
 
-    public static $COLS = [LineContract::NUMBER, LineContract::NAME];
+    public static $COLS = [LineContract::NUMBER, LineContract::NAME, LineContract::ACTIVE];
 }

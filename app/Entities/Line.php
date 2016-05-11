@@ -9,5 +9,5 @@ class Line extends Model
 {
     protected $table = LineContract::TABLE_NAME;
 
-    protected $fillable = [LineContract::NUMBER, LineContract::NAME];
+    protected $fillable = [LineContract::NUMBER, LineContract::NAME, LineContract::ACTIVE];
 }

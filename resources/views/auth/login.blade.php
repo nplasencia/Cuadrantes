@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset ="UTF-8">
+    <meta name = "author" content = "Auret S.L.P.">
     <title>Login Page</title>
-    <meta name="msapplication-TileColor" content="#5bc0de" />
-    <meta name="msapplication-TileImage" content="assets/img/metis-tile.png" />
+    <meta name = "description" content = "">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @include('partials.favicon')
 
     <!-- Bootstrap -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Metis core stylesheet -->
-    {!! Html::style('assets/css/main.min.css') !!}
+    <link rel="stylesheet" href="{!! asset('assets/css/main.min.css') !!}">
 </head>
 <body class="login">
 <div class="form-signin">
@@ -27,26 +28,31 @@
         <div id="login" class="tab-pane active">
             <form method="POST" action="{{ route('login') }}">
                 {!! csrf_field() !!}
+
                 @include('partials.errors')
                 <p class="text-muted text-center">
-                    Introduce tu usuario y contraseña
+                    @lang('auth.login_title')
                 </p>
-                <input type="text" name="email" placeholder="Usuario" class="form-control top" value="{{ old('email') }}">
-                <input type="password" name="password" placeholder="Contraseña" class="form-control bottom">
+                <input type="text" name="email" placeholder="@lang('validation.attributes.user')" class="form-control top" value="{{ old('email') }}">
+                <input type="password" name="password" placeholder="@lang('validation.attributes.password')" class="form-control bottom">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="remember"> Recuérdame
+                        <input type="checkbox" name="remember"> @lang('auth.remember_me')
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">@lang('auth.enter')</button>
             </form>
         </div>
         <div id="forgot" class="tab-pane">
-            <form action="#">
-                <p class="text-muted text-center">Introduce un email válido</p>
-                <input type="email" placeholder="mail@domain.com" class="form-control">
+            <form method="POST" action="{{ route('passwordEmail') }}">
+                {!! csrf_field() !!}
+                @include('partials.errors')
+                <p class="text-muted text-center">
+                    @lang('auth.valid_email')
+                </p>
+                <input name="email" type="email" placeholder="mail@domain.com" class="form-control" value="{{ old('email') }}">
                 <br>
-                <button class="btn btn-lg btn-danger btn-block" type="submit">Recuperar contraseña</button>
+                <button class="btn btn-lg btn-danger btn-block" type="submit">@lang('auth.forgotPassword_link')</button>
             </form>
         </div>
         <!--<div id="signup" class="tab-pane">
@@ -62,8 +68,8 @@
     <hr>
     <div class="text-center">
         <ul class="list-inline">
-            <li> <a class="text-muted" href="#login" data-toggle="tab">Acceso</a>  </li>
-            <li> <a class="text-muted" href="#forgot" data-toggle="tab">Recuperar contraseña</a>  </li>
+            <li> <a class="text-muted" href="#login" data-toggle="tab">@lang('auth.access_link')</a>  </li>
+            <li> <a class="text-muted" href="#forgot" data-toggle="tab">@lang('auth.forgotPassword_link')</a>  </li>
             <!--<li> <a class="text-muted" href="#signup" data-toggle="tab">Signup</a>  </li>-->
         </ul>
     </div>

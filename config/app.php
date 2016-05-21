@@ -145,6 +145,7 @@ return [
         Cuadrantes\Providers\EventServiceProvider::class,
         Cuadrantes\Providers\RouteServiceProvider::class,
         Cuadrantes\Providers\HtmlServiceProvider::class,
+        Cuadrantes\Providers\ViewServiceProvider::class,
 
         /*
          * Debugbar

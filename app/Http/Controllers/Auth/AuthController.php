@@ -2,8 +2,8 @@
 
 namespace Cuadrantes\Http\Controllers\Auth;
 
-use Cuadrantes\User;
-use Validator;
+use Cuadrantes\Entities\User;
+use Illuminate\Validation\Validator;
 use Cuadrantes\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -23,8 +23,10 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    protected $redirectPath = '/conductores';
-    protected $redirectAfterLogout = '/auth/login';
+    protected $redirectPath = '/drivers';
+    protected $loginPath = '/login';
+    protected $redirectAfterLogout = '/login';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new authentication controller instance.

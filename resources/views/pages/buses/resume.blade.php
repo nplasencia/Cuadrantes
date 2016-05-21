@@ -3,6 +3,7 @@
 
     <div class="row">
         <div class="col-lg-12">
+
             <div class="box">
 
                 @include('partials.msg_success')
@@ -35,7 +36,7 @@
                         </thead>
                         <tbody>
                         @foreach($buses as $bus)
-                            <tr>
+                            <tr data-id="{{ $bus->id }}" class="bus">
                                 <td>{{ $bus->license }}</td>
                                 <td>{{ $bus->brand->name }}</td>
                                 <td>{{ $bus->seats }}</td>
@@ -52,7 +53,7 @@
                                     </div>
                                     <div class="btn-group">
                                         <div class="btn-group pull-right">
-                                            <a href="{{ route('bus.destroy', $bus->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                            <a href="{{ route('bus.destroy', $bus->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
                                         </div>
@@ -62,6 +63,7 @@
                         @endforeach
                         </tbody>
                     </table>
+
                     @include ('partials.pagination')
                 </div>
             </div>

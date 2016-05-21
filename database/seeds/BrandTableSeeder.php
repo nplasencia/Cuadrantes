@@ -14,9 +14,9 @@ class BrandTableSeeder extends Seeder
     {
         $brandNames = ['Irisbus', 'Irizar', 'Iveco', 'Mercedes', 'Scania'];
         
-        foreach ($brandNames as $brandName) {
+        foreach ($brandNames as $name) {
             $brand = new Brand();
-            $brand->name = $brandName;
+            $brand->name = $name;
             $brand->timestamps = false;
             $brand->save();
         }

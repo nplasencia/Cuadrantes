@@ -12,113 +12,81 @@
 */
 
 // Authentication routes...
-Route::get ('auth/login', [
-    'as'   => 'login',
-    'uses' => 'Auth\AuthController@getLogin'
-]);
-Route::post('auth/login',  'Auth\AuthController@postLogin');
 
-Route::get ('auth/logout', [
-    'as'   => 'logout',
-    'uses' => 'Auth\AuthController@getLogout'
-]);
+Route::get ('login', 'Auth\AuthController@getLogin')->name('login');
+Route::post('login', 'Auth\AuthController@postLogin');
 
-// Registration routes...
-Route::get ('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::get ('logout', 'Auth\AuthController@getLogout')->name('logout');
+
+Route::post ('password/email', 'Auth\PasswordController@postEmail')->name('passwordEmail');
+
+// Password reset routes...
+Route::get ('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset')->name('passwordReset');
 
 Route::get('test', function() {
    return view('pages.test.sortabletable');
 });
 
+// Drivers
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('/', [
-        'as'   => 'driver.resume',
-        'uses' => 'DriversController@all'
-    ]);
+    // INDEX
+    Route::get ('/', 'DriversController@all')->name('home');
 
-    // Crear conductor
+    Route::get ('drivers', 'DriversController@all')->name('driver.resume');
 
-    Route::get('newConductor', [
-        'as'   => 'driver.create',
-        'uses' => 'DriversController@create'
-    ]);
-    Route::post('newConductor', [
-        'as'   => 'driver.save',
-        'uses' => 'DriversController@store'
-    ]);
+    Route::post('driverSearch', 'DriversController@search')->name('driver.search');
 
-    // Mostrar conductores
+    Route::get ('newDriver', 'DriversController@create')->name('driver.create');
+    Route::post('newDriver', 'DriversController@store')->name('driver.save');
 
-    Route::get('conductores', [
-        'as'   => 'driver.resume',
-        'uses' => 'DriversController@all'
-    ]);
+    Route::get ('driver/{id}', 'DriversController@details')->name('driver.details');
+    Route::post('driver/{id}', 'DriversController@update')->name('driver.update');
 
-    // Actualizar conductor
+    Route::get ('driverDestroy/{id}', 'DriversController@destroy')->name('driver.destroy');
+    Route::delete ('driverDestroy/{id}', 'DriversController@destroy')->name('driver.destroy');
 
-    Route::get('conductor/{id}', [
-        'as'   => 'driver.details',
-        'uses' => 'DriversController@details'
-    ]);
-    Route::post('conductor/{id}', [
-        'as'   => 'driver.update',
-        'uses' => 'DriversController@update'
-    ]);
+});
 
-    // Eliminar conductor
-    Route::get('conductorDestroy/{id}', [
-        'as'   => 'driver.destroy',
-        'uses' => 'DriversController@destroy'
-    ]);
+// Buses
+Route::group(['middleware' => 'auth'], function() {
 
-    // Buscar guagua
-    Route::post('driverSearch', [
-        'as'   => 'driver.search',
-        'uses' => 'DriversController@search'
-    ]);
+    Route::get ('buses', 'BusesController@all')->name('bus.resume');
 
-    // Crear guagua
+    Route::post('busSearch', 'BusesController@search')->name('bus.search');
 
-    Route::get('newBus', [
-        'as'   => 'bus.create',
-        'uses' => 'BusesController@create'
-    ]);
-    Route::post('newBus', [
-        'as'   => 'bus.save',
-        'uses' => 'BusesController@store'
-    ]);
+    Route::get ('newBus', 'BusesController@create')->name('bus.create');
+    Route::post('newBus', 'BusesController@store')->name('bus.save');
 
-    // Mostrar guaguas
+    Route::get ('bus/{id}', 'BusesController@details')->name('bus.details');
+    Route::post('bus/{id}', 'BusesController@update')->name('bus.update');
 
-    Route::get('buses', [
-        'as'   => 'bus.resume',
-        'uses' => 'BusesController@all'
-    ]);
+    Route::get ('busDestroy/{id}', 'BusesController@destroy')->name('bus.destroy');
+    Route::delete('busDestroy/{id}', 'BusesController@destroy')->name('bus.destroy');
 
-    // Actualizar guagua
 
-    Route::get('bus/{id}', [
-        'as'   => 'bus.details',
-        'uses' => 'BusesController@details'
-    ]);
-    Route::post('bus/{id}', [
-        'as'   => 'bus.update',
-        'uses' => 'BusesController@update'
-    ]);
+});
 
-    // Eliminar guagua
+// Lines
+Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('busDestroy/{id}', [
-        'as'   => 'bus.destroy',
-        'uses' => 'BusesController@destroy'
-    ]);
+    Route::get ('lines', 'LinesController@all')->name('line.resume');
 
-    // Buscar guagua
-    Route::post('busSearch', [
-        'as'   => 'bus.search',
-        'uses' => 'BusesController@search'
-    ]);
+    Route::post('lineSearch', 'LinesController@search')->name('line.search');
 
+    Route::get ('newLine', 'LinesController@create')->name('line.create');
+    Route::post('newLine', 'LinesController@store')->name('line.save');
+
+    Route::get ('line/{id}', 'LinesController@details')->name('line.details');
+    Route::post('line/{id}', 'LinesController@update')->name('line.update');
+
+    Route::get ('lineDestroy/{id}', 'LinesController@destroy')->name('line.destroy');
+    Route::delete('lineDestroy/{id}', 'LinesController@destroy')->name('line.destroy');
+});
+
+// Timetables
+Route::group(['middleware' => 'auth'], function() {
+    Route::get ('line/{id}/timetables', 'LinesController@timetablesDetails')->name('timetable.details');
+    Route::post('line/{id}/timetables', 'LinesController@timetablesUpdate')->name('timetable.update');
 });

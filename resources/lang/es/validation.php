@@ -106,6 +106,11 @@ return [
     */
 
     'attributes' => [
+        // Login
+        'user'              => 'Usuario',
+        'password'          => 'Contraseña',
+        'password_confirmation' => 'Confirma tu contraseña',
+
         // Conductores
         'lastName'          => 'Apellidos',
         'firstName'         => 'Nombre',

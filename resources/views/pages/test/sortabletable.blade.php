@@ -1,3 +1,5 @@
+@extends('layouts.default')
+@section('content')
 <div id="dataTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
     <div class="row">
         <div class="col-sm-6">
@@ -54,8 +56,8 @@
         </div>
         <div class="col-sm-6">
             <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                {!! $buses->render() !!}
             </div>
         </div>
     </div>
 </div>
+@endsection

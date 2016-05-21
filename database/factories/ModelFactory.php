@@ -21,7 +21,7 @@ use Cuadrantes\Entities\DriverHoliday;
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name'              => $faker->name,
-        'email'             => $faker->safeEmail,
+        'email'             => $faker->unique()->safeEmail,
         'password'          => bcrypt(str_random(10)),
         'remember_token'    => str_random(10),
     ];
@@ -37,15 +37,15 @@ $factory->define(Driver::class, function (Faker\Generator $faker) {
         'email'             => $faker->email,
         'cap'               => $faker->date(),
         'driver_expiration' => $faker->date(),
-        'active'            => $faker->randomElement([0, 1])
+        'active'            => $faker->boolean()
    ];
 });
 
 $factory->define(DriverRestDay::class, function (Faker\Generator $faker) {
    return [
         'driver_id'         => $faker->numberBetween(1, 300),
-        'weekday_id'       => $faker->numberBetween(1, 7),
-        'active'            => $faker->randomElement([0, 1])
+        'weekday_id'        => $faker->numberBetween(1, 7),
+        'active'            => $faker->boolean()
    ];
 });
 
@@ -54,7 +54,7 @@ $factory->define(DriverHoliday::class, function (Faker\Generator $faker) {
        'driver_id'          => $faker->numberBetween(1, 300),
        'date_from'          => $faker->date(),
        'date_to'            => $faker->date(),
-       'active'             => $faker->randomElement([0, 1])
+       'active'             => $faker->boolean()
    ];
 });
 
@@ -65,6 +65,6 @@ $factory->define(Bus::class, function (Faker\Generator $faker) {
         BusContract::SEATS             => $faker->numberBetween(20, 55),
         BusContract::STANDS            => $faker->numberBetween(3, 55),
         BusContract::REGISTRATION      => $faker->date('Y-m-d', 'now'),
-        BusContract::ACTIVE            => $faker->randomElement([0, 1])
+        BusContract::ACTIVE            => $faker->boolean()
     ];
 });

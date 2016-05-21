@@ -32,3 +32,27 @@
     );
 
 }(jQuery));
+
+/*$(document).ready(function () {
+    
+    $('.btn-delete').click(function (e) {
+        e.preventDefault();
+        
+        var form = $('#form-delete');
+        
+        var button = $(this);
+        var bus = button.closest('.bus');
+        var id = bus.data('id');
+        
+        var action = form.attr('action').replace(':id', id);
+        bus.addClass('hidden');
+        $('#alert-success').removeClass('hide');
+        $('#alert-success').addClass('in');
+        $.post(action, form.serialize(), function (response) {
+            $('#alert-success').text(response['msg']);
+        }).fail(function(){
+            //alert
+        })
+    })
+    
+});*/

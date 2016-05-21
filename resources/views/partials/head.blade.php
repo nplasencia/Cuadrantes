@@ -1,12 +1,11 @@
 <meta charset ="UTF-8">
 <meta name = "author" content = "Auret S.L.P.">
 <meta name = "description" content = "">
-
-<!--IE Compatibility modes-->
+<title>Page</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-<!--Mobile first-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+@include('partials.favicon')
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
@@ -15,12 +14,12 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <!-- Metis core stylesheet -->
-{!! Html::style('assets/css/main.min.css') !!}
+<link rel="stylesheet" href="{{ asset('assets/css/main.min.css') }}">
 
 <!-- metisMenu stylesheet -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/metisMenu/1.1.3/metisMenu.min.css">
-{!! Html::style('assets/lib/jquery-inputlimiter/jquery.inputlimiter.1.0.css') !!}
-{!! Html::style('assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css') !!}
+<link rel="stylesheet" href="{{ asset('assets/lib/jquery-inputlimiter/jquery.inputlimiter.1.0.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css') }}">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Uniform.js/2.1.2/themes/default/css/uniform.default.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.3/jquery.tagsinput.css">
@@ -40,8 +39,7 @@
     <script src = "{{ asset('assets/lib/respond/respond.min.js') }}"></script>
 <![endif]-->
 
-{!! Html::style('assets/css/style-switcher.css') !!}
-{!! Html::style('assets/less/theme.less') !!}
+<link rel="stylesheet" href="{{ asset('assets/less/theme.less') }}">
 <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.2.0/less.min.js"></script>
 
 <!--Modernizr-->

@@ -7,6 +7,9 @@ use Cuadrantes\Entities\Driver;
 use Cuadrantes\Entities\DriverHoliday;
 use Cuadrantes\Entities\DriverRestDay;
 use Cuadrantes\Entities\Weekday;
+use Cuadrantes\Repositories\DriverHolidayRepository;
+use Cuadrantes\Repositories\DriverRepository;
+use Cuadrantes\Repositories\WeekdayRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -15,6 +18,18 @@ class DriversController extends Controller
     protected $defaultPagination = 25;
     protected $iconClass = 'fa fa-users';
     protected $title = "Conductores";
+
+    private $driverRepository;
+    private $holidayRepository;
+    private $weekdayRepository;
+
+    public function __construct(DriverRepository $driverRepository, DriverHolidayRepository $holidayRepository, WeekdayRepository $weekdayRepository)
+    {
+
+        $this->driverRepository = $driverRepository;
+        $this->holidayRepository = $holidayRepository;
+        $this->weekdayRepository = $weekdayRepository;
+    }
 
     protected function genericValidation(Request $request) {
         $this->validate($request, [
@@ -106,6 +121,7 @@ class DriversController extends Controller
         return view('pages.drivers.details', compact('driver', 'holidays1', 'holidays2', 'weekdays', 'title', 'iconClass'));
     }
 
+    //TODO: Try catch en caso de que ya exista el conductor
     public function store(Request $request)
     {
         $this->genericValidation($request);
@@ -157,7 +173,6 @@ class DriversController extends Controller
     public function destroy($id)
     {
         $driver = Driver::findOrFail($id);
-        //$driver->active = false;
         $driver->delete();
 
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido eliminado exitosamente');

@@ -15,9 +15,7 @@ class WeekdayTableSeeder extends Seeder
         $weekdays = ['MON' => 'Lunes', 'TUE' => 'Martes', 'WED' => 'Miércoles', 'THU' => 'Jueves', 'FRI' => 'Viernes', 'SAT' => 'Sábado', 'SUN' => 'Domingo'];
 
         foreach ($weekdays as $code => $name) {
-            $weekday = new Weekday();
-            $weekday->code       = $code;
-            $weekday->value      = $name;
+            $weekday = new Weekday(compact($code, $name));
             $weekday->timestamps = false;
             $weekday->save();
         }

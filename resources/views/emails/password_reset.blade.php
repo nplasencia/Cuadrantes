@@ -1,0 +1,1 @@
+@lang('email.reset_text') {{ url('password/reset/'.$token) }}

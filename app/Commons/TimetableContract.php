@@ -5,11 +5,11 @@ namespace Cuadrantes\Commons;
 class TimetableContract extends CuadrantesContract {
     const
         TABLE_NAME = 'timetables',
-        LINE_ID    = 'line_id',
+        ROUTE_ID   = 'route_id',
         PERIOD_ID  = 'period_id',
         TIME       = 'time',
-        DESTINY    = 'destiny',
+        BY         = 'by',
         ACTIVE     = 'active';
 
-    public static $COLS = [TimetableContract::LINE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME, TimetableContract::DESTINY, TimetableContract::ACTIVE];
+    public static $COLS = [TimetableContract::ROUTE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME, TimetableContract::BY, TimetableContract::ACTIVE];
 }

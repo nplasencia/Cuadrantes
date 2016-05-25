@@ -3,6 +3,7 @@
 namespace Cuadrantes\Repositories;
 
 use Cuadrantes\Commons\LineContract;
+use Cuadrantes\Commons\TimetableContract;
 use Cuadrantes\Entities\Line;
 
 class LineRepository extends BaseRepository{
@@ -40,5 +41,10 @@ class LineRepository extends BaseRepository{
     {
         $line = $this->findOrFail($id);
         return $this->update($line, $number, $name);
+    }
+
+    public function getTimetables($id)
+    {
+        return $this->findOrFail($id)->timetables()->orderBy(TimetableContract::PERIOD_ID)->orderBy(TimetableContract::TIME)->with('route')->with('period')->get();
     }
 }

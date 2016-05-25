@@ -120,14 +120,19 @@ return [
         'cap'               => 'CAP',
         'email'             => 'E-mail',
         'driver_expiration' => 'Carnet de conducir',
+
         // Buses
         'license'           => 'Matrícula',
         'brand'             => 'Marca',
         'brand_id'          => 'Marca',
         'seats'             => 'Plazas sentadas',
         'stands'            => 'Plazas de pie',
-        'registration'      => 'Fecha de matriculación'
+        'registration'      => 'Fecha de matriculación',
 
+        // Timetables
+        'period'            => 'Periodo semana',
+        'route'             => 'Destino',
+        'time'              => 'Hora salida',
     ],
 
 ];

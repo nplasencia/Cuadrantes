@@ -9,4 +9,9 @@ class PeriodRepository extends BaseRepository{
     public function getEntity() {
         return new Period();
     }
+
+    public function getAll()
+    {
+        return $this->newQuery();
+    }
 }

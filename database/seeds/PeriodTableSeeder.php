@@ -14,8 +14,10 @@ class PeriodTableSeeder extends Seeder
     {
         $periods = ['WORK' => 'Laborales', 'SATURDAY' => 'Sábados', 'SUNDAY' => 'domingos/festivos'];
 
-        foreach ($periods as $code => $name) {
-            $period = new Period(compact($code, $name));
+        foreach ($periods as $code => $value) {
+            $period = new Period();
+            $period->code  = $code;
+            $period->value = $value;
             $period->timestamps = false;
             $period->save();
         }

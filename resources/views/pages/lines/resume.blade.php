@@ -39,7 +39,7 @@
                                 <td align="right">
                                     <div class="btn-group">
                                         <div class="btn-group pull-right">
-                                            <a href="" data-toggle="tooltip" data-original-title="Horarios" data-placement="bottom" class="btn btn-primary btn-xs">
+                                            <a href="{{ route('timetable.details', $line->id) }}" data-toggle="tooltip" data-original-title="Horarios" data-placement="bottom" class="btn btn-primary btn-xs">
                                                 <i class="glyphicon glyphicon-time"></i>
                                             </a>
                                         </div>

@@ -81,12 +81,16 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('line/{id}', 'LinesController@details')->name('line.details');
     Route::post('line/{id}', 'LinesController@update')->name('line.update');
 
-    Route::get ('lineDestroy/{id}', 'LinesController@destroy')->name('line.destroy');
+    Route::get ('lineDestroy/{id}'  , 'LinesController@destroy')->name('line.destroy');
     Route::delete('lineDestroy/{id}', 'LinesController@destroy')->name('line.destroy');
 });
 
 // Timetables
 Route::group(['middleware' => 'auth'], function() {
-    Route::get ('line/{id}/timetables', 'LinesController@timetablesDetails')->name('timetable.details');
-    Route::post('line/{id}/timetables', 'LinesController@timetablesUpdate')->name('timetable.update');
+    Route::get ('timetables/{line_id}', 'TimetablesController@resume')->name('timetable.details');
+
+    Route::post('newTimetable/{line_id}', 'TimetablesController@store')->name('timetable.store');
+
+    Route::get ('timetableDestroy/{line_id}/{id}'  , 'TimetablesController@destroy')->name('timetable.destroy');
+    Route::delete('timetableDestroy/{line_id}/{id}', 'TimetablesController@destroy')->name('timetable.destroy');
 });

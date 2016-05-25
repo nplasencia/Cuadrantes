@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BusTableSeeder::class);
         $this->call(LineTableSeeder::class);
         $this->call(PeriodTableSeeder::class);
+        $this->call(RouteTableSeeder::class);
         $this->call(TimetableTableSeeder::class);
         Model::reguard();
     }

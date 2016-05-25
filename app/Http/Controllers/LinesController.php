@@ -3,6 +3,7 @@
 namespace Cuadrantes\Http\Controllers;
 
 use Cuadrantes\Repositories\LineRepository;
+use Cuadrantes\Repositories\RouteRepository;
 use Illuminate\Http\Request;
 
 use Cuadrantes\Http\Requests;
@@ -15,10 +16,12 @@ class LinesController extends Controller
     protected $title = "Líneas";
 
     protected $lineRepository;
+    protected $routeRepository;
 
-    public function __construct(LineRepository $lineRepository)
+    public function __construct(LineRepository $lineRepository, RouteRepository $routeRepository)
     {
         $this->lineRepository = $lineRepository;
+        $this->routeRepository = $routeRepository;
     }
 
     protected function genericValidation(Request $request)
@@ -56,9 +59,15 @@ class LinesController extends Controller
         $this->genericValidation($request);
         try {
             $line = $this->lineRepository->create($request->all());
+            $addresses = explode('-', $request->get('name'));
+            $origin = trim($addresses[0]);
+            $destiny = trim(end($addresses));
+            $this->routeRepository->create(['line_id' => $line->id, 'origin' => $origin, 'destiny' => $destiny, 'go' => true]);
+            $this->routeRepository->create(['line_id' => $line->id, 'origin' => $destiny, 'destiny' => $origin, 'go' => false]);
             session()->flash('success', 'La línea '.$line->number.' de nombre '.$line->name.' ha sido creada exitosamente');
             return Redirect::route('line.details', $line->id);
         } catch (\PDOException $exception) {
+            dd($exception);
             session()->flash('info', 'La línea '.$request->get('number').' ha sido creada con anterioridad.');
             return $this->all();
         }

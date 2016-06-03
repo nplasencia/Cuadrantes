@@ -21,6 +21,7 @@ class CreateTimetablesTable extends Migration
             $table->unsignedInteger(TimetableContract::PERIOD_ID);
             $table->time(TimetableContract::TIME);
             $table->string(TimetableContract::BY);
+            $table->boolean(TimetableContract::PASS)->default(false);
             $table->boolean(TimetableContract::ACTIVE)->default(true);
             $table->timestamps();
 

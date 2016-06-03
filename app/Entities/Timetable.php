@@ -9,7 +9,7 @@ class Timetable extends Model
 {
     protected $table = TimetableContract::TABLE_NAME;
 
-    protected $fillable = [TimetableContract::ROUTE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME, TimetableContract::BY];
+    protected $fillable = [TimetableContract::ROUTE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME, TimetableContract::BY, TimetableContract::PASS];
 
     public function route()
     {

@@ -70,6 +70,15 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label class="col-lg-12 text-center">
+                                        <b>¿Horario de paso?</b>
+                                        <input class="uniform" type="checkbox" name="pass" value="1">
+                                    </label>
+                                </div>
+                            </div>
+
                             <div class="form-actions no-margin-bottom text-center">
                                 <a class="btn btn-default btn-sm" href="{{ Route('line.resume') }}">Cancelar</a>
                                 <input type="submit" value="Guardar" class="btn btn-primary">
@@ -105,6 +114,7 @@
                                             <table class="table table-bordered responsive-table">
                                                 <thead>
                                                     <tr>
+                                                        <th>#</th>
                                                         <th class="text-center">Hora salida</th>
                                                         <th>&nbsp;</th>
                                                     </tr>
@@ -112,9 +122,12 @@
                                                 <tbody>
                                                     @forelse($route['times'] as $time)
                                                         <tr>
+                                                            <td>{{ $time->id }}</td>
                                                             <td class="text-center">
                                                                 {!! $time->time !!}
-                                                                @if(isset($time->by) && $time->by!='')
+                                                                @if($time->pass == true)
+                                                                    <br>(Horario de paso - {{ $time->by }})
+                                                                @elseif(isset($time->by) && $time->by!='')
                                                                     <br>({{ $time->by }})
                                                                 @endif
                                                             </td>
@@ -143,44 +156,6 @@
                     <h2>Esta línea no tiene horarios definidos</h2>
                 </div>
             @endforelse
-            {{--<div class="box">
-                <header class="dark">
-                    <div class="icons">
-                        <i class="glyphicon glyphicon-time"></i>
-                    </div>
-                    <h5>Horarios sábados</h5>
-
-                    @include('partials.window_options')
-                </header>
-
-                <div class="body">
-
-                    @include('partials.msg_success')
-
-                    @include('partials.errors')
-
-
-                </div>
-            </div><!--box-->
-            <div class="box">
-                <header class="dark">
-                    <div class="icons">
-                        <i class="glyphicon glyphicon-time"></i>
-                    </div>
-                    <h5>Horarios domingos y festivos</h5>
-
-                    @include('partials.window_options')
-                </header>
-
-                <div class="body">
-
-                    @include('partials.msg_success')
-
-                    @include('partials.errors')
-
-
-                </div>
-            </div><!--box-->--}}
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
 @endsection

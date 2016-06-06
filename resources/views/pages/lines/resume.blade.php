@@ -24,7 +24,7 @@
                     <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
                         <thead>
                         <tr>
-                            <th class="text-center">id</th>
+
                             <th class="text-center">Número</th>
                             <th class="text-center">Nombre</th>
                             <th>&nbsp;</th>
@@ -33,7 +33,7 @@
                         <tbody>
                         @foreach($lines as $line)
                             <tr>
-                                <td>{{ $line->id }}</td>
+                                
                                 <td>{{ $line->number }}</td>
                                 <td>{{ $line->name }}</td>
                                 <td align="right">

@@ -7,7 +7,7 @@
 
                 @include('partials.msg_success')
 
-                <div id="sortableTable" class="body collapse in">
+                <div class="body collapse in">
 
                     <div class="row" style="margin-left: 0px; margin-bottom: 10px;">
                         <div class="btn-group">
@@ -17,53 +17,40 @@
                             </a>
                         </div>
 
-                        @include('partials.searchbox')
-
                     </div>
 
-                    <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
+                    <table class="table table-striped">
                         <thead>
-                        <tr>
-
-                            <th class="text-center">Número</th>
-                            <th class="text-center">Nombre</th>
-                            <th>&nbsp;</th>
-                        </tr>
+                            <tr>
+                                <th style="border-right: 1px solid #ddd;">&nbsp;</th>
+                                @foreach($hours as $hour)
+                                    <th style="border-right: 1px solid #ddd;">{{ $hour }}</th>
+                                @endforeach
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($lines as $line)
-                            <tr>
-
-                                <td>{{ $line->number }}</td>
-                                <td>{{ $line->name }}</td>
-                                <td align="right">
-                                    <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('timetable.details', $line->id) }}" data-toggle="tooltip" data-original-title="Horarios" data-placement="bottom" class="btn btn-primary btn-xs">
-                                                <i class="glyphicon glyphicon-time"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('line.details', $line->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('line.destroy', $line->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                            @foreach($viewServices as $serviceNumber => $serviceHours)
+                                <tr>
+                                    <td style="border-right: 1px solid #ddd;">
+                                        Servicio {{ $serviceNumber }}
+                                    </td>
+                                    @foreach($hours as $hour)
+                                            <td style="border-right: 1px solid #ddd;">
+                                                @if(isset($serviceHours[$hour]))
+                                                    @foreach($serviceHours[$hour] as $timetable)
+                                                        <a data-placement="bottom" data-original-title="Servicio {{ $serviceNumber }}" data-toggle="tooltip" class="btn btn-sm btn-default text-center" style="background-color: {{ $timetable['colour'] }};">
+                                                            {{ $timetable['time'] }}<br>
+                                                            {{ $timetable['origin'] }}<br>
+                                                            Línea {{ $timetable['line'] }}
+                                                        </a>
+                                                    @endforeach
+                                                 @endif
+                                            </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
-                    @include ('partials.pagination')
                 </div>
             </div>
         </div>

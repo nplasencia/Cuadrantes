@@ -3,17 +3,17 @@
 namespace Cuadrantes\Repositories;
 
 use Cuadrantes\Commons\ServiceContract;
-use Cuadrantes\Entities\Service;
+use Cuadrantes\Entities\ServiceTimetable;
 
-class ServiceRepository extends BaseRepository{
+class ServiceTimetableRepository extends BaseRepository{
     
     public function getEntity()
     {
-        return new Service();
+        return new ServiceTimetable();
     }
 
     public function findByPeriod($period_id)
     {
-        return $this->newQuery()->where(ServiceContract::PERIOD_ID, $period_id)->orderBy(ServiceContract::NUMBER)->get();
+        return $this->newQuery()->with('service')->where(ServiceContract::PERIOD_ID, $period_id)->orderBy(ServiceContract::NUMBER)->get();
     }
 }

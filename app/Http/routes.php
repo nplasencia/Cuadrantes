@@ -94,3 +94,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('timetableDestroy/{line_id}/{id}'  , 'TimetablesController@destroy')->name('timetable.destroy');
     Route::delete('timetableDestroy/{line_id}/{id}', 'TimetablesController@destroy')->name('timetable.destroy');
 });
+
+// Services
+Route::group(['middleware' => 'auth'], function() {
+    Route::get ('services', 'ServicesController@all')->name('service.resume');
+});

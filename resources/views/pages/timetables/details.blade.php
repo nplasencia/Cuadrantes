@@ -106,7 +106,7 @@
                                 <div class="col-lg-6 ui-sortable">
                                     <div class="box ui-sortable-handle">
                                         <header>
-                                            <h5>Hacia {{ $route['destiny'] }}</h5>
+                                            <h5>Hacia {{ $route['destiny'] }} ({{ $route['id'] }})</h5>
                                             @include('partials.window_options_min')
                                         </header>
                                         <div id="{{ $period['period'].str_replace(' ','_',$route['destiny']) }}" class="body collapse in" aria-expanded="true">
@@ -114,6 +114,7 @@
                                             <table class="table table-bordered responsive-table">
                                                 <thead>
                                                     <tr>
+                                                        <th>#</th>
                                                         <th class="text-center">Hora salida</th>
                                                         <th>&nbsp;</th>
                                                     </tr>
@@ -121,6 +122,7 @@
                                                 <tbody>
                                                     @forelse($route['times'] as $time)
                                                         <tr>
+                                                            <td>{{ $time->id }}</td>
                                                             <td class="text-center">
                                                                 {!! $time->time !!}
                                                                 @if($time->pass == true)

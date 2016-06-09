@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PeriodTableSeeder::class);
         $this->call(RouteTableSeeder::class);
         $this->call(TimetableTableSeeder::class);
+        $this->call(ServiceTableSeeder::class);
+        $this->call(ServiceTimetableSeeder::class);
+
         Model::reguard();
     }
 }

@@ -33,7 +33,7 @@
                         <tbody>
                         @foreach($lines as $line)
                             <tr>
-                                
+
                                 <td>{{ $line->number }}</td>
                                 <td>{{ $line->name }}</td>
                                 <td align="right">

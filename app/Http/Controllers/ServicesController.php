@@ -39,7 +39,7 @@ class ServicesController extends Controller
                     $origin = $timetable->by;
                 } else {
                     if ($timetable->by != '') {
-                        $timetable->by='<br>('.$timetable->by.')';
+                        $origin = $timetable->route->origin.'<br>('.$timetable->by.')';
                     }
                 }
                 $viewServices[$service->time][$service->number][$time->hour][] = ['colour' => '#'.$timetable->pivot->colour,

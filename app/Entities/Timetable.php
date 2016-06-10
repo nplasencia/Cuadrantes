@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\ServiceTimetablesContract;
 use Illuminate\Database\Eloquent\Model;
 use Cuadrantes\Commons\TimetableContract;
 
@@ -19,5 +20,10 @@ class Timetable extends Model
     public function period()
     {
         return $this->belongsTo(Period::class, TimetableContract::PERIOD_ID);
+    }
+
+    public function service()
+    {
+        return $this->belongsToMany(Service::class, ServiceTimetablesContract::TABLE_NAME);
     }
 }

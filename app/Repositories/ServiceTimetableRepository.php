@@ -11,9 +11,4 @@ class ServiceTimetableRepository extends BaseRepository{
     {
         return new ServiceTimetable();
     }
-
-    public function findByPeriod($period_id)
-    {
-        return $this->newQuery()->with('service')->where(ServiceContract::PERIOD_ID, $period_id)->orderBy(ServiceContract::NUMBER)->get();
-    }
 }

@@ -20,6 +20,6 @@ class Service extends Model
 
     public function timetables()
     {
-        return $this->belongsToMany(Timetable::class, ServiceTimetablesContract::TABLE_NAME)->orderBy(TimetableContract::TIME);
+        return $this->belongsToMany(Timetable::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)->orderBy(TimetableContract::TIME);
     }
 }

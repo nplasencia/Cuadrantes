@@ -5,14 +5,13 @@ namespace Cuadrantes\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Cuadrantes\Http\Requests;
-use Cuadrantes\Http\Controllers\Controller;
 use Cuadrantes\Repositories\ServiceRepository;
 use Carbon\Carbon;
 
 class ServicesController extends Controller
 {
     protected $iconClass = 'fa fa-tasks';
-    protected $title = 'Servicios';
+    protected $title = 'Servicios laborales';
 
     protected $serviceRepository;
 
@@ -35,15 +34,21 @@ class ServicesController extends Controller
                     $viewServices[$service->time][$service->number][$time->hour] = array();
                 }
 
-                $viewServices[$service->time][$service->number][$time->hour][] = ['colour' => '#'.$service->colour,
+                $origin = $timetable->route->origin.$timetable->by;
+                if ($timetable->pass) {
+                    $origin = $timetable->by;
+                } else {
+                    if ($timetable->by != '') {
+                        $timetable->by='<br>('.$timetable->by.')';
+                    }
+                }
+                $viewServices[$service->time][$service->number][$time->hour][] = ['colour' => '#'.$timetable->pivot->colour,
                                                                                   'time'   => $time->format('H:i'),
-                                                                                  'origin' => $timetable->route->origin,
+                                                                                  'origin' => $origin,
                                                                                   'line'   => $timetable->route->line->number];
             }
         }
-        $hours = $hours['morning'];
         asort($hours);
-        $viewServices = $viewServices['morning'];
         //dd($viewServices);
         return view('pages.services.resume', compact('viewServices', 'hours', 'title', 'iconClass'));
     }

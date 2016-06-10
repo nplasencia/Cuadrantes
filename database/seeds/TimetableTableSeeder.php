@@ -22,6 +22,8 @@ class TimetableTableSeeder extends Seeder
         $passes = [[52, 1, '11:00:00', 'Estación'],[53, 1, '12:00:00', 'Estación'],[52, 1, '17:00:00', 'Estación'],[53, 1, '18:00:00', 'Estación'],[50, 1, '14:00:00', 'Estación'],[51, 1, '15:00:00', 'Estación'],
                    [50, 1, '10:00:00', 'Estación'],[51, 1, '11:00:00', 'Estación'],[52, 1, '13:00:00', 'Estación'],[53, 1, '14:00:00', 'Estación'],[50, 1, '16:00:00', 'Estación'],[51, 1, '17:00:00', 'Estación'],
                    [50, 1, '20:40:00', 'Estación'],[51, 1, '21:40:00', 'Estación'],[6, 1, '22:40:00', 'Estación'],[53, 1, '11:00:00', 'Estación'],
+                   [46, 1, '07:30:00', 'San Bartolomé'],[46, 1, '09:15:00', 'San Bartolomé'],[46, 1, '10:45:00', 'San Bartolomé'],[46, 1, '12:05:00', 'San Bartolomé'],[46, 1, '13:40:00', 'San Bartolomé'],
+                   [46, 1, '15:30:00', 'San Bartolomé'],[46, 1, '17:05:00', 'San Bartolomé'],[46, 1, '18:25:00', 'San Bartolomé'],[46, 1, '19:45:00', 'San Bartolomé'],[46, 1, '21:40:00', 'San Bartolomé'],
                   ];
 
         foreach ($times as $time) {

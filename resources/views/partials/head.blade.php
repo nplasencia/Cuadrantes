@@ -1,7 +1,7 @@
 <meta charset ="UTF-8">
 <meta name = "author" content = "Auret S.L.P.">
 <meta name = "description" content = "">
-<title>Page</title>
+<title>{{ $title }}</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

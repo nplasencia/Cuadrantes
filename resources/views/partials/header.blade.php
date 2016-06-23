@@ -16,7 +16,7 @@
         </header>
         <div class="topnav">
             <div class="btn-group">
-                <a data-placement="bottom" data-original-title="Fullscreen" data-toggle="tooltip" class="btn btn-default btn-sm" id="toggleFullScreen">
+                <a data-placement="bottom" data-original-title="Pantalla completa" data-toggle="tooltip" class="btn btn-default btn-sm" id="toggleFullScreen">
                     <i class="glyphicon glyphicon-fullscreen"></i>
                 </a>
             </div>
@@ -29,20 +29,22 @@
                     <i class="fa fa-comments"></i>
                     <span class="label label-danger">4</span>
                 </a>--}}
-                <a data-toggle="modal" data-original-title="Help" data-placement="bottom" class="btn btn-default btn-sm" href="#helpModal">
+                <a data-toggle="modal" data-original-title="Ayuda" data-placement="bottom" class="btn btn-default btn-sm" href="#helpModal">
                     <i class="fa fa-question"></i>
                 </a>
             </div>
             <div class="btn-group">
-                <a href="{{ route('logout') }}" data-toggle="tooltip" data-original-title="Logout" data-placement="bottom" class="btn btn-metis-1 btn-sm">
+                <a href="{{ route('logout') }}" data-toggle="tooltip" data-original-title="Salir" data-placement="bottom" class="btn btn-metis-1 btn-sm">
                     <i class="fa fa-power-off"></i>
                 </a>
             </div>
             <div class="btn-group">
-                <a data-placement="bottom" data-original-title="Show / Hide Left" data-toggle="tooltip" class="btn btn-primary btn-sm toggle-left" id="menu-toggle">
+                <a data-placement="bottom" data-original-title="Mostrar/ocultar menú" data-toggle="tooltip" class="btn btn-primary btn-sm toggle-left" id="menu-toggle">
                     <i class="fa fa-bars"></i>
                 </a>
-                <a data-placement="bottom" data-original-title="Show / Hide Right" data-toggle="tooltip" class="btn btn-default btn-sm toggle-right"> <span class="glyphicon glyphicon-comment"></span>  </a>
+                <a data-placement="bottom" data-original-title="Mostrar/ocultar menú" data-toggle="tooltip" class="btn btn-default btn-sm toggle-right">
+                    <span class="glyphicon glyphicon-comment"></span>
+                </a>
             </div>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -51,6 +53,8 @@
             <ul class="nav navbar-nav">
                 <li> <a href="{{ route('driver.create') }}">Nuevo conductor</a>  </li>
                 <li> <a href="{{ route('bus.create') }}">Nueva guagua</a>  </li>
+                <li> <a href="{{ route('line.create') }}">Nueva línea</a>  </li>
+                <li> <a href="{{ route('line.create') }}">Nuevo servicio</a>  </li>
                 {{--<li class='dropdown '>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Form Elements

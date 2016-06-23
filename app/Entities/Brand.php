@@ -6,6 +6,8 @@ use Cuadrantes\Commons\BrandContract;
 
 class Brand extends Entity
 {
+    public $timestamps = false;
+
     protected $table = BrandContract::TABLE_NAME;
 
     protected $fillable = [BrandContract::NAME];

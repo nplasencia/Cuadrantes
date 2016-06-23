@@ -3,6 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use Cuadrantes\Commons\UserContract;
+
 class CreateUsersTable extends Migration
 {
     /**
@@ -12,12 +14,14 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password', 60);
-            $table->enum('role', ['Administrator', 'User']);
+        Schema::create(UserContract::TABLE_NAME, function (Blueprint $table) {
+            $table->increments(UserContract::ID);
+            $table->string(UserContract::NAME);
+            $table->string(UserContract::SURNAME);
+            $table->string(UserContract::EMAIL)->unique();
+            $table->string(UserContract::TELEPHONE);
+            $table->enum(UserContract::ROLE, ['Admin', 'User']);
+            $table->string(UserContract::PASSWORD);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -30,6 +34,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop(UserContract::TABLE_NAME);
     }
 }

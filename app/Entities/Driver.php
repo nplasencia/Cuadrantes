@@ -6,7 +6,7 @@ use Cuadrantes\Commons\DriverContract;
 
 class Driver extends Entity
 {
-    protected $table = 'drivers';
+    protected $table = DriverContract::TABLE_NAME;
 
     protected $fillable = [DriverContract::FIRST_NAME, DriverContract::LAST_NAME, DriverContract::DNI, DriverContract::TELEPHONE,
                            DriverContract::EXTENSION,  DriverContract::EMAIL,     DriverContract::CAP, DriverContract::EXPIRATION];

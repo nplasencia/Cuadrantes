@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+
 use Cuadrantes\Entities\User;
+use Cuadrantes\Commons\UserContract;
 
 class UserTableSeeder extends Seeder
 {
@@ -17,18 +19,20 @@ class UserTableSeeder extends Seeder
 
     private function createAdmin()
     {
-        User::create([
-            'name'     => 'Nauzet Plasencia',
-            'email'    => 'nplasencia@auret.es',
-            'role'     => 'administrator',
-            'password' =>  bcrypt('admin')
+        factory(User::class)->create([
+            UserContract::NAME     => 'Nauzet',
+            UserContract::SURNAME  => 'Plasencia Cruz',
+            UserContract::EMAIL    => 'nplasencia@auret.es',
+            UserContract::ROLE     => 'Admin',
+            UserContract::PASSWORD =>  bcrypt('admin')
         ]);
 
-        User::create([
-            'name'     => 'Patricia Botella',
-            'email'    => 'patriciabotella@arrecifebus.com',
-            'role'     => 'administrator',
-            'password' =>  bcrypt('admin')
+        factory(User::class)->create([
+            UserContract::NAME     => 'Patricia',
+            UserContract::SURNAME  => 'Botella',
+            UserContract::EMAIL    => 'patriciabotella@arrecifebus.com',
+            UserContract::ROLE     => 'Admin',
+            UserContract::PASSWORD =>  bcrypt('admin')
         ]);
     }
 }

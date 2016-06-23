@@ -52,6 +52,8 @@
 <script src="{{ asset('assets/js/core.min.js') }}"></script>
 
 <!-- Metis demo scripts -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>
 <script src="{{ asset('assets/js/app.js') }}"></script>
 <script src="{{ asset('assets/js/auret.js') }}"></script>
 <script>

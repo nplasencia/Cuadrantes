@@ -13,11 +13,9 @@
 
     <li class="nav-divider"></li>
     <li>
-        <a href="#">
+        <a href={{ route('user_profile.resume') }}>
             <i class="fa fa-edit"></i>
-            <span class="link-title">
-                Configuración
-            </span>
+            <span class="link-title">&nbsp; Configuración cuenta</span>
         </a>
     </li>
 

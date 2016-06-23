@@ -16,10 +16,10 @@
 
                     <div class="body collapse in">
 
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="example{{ $time }}">
                             <thead>
                                 <tr>
-                                    <th style="border-right: 1px solid #ddd;">&nbsp;</th>
+                                    <th style="border-right: 1px solid #ddd; background-color: white;">&nbsp;</th>
                                     @foreach($hours[$time] as $hour)
                                         <th style="border-right: 1px solid #ddd;">{{ $hour }}:00</th>
                                     @endforeach
@@ -28,7 +28,7 @@
                             <tbody>
                                 @foreach($viewService as $serviceNumber => $serviceHours)
                                     <tr>
-                                        <td style="border-right: 1px solid #ddd;">
+                                        <td style="border-right: 1px solid #ddd; background-color: white;">
                                             Servicio {{ $serviceNumber }}
                                         </td>
                                         @foreach($hours[$time] as $hour)
@@ -55,4 +55,5 @@
             @endforeach
         </div>
     </div>
+
 @endsection

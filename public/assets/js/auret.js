@@ -31,6 +31,36 @@
         }
     );
 
+    $('#examplemorning').DataTable(
+        {
+            scrollY:        "500px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            searching:      false,
+            info:           false,
+            ordering:       false,
+            fixedColumns:   {
+                leftColumns: 1,
+            }
+        }
+    );
+
+    $('#exampleafternoon').DataTable(
+        {
+            scrollY:        "500px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            searching:      false,
+            info:           false,
+            ordering:       false,
+            fixedColumns:   {
+                leftColumns: 1,
+            }
+        }
+    );
+
 }(jQuery));
 
 /*$(document).ready(function () {

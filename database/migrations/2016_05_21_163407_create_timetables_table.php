@@ -28,7 +28,7 @@ class CreateTimetablesTable extends Migration
             $table->foreign(TimetableContract::ROUTE_ID)->references(RouteContract::ID)->on(RouteContract::TABLE_NAME)->onDelete('cascade');
             $table->foreign(TimetableContract::PERIOD_ID)->references(PeriodContract::ID)->on(PeriodContract::TABLE_NAME);
 
-            $table->unique( [TimetableContract::ROUTE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME] );
+            $table->unique( [TimetableContract::ROUTE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME, TimetableContract::PASS] );
         });
     }
 

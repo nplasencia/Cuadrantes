@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Cuadrantes\Http\Requests;
 use Cuadrantes\Repositories\ServiceRepository;
+use Cuadrantes\Repositories\PeriodRepository;
 use Carbon\Carbon;
 
 class ServicesController extends Controller
@@ -14,10 +15,12 @@ class ServicesController extends Controller
     protected $title = 'Servicios laborales';
 
     protected $serviceRepository;
+    protected $periodRepository;
 
-    public function __construct(ServiceRepository $serviceRepository)
+    public function __construct(ServiceRepository $serviceRepository, PeriodRepository $periodRepository)
     {
         $this->serviceRepository = $serviceRepository;
+        $this->periodRepository = $periodRepository;
     }
 
     private function resume($services)
@@ -57,5 +60,13 @@ class ServicesController extends Controller
     {
         $services = $this->serviceRepository->findByPeriod(1);
         return $this->resume($services);
+    }
+
+    public function create()
+    {
+        $title = 'Nuevo servicio';
+        $iconClass = $this->iconClass;
+        $periods = $this->periodRepository->getAll();
+        return view('pages.buses.details', compact('periods', 'title', 'iconClass'));
     }
 }

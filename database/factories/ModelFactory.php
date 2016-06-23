@@ -21,7 +21,9 @@ use Cuadrantes\Entities\DriverHoliday;
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name'              => $faker->name,
+        'surname'           => $faker->lastName,
         'email'             => $faker->unique()->safeEmail,
+        'telephone'         => '6'.$faker->numerify('########'),
         'password'          => bcrypt(str_random(10)),
         'remember_token'    => str_random(10),
     ];

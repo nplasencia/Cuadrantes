@@ -1,7 +1,9 @@
 <?php
 
-use Cuadrantes\Entities\Brand;
 use Illuminate\Database\Seeder;
+
+use Cuadrantes\Entities\Brand;
+use Cuadrantes\Commons\BrandContract;
 
 class BrandTableSeeder extends Seeder
 {
@@ -15,9 +17,7 @@ class BrandTableSeeder extends Seeder
         $brandNames = ['Irisbus', 'Irizar', 'Iveco', 'Mercedes', 'Scania'];
         
         foreach ($brandNames as $name) {
-            $brand = new Brand();
-            $brand->name = $name;
-            $brand->timestamps = false;
+            $brand = new Brand([BrandContract::NAME => $name]);
             $brand->save();
         }
     }

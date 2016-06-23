@@ -31,6 +31,15 @@ Route::get('test', function() {
 // Drivers
 Route::group(['middleware' => 'auth'], function() {
 
+    Route::get('user',      'UserController@resume')->name('user_profile.resume');
+    Route::get('userImage', 'UserController@getProfileImage')->name('user_profile.image');
+    Route::post('user',     'UserController@update')->name('user_profile.update');
+
+});
+
+// Drivers
+Route::group(['middleware' => 'auth'], function() {
+
     // INDEX
     Route::get ('/', 'DriversController@all')->name('home');
 

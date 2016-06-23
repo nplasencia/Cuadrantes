@@ -15,7 +15,7 @@ class Entity extends Model {
 
     /**
      * Método utilizado por las entities para traer su clase. Sólo es necesario si nuestra versión de PHP es menor a la
-     * 5.9.
+     * 5.6.
      *
      * @return mixed
      */

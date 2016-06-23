@@ -1,7 +1,9 @@
 <?php
 
-use Cuadrantes\Entities\Weekday;
 use Illuminate\Database\Seeder;
+
+use Cuadrantes\Entities\Weekday;
+use Cuadrantes\Commons\WeekdayContract;
 
 class WeekdayTableSeeder extends Seeder
 {
@@ -15,8 +17,7 @@ class WeekdayTableSeeder extends Seeder
         $weekdays = ['MON' => 'Lunes', 'TUE' => 'Martes', 'WED' => 'Miércoles', 'THU' => 'Jueves', 'FRI' => 'Viernes', 'SAT' => 'Sábado', 'SUN' => 'Domingo'];
 
         foreach ($weekdays as $code => $name) {
-            $weekday = new Weekday(compact($code, $name));
-            $weekday->timestamps = false;
+            $weekday = new Weekday([WeekdayContract::CODE => $code, WeekdayContract::VALUE => $name]);
             $weekday->save();
         }
     }

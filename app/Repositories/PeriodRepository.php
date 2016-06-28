@@ -4,7 +4,8 @@ namespace Cuadrantes\Repositories;
 
 use Cuadrantes\Entities\Period;
 
-class PeriodRepository extends BaseRepository{
+class PeriodRepository extends BaseRepository
+{
     
     public function getEntity() {
         return new Period();
@@ -12,6 +13,6 @@ class PeriodRepository extends BaseRepository{
 
     public function getAll()
     {
-        return $this->newQuery();
+        return $this->newQuery()->get();
     }
 }

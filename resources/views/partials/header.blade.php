@@ -54,7 +54,7 @@
                 <li> <a href="{{ route('driver.create') }}">Nuevo conductor</a>  </li>
                 <li> <a href="{{ route('bus.create') }}">Nueva guagua</a>  </li>
                 <li> <a href="{{ route('line.create') }}">Nueva línea</a>  </li>
-                <li> <a href="{{ route('line.create') }}">Nuevo servicio</a>  </li>
+                <li> <a href="{{ route('service.create') }}">Nuevo servicio</a>  </li>
                 {{--<li class='dropdown '>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Form Elements

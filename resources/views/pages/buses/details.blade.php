@@ -20,7 +20,7 @@
                     @include('partials.errors')
 
                     <form class="form-horizontal" method="POST"
-                          action="@if(isset($bus) && $bus != null){{ Route('bus.update', $bus->id) }}@else{{ Route('bus.create') }}@endif">
+                          action="@if(isset($bus) && $bus != null){{ Route('bus.update', $bus->id) }}@else{{ route('bus.create') }}@endif">
 
                         {{ csrf_field() }}
                         <div class="form-group">
@@ -74,8 +74,8 @@
                         </div>
 
                         <div class="form-actions no-margin-bottom text-center">
-                            <a class="btn btn-default btn-sm" href="{{ Route('bus.resume') }}">Cancelar</a>
-                            <input type="submit" value="Guardar" class="btn btn-primary">
+                            <a class="btn btn-default btn-sm" href="{{ route('bus.resume') }}">@lang('general.cancel')</a>
+                            <input type="submit" value="@lang('general.save')" class="btn btn-primary">
                         </div>
                     </form>
                 </div>

@@ -20,7 +20,6 @@ class ServiceTimetableSeeder extends Seeder
             $serviceTimetable->service_id   = $array[0];
             $serviceTimetable->timetable_id = $array[1];
             $serviceTimetable->colour       = $array[2];
-            $serviceTimetable->timestamps   = false;
             $serviceTimetable->save();
         }
     }

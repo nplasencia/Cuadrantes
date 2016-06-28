@@ -16,7 +16,11 @@
 
                     <div class="body collapse in">
 
-                        <table class="table table-striped" id="example{{ $time }}">
+                        @include('partials.msg_success')
+
+                        @include('partials.errors')
+
+                        <table class="table table-striped" id="example{{ $time }}" style="margin-bottom: 0px;">
                             <thead>
                                 <tr>
                                     <th style="border-right: 1px solid #ddd; background-color: white;">&nbsp;</th>
@@ -29,7 +33,21 @@
                                 @foreach($viewService as $serviceNumber => $serviceHours)
                                     <tr>
                                         <td style="border-right: 1px solid #ddd; background-color: white;">
-                                            Servicio {{ $serviceNumber }}
+                                            Servicio {{ $serviceNumber }}<br>
+                                            <div class="btn-group">
+                                                <div class="btn-group pull-right">
+                                                    <a href="{{ route('service.details', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="btn-group">
+                                                <div class="btn-group pull-right">
+                                                    <a href="{{ route('service.destroy', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </td>
                                         @foreach($hours[$time] as $hour)
                                                 <td style="border-right: 1px solid #ddd;">
@@ -37,7 +55,7 @@
                                                         @foreach($serviceHours[$hour] as $timetable)
                                                             <a data-placement="bottom" data-original-title="Servicio {{ $serviceNumber }}"
                                                                data-toggle="tooltip" class="btn btn-sm btn-default text-center"
-                                                               style="background-color: {{ $timetable['colour'] }};">
+                                                               style="background-color: {{ $timetable['colour'] }}; color: {{$timetable['text']}};">
                                                                 {{ $timetable['time'] }}<br>
                                                                 {!! $timetable['origin'] !!}<br>
                                                                 Línea {{ $timetable['line'] }}

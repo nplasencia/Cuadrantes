@@ -3,20 +3,188 @@
 
     <div class="row">
         <div class="col-lg-12">
+            <div class="box">
+                <header class="dark">
+                    <div class="icons">
+                        <i class="fa fa-tasks"></i>
+                    </div>
+                    <h5>Datos del servicio</h5>
+
+                    @include('partials.window_options')
+                </header>
+
+                <div class="body collapse in">
+                    @include('partials.msg_success')
+
+                    @include('partials.errors')
+
+                    <form class="form-horizontal" method="POST"
+                          action="@if(isset($service) && $service != null){{ route('service.update', $service->id) }}@else{{ route('service.save') }}@endif">
+
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">Periodo</label>
+                            <div class="col-lg-4">
+                                <select data-placeholder="Selecciona un periodo ..." class="form-control chzn-select" name="period_id">
+                                    <option value=""></option>
+                                    @foreach($periods as $period)
+                                        <option value="{{ $period->id }}"
+                                            @if(isset($service) && $service != null)
+                                                @if( $service->period_id == $period->id )selected="selected"@endif
+                                            @else
+                                                @if( old('period_id') == $period->id )selected="selected"@endif
+                                            @endif
+                                        >{{ $period->value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">¿Mañana o tarde?</label>
+                            <div class="col-lg-4">
+                                <select data-placeholder="Selecciona ..." class="form-control chzn-select" name="time">
+                                    <option value=""></option>
+                                    @foreach($times as $time)
+                                        <option value="{{ $time }}"
+                                            @if(isset($service) && $service != null)
+                                                @if( $service->time == $time )selected="selected"@endif
+                                            @else
+                                                @if( old('time') == $time )selected="selected"@endif
+                                            @endif
+                                        >@lang('pages/services.'.$time)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">Número de servicio</label>
+                            <div class="col-lg-4">
+                                <input type="number" class="form-control" name="number" id="number"
+                                       value="@if(isset($service) && $service != null){{ $service->number }}@else{{ old('number') }}@endif" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label class="col-lg-12 text-center">
+                                    <b>¿Auxiliar?</b>
+                                    <input class="uniform" type="checkbox" name="aux" value="1"
+                                           @if((isset($service) && $service != null && $service->aux) || old('aux'))checked="checked"@endif>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions no-margin-bottom text-center">
+                            <a class="btn btn-default btn-sm" href="{{ route('service.resume') }}">@lang('general.cancel')</a>
+                            <input type="submit" value="@lang('general.save')" class="btn btn-primary">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            @if(isset($service) && $service != null)
                 <div class="box">
                     <header class="dark">
                         <div class="icons">
                             <i class="fa fa-tasks"></i>
                         </div>
-                        <h5>Nuevo servicio</h5>
+                        <h5>Horarios del servicio</h5>
 
                         @include('partials.window_options')
                     </header>
 
                     <div class="body collapse in">
 
+                        <form class="form-horizontal" method="POST" action="{{ route('service.addTimetable', $service->id) }}">
+
+                            {{ csrf_field() }}
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-4">Línea</label>
+                                <div class="col-lg-4">
+                                    <select class="form-control" name="route_id" id="routeSelect">
+                                        <option value="" disabled selected>Selecciona la línea ...</option>
+                                        @foreach($routes as $route)
+                                            <option value="{{ $route->id }}">Línea {{ $route->line->number }} - Salida desde {{ $route->origin }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-4">Horario</label>
+                                <div class="col-lg-4">
+                                    <select class="form-control" name="timetable_id" id="timetableSelect" title="Selecciona primero la línea">
+                                        <option value="" disabled selected>Selecciona primero la línea ...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-lg-4">Color</label>
+                                <div class="col-lg-4">
+                                    <input type="color" name="colour" id="colour" value="{{ old('colour') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group form-actions text-center margin-bottom">
+                                <input type="submit" value="Añadir" class="btn btn-primary">
+                            </div>
+                        </form>
+
+                        <form id="form-timetable" method="POST" action="{{ route('timetable.serviceTimetables', ':route_id') }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" value="{{ $service->period_id }}" name="period_id">
+                        </form>
+
+                        <div class="form-group text-center">
+                            @if (sizeof($service->timetables) == 0)
+                                <h3>No se han insertado horarios para este servicio</h3>
+                            @else
+                                <table class="table table-bordered responsive-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Línea</th>
+                                        <th class="text-center">Origen</th>
+                                        <th class="text-center">Hora salida</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @forelse($service->timetables as $timetable)
+                                        <tr>
+                                            <td>{{ $timetable->route->line->number }}</td>
+                                            <td class="text-center">
+                                                {{ $timetable->route->origin }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ $timetable->time }}
+                                                @if($timetable->pass == true)
+                                                    <br>(Horario de paso - {{ $timetable->by }})
+                                                @elseif(isset($timetable->by) && $timetable->by!='')
+                                                    <br>({{ $timetable->by }})
+                                                @endif
+                                            </td>
+                                            <td class="text-center" style="vertical-align: middle;">
+                                                <a href="{{ route('service.destroyTimetable',[$service->id, $timetable->id]) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <div class="form-group text-center">
+                                            <h3>No se han insertado horarios para este servicio</h3>
+                                        </div>
+                                    @endforelse
+                                    </tbody>
+                                </table>
+                            @endif
+                        </div>
                     </div>
                 </div>
+            @endif
         </div>
     </div>
 @endsection

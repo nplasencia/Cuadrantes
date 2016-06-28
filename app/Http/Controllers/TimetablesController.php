@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Http\Controllers;
 
+use Carbon\Carbon;
 use Cuadrantes\Repositories\LineRepository;
 
 use Cuadrantes\Http\Requests;
@@ -87,5 +88,27 @@ class TimetablesController extends Controller
         $this->timetableRepository->deleteById($id);
         session()->flash('success', 'El horario ha sido eliminado exitosamente');
         return $this->resume($line_id);
+    }
+
+    public function getByRouteNoServices($route_id, Request $request)
+    {
+        $timetables = $this->timetableRepository->getByRouteNoService($route_id, $request->get('period_id'));
+
+        if ($request->ajax()) {
+            $ajaxResponse = array();
+            foreach ($timetables as $timetable) {
+                $time = Carbon::createFromFormat('H:i:s', $timetable->time);
+                $extraText = "";
+                if($timetable->pass == true) {
+                    $extraText = '(Horario de paso - ' . $timetable->by .')';
+                } elseif(isset($timetable->by) && $timetable->by!='') {
+                    $extraText = $timetable->by;
+                }
+                $ajaxResponse[] = [$timetable->id, $time->format('H:i').' '.$extraText];
+            }
+            return response()->json($ajaxResponse);
+        }
+
+        dd($timetables);
     }
 }

@@ -15,4 +15,9 @@ class Route extends Model
     {
         return $this->belongsTo(Line::class, RouteContract::LINE_ID);
     }
+
+    public function timetables()
+    {
+        return $this->hasMany(Timetable::class);
+    }
 }

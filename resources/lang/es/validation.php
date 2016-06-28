@@ -133,6 +133,9 @@ return [
         'period'            => 'Periodo semana',
         'route'             => 'Destino',
         'time'              => 'Hora salida',
+
+        // Service
+        'timetable_id'      => 'Horario',
     ],
 
 ];

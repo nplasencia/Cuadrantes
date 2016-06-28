@@ -6,7 +6,7 @@
             <div class="box">
                 <header class="dark">
                     <div class="icons">
-                        <i class="fa fa-car"></i>
+                        <i class="fa fa-bus"></i>
                     </div>
                     <h5>Datos de la línea</h5>
 

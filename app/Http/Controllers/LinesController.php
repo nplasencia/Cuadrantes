@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 class LinesController extends Controller
 {
     protected $defaultPagination = 25;
-    protected $iconClass = 'fa fa-car';
+    protected $iconClass = 'fa fa-bus';
     protected $title = "Líneas";
 
     protected $lineRepository;
@@ -67,7 +67,6 @@ class LinesController extends Controller
             session()->flash('success', 'La línea '.$line->number.' de nombre '.$line->name.' ha sido creada exitosamente');
             return Redirect::route('line.details', $line->id);
         } catch (\PDOException $exception) {
-            dd($exception);
             session()->flash('info', 'La línea '.$request->get('number').' ha sido creada con anterioridad.');
             return $this->all();
         }

@@ -2,12 +2,14 @@
 
 namespace Cuadrantes\Http\Controllers;
 
+use Cuadrantes\Entities\Line;
 use Cuadrantes\Repositories\LineRepository;
 use Cuadrantes\Repositories\RouteRepository;
 use Illuminate\Http\Request;
 
 use Cuadrantes\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\Datatables\Datatables;
 
 class LinesController extends Controller
 {
@@ -30,6 +32,36 @@ class LinesController extends Controller
             'number'    => 'required|string',
             'name'      => 'required|string',
         ]);
+    }
+
+    protected function getTableActionButtons(Line $line)
+    {
+        return '<div class="btn-group">
+                    <a href="'.route('timetable.details', $line->id).'" data-toggle="tooltip" data-original-title="Horarios" data-placement="bottom" class="btn btn-primary btn-xs">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </a>
+                </div>
+                
+                <div class="btn-group">
+                    <a href="'.route('line.details', $line->id).'" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+                
+                <div class="btn-group">
+                    <a href="'.route('line.destroy', $line->id).'" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </div>';
+    }
+
+    public function ajaxResume()
+    {
+        return Datatables::of($this->lineRepository->getAll())
+            ->addColumn('actions', function (Line $line) {
+                return $this->getTableActionButtons($line);
+            })
+            ->make(true);
     }
 
     private function resume($lines)

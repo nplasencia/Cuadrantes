@@ -10,7 +10,8 @@
         "laravelcollective/html": "5.1.*",
         "barryvdh/laravel-debugbar": "^2.2",
         "guzzlehttp/guzzle": "~4.0",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+        "yajra/laravel-datatables-oracle": "^6.13"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

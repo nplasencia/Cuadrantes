@@ -5,18 +5,23 @@ namespace Cuadrantes\Repositories;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Commons\BusContract;
 
-class BusRepository extends BaseRepository{
+class BusRepository extends BaseRepository
+{
     
     public function getEntity()
     {
         return new Bus();
     }
 
+    public function getAll()
+    {
+        return $this->newQuery()->with('brand')->orderBy(BusContract::LICENSE, 'ASC')->get();
+    }
+
     public function getAllPaginated($numberOfElements)
     {
-        return $this->newQuery()->where(BusContract::ACTIVE, true)
+        return $this->newQuery()->with('brand')
             ->orderBy(BusContract::LICENSE, 'ASC')
-            ->with('brand')
             ->paginate($numberOfElements);
     }
     
@@ -35,7 +40,7 @@ class BusRepository extends BaseRepository{
         $bus->stands       = $stands;
         $bus->registration = $registration;
         $bus->active       = true;
-        $bus->save();
+        $bus->update();
         return $bus;
     }
 

@@ -151,6 +151,11 @@ return [
          * Debugbar
          */
         Barryvdh\Debugbar\ServiceProvider::class,
+
+        /*
+         * Datatables
+         */
+        Yajra\Datatables\DatatablesServiceProvider::class,
     ],
 
     /*
@@ -209,6 +214,11 @@ return [
          * Debugbar
          */
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+
+        /*
+         * Datatables
+         */
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class, 
     ],
 
 ];

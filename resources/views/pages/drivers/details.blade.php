@@ -20,11 +20,11 @@
                     @include('partials.errors')
 
                     <form class="form-horizontal" method="POST"
-                          action="@if(isset($driver) && $driver != null){{ Route('driver.update', $driver->id) }}@else{{ Route('driver.create') }}@endif">
+                          action="@if(isset($driver) && $driver != null){{ route('driver.update', $driver->id) }}@else{{ route('driver.create') }}@endif">
 
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Apellidos</label>
+                            <label class="control-label col-lg-4" for="last_name">Apellidos</label>
                             <div class="col-lg-4">
                                 <input type="text" class="form-control" name="last_name" id="last_name"
                                        value="@if(isset($driver) && $driver != null){{ $driver->last_name }}@else{{ old('last_name') }}@endif" />
@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Nombre</label>
+                            <label class="control-label col-lg-4" for="first_name">Nombre</label>
                             <div class="col-lg-4">
                                 <input type="text" class="form-control" name="first_name" id="first_name"
                                        value="@if(isset($driver) && $driver != null){{ $driver->first_name }}@else{{ old('first_name') }}@endif" />
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">DNI</label>
+                            <label class="control-label col-lg-4" for="dni">DNI</label>
                             <div class=" col-lg-4">
                                 <input class="form-control" type="text" name="dni" id="dni"
                                        value="@if(isset($driver) && $driver != null){{ $driver->dni }}@else{{ old('dni') }}@endif" />
@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Teléfono</label>
+                            <label class="control-label col-lg-4" for="telephone">Teléfono</label>
                             <div class=" col-lg-4">
                                 <input class="form-control" type="number" name="telephone" id="telephone"
                                        value="@if(isset($driver) && $driver != null){{ $driver->telephone }}@else{{ old('telephone') }}@endif" />
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Extensión</label>
+                            <label class="control-label col-lg-4" for="extension">Extensión</label>
                             <div class=" col-lg-4">
                                 <input class="form-control" type="number" name="extension" id="extension"
                                        value="@if(isset($driver) && $driver != null){{ $driver->extension }}@else{{ old('extension') }}@endif" />
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">E-mail</label>
+                            <label class="control-label col-lg-4" for="email">E-mail</label>
                             <div class=" col-lg-4">
                                 <input class="form-control" type="email" name="email" id="email"
                                        value="@if(isset($driver) && $driver != null){{ $driver->email }}@else{{ old('email') }}@endif" />
@@ -72,24 +72,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">CAP</label>
+                            <label class="control-label col-lg-4" for="cap">CAP</label>
                             <div class=" col-lg-4">
-                                <input class="form-control" type="date" name="cap" id="cap"
+                                <input data-provide="datepicker" class="form-control" name="cap" id="cap"
                                        value="@if(isset($driver) && $driver != null){{ $driver->cap }}@else{{ old('cap') }}@endif" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Carnet de conducir</label>
+                            <label class="control-label col-lg-4" for="driver_expiration">Carnet de conducir</label>
                             <div class=" col-lg-4">
-                                <input class="form-control" type="date" name="driver_expiration" id="driver_expiration"
+                                <input data-provide="datepicker" class="form-control" name="driver_expiration" id="driver_expiration"
                                        value="@if(isset($driver) && $driver != null){{ $driver->driver_expiration }}@else{{ old('driver_expiration') }}@endif" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Días de descanso</label>
+                            <label class="control-label col-lg-4" for="restDays">Días de descanso</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona los días" multiple class="form-control chzn-select" tabindex="8" name="restDays[]">
+                                <select data-placeholder="Selecciona los días" multiple class="form-control chosen-select" tabindex="8" name="restDays[]" id="restDays">
                                     @foreach($weekdays as $weekday)
                                         <option value="{{ $weekday->id }}"
                                                 @if(isset($driver) && $driver != null)
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="form-actions no-margin-bottom text-center">
-                            <a class="btn btn-default btn-sm" href="{{ Route('driver.resume') }}">Cancelar</a>
+                            <a class="btn btn-default btn-sm" href="{{ route('driver.resume') }}">Cancelar</a>
                             <input type="submit" value="Guardar" class="btn btn-primary">
                         </div>
                     </form>
@@ -135,4 +135,36 @@
             </div><!--box-->
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
-@endsection
+@stop
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="{{ asset('assets/js/datepicker_defaults.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/daterangepicker.min.js"></script>
+
+    <script>
+        (function($){
+            $(".chosen-select").chosen();
+
+            $('#holidays1, #holidays2').daterangepicker({
+
+                separator: ' - ',
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    applyLabel: 'Guardar',
+                    cancelLabel: 'Cancelar',
+                    fromLabel: 'Desde',
+                    toLabel: 'Hasta',
+                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    firstDay: 1
+                }
+            });
+        }(jQuery));
+    </script>
+@endpush

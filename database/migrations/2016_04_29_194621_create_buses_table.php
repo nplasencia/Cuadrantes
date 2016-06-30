@@ -21,7 +21,7 @@ class CreateBusesTable extends Migration
             $table->unsignedSmallInteger(BusContract::SEATS);
             $table->unsignedSmallInteger(BusContract::STANDS);
             $table->date(BusContract::REGISTRATION);
-            $table->boolean(BusContract::ACTIVE)->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(BusContract::BRAND_ID)->references(BrandContract::ID)->on(BrandContract::TABLE_NAME)->onDelete('cascade');

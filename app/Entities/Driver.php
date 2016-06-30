@@ -3,9 +3,12 @@
 namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\DriverContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Driver extends Entity
 {
+    use SoftDeletes;
+
     protected $table = DriverContract::TABLE_NAME;
 
     protected $fillable = [DriverContract::FIRST_NAME, DriverContract::LAST_NAME, DriverContract::DNI, DriverContract::TELEPHONE,

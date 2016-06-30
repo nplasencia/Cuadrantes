@@ -8,7 +8,7 @@
 
                 @include('partials.msg_success')
 
-                <div id="sortableTable" class="body collapse in">
+                <div class="body collapse in">
 
                     <div class="row" style="margin-left: 0px; margin-bottom: 10px;">
                         <div class="btn-group">
@@ -17,12 +17,9 @@
                                 <span class="link-title">&nbsp;Nueva guagua</span>
                             </a>
                         </div>
-
-                        @include('partials.searchbox')
-
                     </div>
 
-                    <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
+                    <table id="busesTableResume" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th class="text-center">Matrícula</th>
@@ -44,19 +41,15 @@
                                 <td>{{ $bus->seats + $bus->stands }}</td>
                                 <td>{{ date('d-m-Y', strtotime($bus->registration)) }}</td>
                                 <td align="right">
-                                    <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('bus.details', $bus->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        </div>
+                                    <div class="btn-group pull-right">
+                                        <a href="{{ route('bus.details', $bus->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </div>
-                                    <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('bus.destroy', $bus->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a>
-                                        </div>
+                                    <div class="btn-group pull-right">
+                                        <a href="{{ route('bus.destroy', $bus->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -64,9 +57,35 @@
                         </tbody>
                     </table>
 
-                    @include ('partials.pagination')
                 </div>
             </div>
         </div>
     </div>
-@endsection
+@stop
+@push('scripts')
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('/assets/js/datatable_defaults.js') }}"></script>
+
+    <script>
+        $(function() {
+            $('#busesTableResume').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{!! route('bus.ajaxResume') !!}",
+                columns: [
+                    { data: 'license', name: 'license'},
+                    { data: 'brand.name', name: 'brand.name'},
+                    { data: 'seats', name: 'seats'},
+                    { data: 'stands', name: 'stands'},
+                    { data: 'total', searchable: false},
+                    { data: 'registration', name: 'registration'},
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false}
+                ],
+                "aoColumnDefs": [
+                    { "sClass": "text-right", "aTargets": [6] }
+                ]
+            });
+        });
+    </script>
+@endpush

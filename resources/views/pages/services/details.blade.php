@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4">Periodo</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona un periodo ..." class="form-control chzn-select" name="period_id">
+                                <select data-placeholder="Selecciona un periodo ..." class="form-control chosen-select" name="period_id">
                                     <option value=""></option>
                                     @foreach($periods as $period)
                                         <option value="{{ $period->id }}"
@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4">¿Mañana o tarde?</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona ..." class="form-control chzn-select" name="time">
+                                <select data-placeholder="Selecciona ..." class="form-control chosen-select" name="time">
                                     <option value=""></option>
                                     @foreach($times as $time)
                                         <option value="{{ $time }}"
@@ -102,7 +102,7 @@
                             {{ csrf_field() }}
 
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Línea</label>
+                                <label class="control-label col-lg-4" for="routeSelect">Línea</label>
                                 <div class="col-lg-4">
                                     <select class="form-control" name="route_id" id="routeSelect">
                                         <option value="" disabled selected>Selecciona la línea ...</option>
@@ -114,18 +114,18 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Horario</label>
+                                <label class="control-label col-lg-4" for="timetableSelect">Horario</label>
                                 <div class="col-lg-4">
-                                    <select class="form-control" name="timetable_id" id="timetableSelect" title="Selecciona primero la línea">
+                                    <select class="form-control" name="timetable_id" id="timetableSelect">
                                         <option value="" disabled selected>Selecciona primero la línea ...</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Color</label>
+                                <label class="control-label col-lg-4" for="colour">Color</label>
                                 <div class="col-lg-4">
-                                    <input type="color" name="colour" id="colour" value="{{ old('colour') }}">
+                                    <input name="colour" id="colour" value="{{ old('colour') }}">
                                 </div>
                             </div>
 
@@ -187,4 +187,20 @@
             @endif
         </div>
     </div>
-@endsection
+@stop
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Uniform.js/2.2.2/jquery.uniform.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
+
+    <script>
+        $(function() {
+            $(".uniform").uniform();
+            $(".chosen-select").chosen();
+            $("#colour").colorpicker({
+                    format: 'hex'
+                }
+            );
+        });
+    </script>
+@endpush

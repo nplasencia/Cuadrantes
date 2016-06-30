@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Http\Controllers;
 
+use Carbon\Carbon;
 use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Entities\Driver;
 use Cuadrantes\Entities\DriverHoliday;
@@ -12,6 +13,7 @@ use Cuadrantes\Repositories\DriverRepository;
 use Cuadrantes\Repositories\WeekdayRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\Datatables\Datatables;
 
 class DriversController extends Controller
 {
@@ -42,6 +44,35 @@ class DriversController extends Controller
             'cap'               => 'required|date',
             'driver_expiration' => 'required|date'
         ]);
+    }
+
+    protected function getTableActionButtons(Driver $driver)
+    {
+        return '<div class="btn-group">
+                    <a href="'.route('driver.details', $driver->id).'" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <a href="'.route('driver.destroy', $driver->id).'" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </div>';
+    }
+
+    public function ajaxResume()
+    {
+        return Datatables::of($this->driverRepository->getAll())
+            ->editColumn('cap', function (Driver $driver){
+                return with(new Carbon($driver->cap))->format('d-m-Y');
+            })
+            ->editColumn('driver_expiration', function (Driver $driver){
+                return with(new Carbon($driver->driver_expiration))->format('d-m-Y');
+            })
+            ->addColumn('actions', function (Driver $driver) {
+                return $this->getTableActionButtons($driver);
+            })
+            ->make(true);
     }
 
     private function saveRestdays($restdays, $driver) {
@@ -96,10 +127,7 @@ class DriversController extends Controller
 
     public function all()
     {
-        $drivers = Driver::where(DriverContract::ACTIVE, true)
-                           ->orderBy(DriverContract::LAST_NAME, 'ASC')
-                           ->orderBy(DriverContract::FIRST_NAME, 'ASC')
-                           ->paginate($this->defaultPagination);
+        $drivers = $this->driverRepository->getAllPaginated($this->defaultPagination);
         return $this->resume($drivers);
     }
 
@@ -172,30 +200,9 @@ class DriversController extends Controller
 
     public function destroy($id)
     {
-        $driver = Driver::findOrFail($id);
-        $driver->delete();
+        $driver = $this->driverRepository->deleteById($id);
 
         session()->flash('success', 'El conductor '.$driver->first_name.' '.$driver->last_name.' ha sido eliminado exitosamente');
         return Redirect::route('driver.resume');
-    }
-
-    public function search(Request $request)
-    {
-        if ($request->get('item') != '') {
-            $buses = Driver::where(DriverContract::FIRST_NAME,    'LIKE', '%'.$request->get('item').'%')
-                             ->orWhere(DriverContract::LAST_NAME, 'LIKE', '%'.$request->get('item').'%')
-                             ->orWhere(DriverContract::DNI,       'LIKE', '%'.$request->get('item').'%')
-                             ->orWhere(DriverContract::EMAIL,     'LIKE', '%'.$request->get('item').'%')
-                             ->orderBy(DriverContract::LAST_NAME, 'ASC')
-                             ->orderBy(DriverContract::FIRST_NAME,'ASC')
-                             ->paginate($this->defaultPagination);
-
-            if (sizeof($buses) != 0) {
-                return $this->resume($buses);
-            }
-            session()->flash('info', 'No se han encontrado conductores que sigan este criterio de búsqueda');
-        }
-        return $this->all();
-
     }
 }

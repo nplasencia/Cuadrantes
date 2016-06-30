@@ -9,9 +9,5 @@ class BusContract extends CuadrantesContract{
         LICENSE      = 'license',
         SEATS        = 'seats',
         STANDS       = 'stands',
-        REGISTRATION = 'registration',
-        ACTIVE       = 'active';
-
-    public static $COLS = [BusContract::BRAND_ID, BusContract::LICENSE,      BusContract::SEATS,
-                           BusContract::STANDS,   BusContract::REGISTRATION, BusContract::ACTIVE];
+        REGISTRATION = 'registration';
 }

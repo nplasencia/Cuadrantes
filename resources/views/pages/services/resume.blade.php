@@ -14,43 +14,39 @@
                         @include('partials.window_options')
                     </header>
 
-                    <div class="body collapse in">
+                    <div class="body collapse in" style="overflow-x: hidden;">
 
                         @include('partials.msg_success')
 
                         @include('partials.errors')
 
-                        <table class="table table-striped" id="example{{ $time }}" style="margin-bottom: 0px;">
+                        <table class="table table-striped table-bordered nowrap" id="{{ $time }}">
                             <thead>
                                 <tr>
-                                    <th style="border-right: 1px solid #ddd; background-color: white;">&nbsp;</th>
+                                    <th>&nbsp;</th>
                                     @foreach($hours[$time] as $hour)
-                                        <th style="border-right: 1px solid #ddd;">{{ $hour }}:00</th>
+                                        <th>{{ $hour }}:00</th>
                                     @endforeach
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($viewService as $serviceNumber => $serviceHours)
                                     <tr>
-                                        <td style="border-right: 1px solid #ddd; background-color: white;">
-                                            Servicio {{ $serviceNumber }}<br>
+                                        <td class="text-center" style="vertical-align: middle;">
+                                            Servicio {{ $serviceNumber }}<br><br>
                                             <div class="btn-group">
-                                                <div class="btn-group pull-right">
-                                                    <a href="{{ route('service.details', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                </div>
+                                                <a href="{{ route('service.details', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
                                             </div>
                                             <div class="btn-group">
-                                                <div class="btn-group pull-right">
-                                                    <a href="{{ route('service.destroy', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </a>
-                                                </div>
+                                                <a href="{{ route('service.destroy', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
                                             </div>
                                         </td>
                                         @foreach($hours[$time] as $hour)
-                                                <td style="border-right: 1px solid #ddd;">
+                                                <td style="vertical-align: middle;">
                                                     @if(isset($serviceHours[$hour]))
                                                         @foreach($serviceHours[$hour] as $timetable)
                                                             <a data-placement="bottom" data-original-title="Servicio {{ $serviceNumber }}"
@@ -74,4 +70,25 @@
         </div>
     </div>
 
-@endsection
+@stop
+@push('scripts')
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>
+    <script src="{{ asset('/assets/js/datatable_defaults.js') }}"></script>
+
+    <script>
+        $(function() {
+            $('#morning, #afternoon').DataTable({
+                scrollY:        "500px",
+                scrollX:        true,
+                scrollCollapse: true,
+                paging:         false,
+                searching:      false,
+                info:           false,
+                ordering:       false,
+                fixedColumns:   true
+            });
+        });
+    </script>
+@endpush

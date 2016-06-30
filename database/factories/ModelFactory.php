@@ -38,8 +38,7 @@ $factory->define(Driver::class, function (Faker\Generator $faker) {
         'extension'         => $faker->numerify('####'),
         'email'             => $faker->email,
         'cap'               => $faker->date(),
-        'driver_expiration' => $faker->date(),
-        'active'            => $faker->boolean()
+        'driver_expiration' => $faker->date()
    ];
 });
 
@@ -66,7 +65,6 @@ $factory->define(Bus::class, function (Faker\Generator $faker) {
         BusContract::LICENSE           => $faker->numerify('####').'-'.strtoupper($faker->randomLetter.$faker->randomLetter.$faker->randomLetter),
         BusContract::SEATS             => $faker->numberBetween(20, 55),
         BusContract::STANDS            => $faker->numberBetween(3, 55),
-        BusContract::REGISTRATION      => $faker->date('Y-m-d', 'now'),
-        BusContract::ACTIVE            => $faker->boolean()
+        BusContract::REGISTRATION      => $faker->date('Y-m-d', 'now')
     ];
 });

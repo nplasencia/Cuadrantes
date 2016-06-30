@@ -17,11 +17,9 @@
                             </a>
                         </div>
 
-                        @include('partials.searchbox')
-
                     </div>
 
-                    <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
+                    <table id="driversTableResume" class="table table-bordered table-condensed table-hover table-striped sortableTable responsive-table">
                         <thead>
                         <tr>
                             <th class="text-center">Apellidos</th>
@@ -48,29 +46,51 @@
                                 <td>{{ date('d-m-Y', strtotime($driver->driver_expiration)) }}</td>
                                 <td align="right">
                                     <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('driver.details', $driver->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        </div>
+                                        <a href="{{ route('driver.details', $driver->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </div>
                                     <div class="btn-group">
-                                        <div class="btn-group pull-right">
-                                            <a href="{{ route('driver.destroy', $driver->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a>
-                                        </div>
+                                        <a href="{{ route('driver.destroy', $driver->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-
-                    @include ('partials.pagination')
-
                 </div>
             </div>
         </div>
     </div>
-@endsection
+@stop
+@push('scripts')
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('/assets/js/datatable_defaults.js') }}"></script>
+
+    <script>
+        $(function() {
+            $('#driversTableResume').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "{!! route('driver.ajaxResume') !!}",
+                columns: [
+                    { data: 'last_name'},
+                    { data: 'first_name'},
+                    { data: 'dni'},
+                    { data: 'telephone'},
+                    { data: 'extension'},
+                    { data: 'email'},
+                    { data: 'cap', searchable: false},
+                    { data: 'driver_expiration', searchable: false},
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false}
+                ],
+                "aoColumnDefs": [
+                    { "sClass": "text-right", "aTargets": [ 8 ] }
+                ]
+            });
+        });
+    </script>
+@endpush

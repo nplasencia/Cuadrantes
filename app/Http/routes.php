@@ -37,6 +37,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
+// Ajax
+Route::group(['middleware' => 'auth'], function() {
+    Route::get ('ajax/drivers', 'DriversController@ajaxResume')->name('driver.ajaxResume');
+    Route::get ('ajax/buses'  , 'BusesController@ajaxResume')->name('bus.ajaxResume');
+    Route::get ('ajax/lines'  , 'LinesController@ajaxResume')->name('line.ajaxResume');
+
+});
+
 // Drivers
 Route::group(['middleware' => 'auth'], function() {
 
@@ -44,8 +52,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('/', 'DriversController@all')->name('home');
 
     Route::get ('drivers', 'DriversController@all')->name('driver.resume');
-
-    Route::post('driverSearch', 'DriversController@search')->name('driver.search');
 
     Route::get ('newDriver', 'DriversController@create')->name('driver.create');
     Route::post('newDriver', 'DriversController@store')->name('driver.save');
@@ -73,8 +79,6 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get ('busDestroy/{id}', 'BusesController@destroy')->name('bus.destroy');
     Route::delete('busDestroy/{id}', 'BusesController@destroy')->name('bus.destroy');
-
-
 });
 
 // Lines

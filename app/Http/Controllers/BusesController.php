@@ -2,13 +2,15 @@
 
 namespace Cuadrantes\Http\Controllers;
 
+use Cuadrantes\Entities\Bus;
 use Cuadrantes\Repositories\BrandRepository;
 use Cuadrantes\Repositories\BusRepository;
-use Illuminate\Auth\Guard;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use Cuadrantes\Http\Requests;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\Datatables\Datatables;
 
 class BusesController extends Controller
 {
@@ -36,13 +38,52 @@ class BusesController extends Controller
         ]);
     }
 
+    protected function getTableActionButtons(Bus $bus)
+    {
+        return '<div class="btn-group">
+                    <div class="btn-group pull-right">
+                            <a href="'.route('bus.details', $bus->id).'" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <div class="btn-group pull-right">
+                            <a href="'.route('bus.destroy', $bus->id).'" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>';
+    }
+
+    public function ajaxResume()
+    {
+        return Datatables::of($this->busRepository->getAll())
+            ->addColumn('total', function(Bus $bus){
+                return with($bus->seats + $bus->stands);
+            })
+            ->editColumn('registration', function (Bus $bus){
+                return with(new Carbon($bus->registration))->format('d-m-Y');
+            })
+            ->addColumn('actions', function (Bus $bus) {
+                return $this->getTableActionButtons($bus);
+            })
+            ->make(true);
+    }
+
     private function resume($buses)
     {
         $title = $this->title;
         $iconClass = $this->iconClass;
-        $paginationClass = $buses;
         $searchRoute = 'bus.search';
-        return view('pages.buses.resume', compact('buses', 'title', 'iconClass', 'searchRoute', 'paginationClass'));
+        return view('pages.buses.resume', compact('title', 'iconClass', 'searchRoute', 'buses'));
+    }
+
+    public function all()
+    {
+        $buses = $this->busRepository->getAllPaginated($this->defaultPagination);
+        return $this->resume($buses);
     }
 
     public function create()
@@ -51,13 +92,6 @@ class BusesController extends Controller
         $iconClass = $this->iconClass;
         $brands = $this->brandRepository->getAll();
         return view('pages.buses.details', compact('brands', 'title', 'iconClass'));
-    }
-
-    public function all()
-    {
-        $buses = $this->busRepository->getAllPaginated($this->defaultPagination);
-        return $this->resume($buses);
-
     }
 
     public function details($id)
@@ -93,26 +127,12 @@ class BusesController extends Controller
         return Redirect::route('bus.details', $bus->id);
     }
 
-    public function destroy($id, Guard $auth, Request $request)
+    public function destroy($id)
     {
         $bus = $this->busRepository->deleteById($id);
 
         $successMsg = 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido eliminada exitosamente';
         session()->flash('success', $successMsg);
         return $this->all();
-    }
-
-    public function search(Request $request)
-    {
-        if ($request->get('item') != '') {
-            $buses = $this->busRepository->searchByLicensePaginated($request->get('item'), $this->defaultPagination);
-
-            if (sizeof($buses) != 0) {
-                return $this->resume($buses);
-            }
-            session()->flash('info', 'No se han encontrado guaguas que sigan este criterio de búsqueda');
-        }
-        return $this->all();
-
     }
 }

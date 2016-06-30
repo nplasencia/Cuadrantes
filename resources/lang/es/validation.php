@@ -112,8 +112,8 @@ return [
         'password_confirmation' => 'Confirma tu contraseña',
 
         // Conductores
-        'lastName'          => 'Apellidos',
-        'firstName'         => 'Nombre',
+        'last_name'         => 'Apellidos',
+        'first_name'        => 'Nombre',
         'telephone'         => 'Teléfono',
         'extension'         => 'Extensión',
         'dni'               => 'DNI',

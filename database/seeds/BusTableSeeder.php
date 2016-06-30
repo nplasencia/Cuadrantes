@@ -12,8 +12,6 @@ class BusTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Bus::class, 46)->create([
-            'active' => 1
-        ]);
+        factory(Bus::class, 46)->create();
     }
 }

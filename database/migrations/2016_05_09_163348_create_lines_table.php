@@ -17,7 +17,7 @@ class CreateLinesTable extends Migration
             $table->increments(LineContract::ID);
             $table->unsignedSmallInteger(LineContract::NUMBER)->unique();
             $table->string(LineContract::NAME);
-            $table->boolean(LineContract::ACTIVE)->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

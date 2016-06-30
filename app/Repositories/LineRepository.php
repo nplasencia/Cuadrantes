@@ -6,34 +6,29 @@ use Cuadrantes\Commons\LineContract;
 use Cuadrantes\Commons\TimetableContract;
 use Cuadrantes\Entities\Line;
 
-class LineRepository extends BaseRepository{
+class LineRepository extends BaseRepository
+{
     
     public function getEntity()
     {
         return new Line();
     }
 
-    public function getAllPaginated($numberOfElements)
+    public function getAll()
     {
-        return $this->newQuery()->where(LineContract::ACTIVE, true)
-            ->orderBy(LineContract::NUMBER, 'ASC')
-            ->paginate($numberOfElements);
+        return $this->newQuery()->orderBy(LineContract::NUMBER, 'ASC')->get();
     }
 
-    public function searchPaginated($item, $numberOfElements)
+    public function getAllPaginated($numberOfElements)
     {
-        return $this->newQuery()->where(LineContract::NAME, 'LIKE', '%'.$item.'%')
-            ->orWhere(LineContract::NUMBER, 'LIKE', '%'.$item.'%')
-            ->orderBy(LineContract::NUMBER, 'ASC')
-            ->paginate($numberOfElements);
+        return $this->newQuery()->orderBy(LineContract::NUMBER, 'ASC')->paginate($numberOfElements);
     }
 
     public function update($line, $number, $name)
     {
         $line->number = $number;
         $line->name   = $name;
-        $line->active = true;
-        $line->save();
+        $line->update();
         return $line;
     }
 

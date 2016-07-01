@@ -43,8 +43,8 @@ class TimetablesController extends Controller
     public function resume($line_id)
     {
         $timetables = $this->lineRepository->getTimetables($line_id);
-        $periods = $this->periodRepository->getAll()->get();
-        $routes = $this->routeRepository->findByLineId($line_id)->get();
+        $periods = $this->periodRepository->getAll();
+        $routes = $this->routeRepository->findByLineId($line_id);
         $timeArray = array();
         foreach ($timetables as $timetable) {
 

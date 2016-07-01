@@ -104,7 +104,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="routeSelect">Línea</label>
                                 <div class="col-lg-4">
-                                    <select class="form-control" name="route_id" id="routeSelect">
+                                    <select class="form-control chosen-select" name="route_id" id="routeSelect">
                                         <option value="" disabled selected>Selecciona la línea ...</option>
                                         @foreach($routes as $route)
                                             <option value="{{ $route->id }}">Línea {{ $route->line->number }} - Salida desde {{ $route->origin }}</option>
@@ -125,13 +125,14 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-4" for="colour">Color</label>
                                 <div class="col-lg-4">
-                                    <input name="colour" id="colour" value="{{ old('colour') }}">
+                                    <input type="text" name="colour" id="colour" class="pick-a-color form-control" value="{{ old('colour') }}">
                                 </div>
                             </div>
 
                             <div class="form-group form-actions text-center margin-bottom">
                                 <input type="submit" value="Añadir" class="btn btn-primary">
                             </div>
+
                         </form>
 
                         <form id="form-timetable" method="POST" action="{{ route('timetable.serviceTimetables', ':route_id') }}">
@@ -189,18 +190,44 @@
     </div>
 @stop
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Uniform.js/2.2.2/jquery.uniform.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
+    <script src="{{ asset('assets/js/libs/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/libs/jquery.uniform.min.js') }}"></script>
+    <script src="{{ asset('assets/js/libs/pickacolor.min.js') }}"></script>
 
     <script>
         $(function() {
             $(".uniform").uniform();
             $(".chosen-select").chosen();
-            $("#colour").colorpicker({
-                    format: 'hex'
-                }
-            );
+            $(".pick-a-color").pickAColor({
+                showAdvanced: false,
+                showHexInput: false
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('#routeSelect').change(function(e) {
+                e.preventDefault();
+
+                var form = $('#form-timetable');
+
+                var select = $(this);
+                var selectTimetable = $('#timetableSelect');
+
+                var action = form.attr('action').replace(':route_id', select.val());
+                select.prop('disabled', 'disabled');
+                $.post(action, form.serialize(), function (response) {
+                    selectTimetable.find('option').remove();
+                    $.each(response, function(i, v){
+                        selectTimetable.append('<option value="' + v[0] + '">' + v[1] + '</option>');
+                    })
+                }).fail(function(response){
+                    //Mensaje de error
+                });
+                select.prop('disabled', false);
+
+            });
+
         });
     </script>
 @endpush

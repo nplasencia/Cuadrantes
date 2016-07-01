@@ -19,8 +19,9 @@
 <!-- metisMenu stylesheet -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Uniform.js/2.2.2/themes/default/css/uniform.default.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Uniform.js/2.2.2/themes/default/css/uniform.default.min.css">
 
 <!--DataTables-->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
@@ -35,13 +36,12 @@
 <!--Selects-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.min.css">
 
-<!--ColorPicker-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.css">
+<!--Pick-A-Color-->
+<link rel="stylesheet" href="{{ asset('assets/css/pickacolor.min.css') }}">
 
 
-
-<link rel="stylesheet" href="{{ asset('assets/less/theme.less') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+<link rel="stylesheet" href="{{ asset('assets/less/theme.less') }}">
 
 <!--Modernizr-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>

@@ -16,13 +16,12 @@ class ServiceRepository extends BaseRepository
 
     public function findByPeriod($period_id)
     {
-        return $this->newQuery()->where(ServiceContract::PERIOD_ID, $period_id)->orderBy(ServiceContract::NUMBER)->with('timetables')->get();
+        return $this->newQuery()->where(ServiceContract::PERIOD_ID, $period_id)->orderBy(ServiceContract::NUMBER)->with('timetables.route.line')->get();
     }
 
     public function findByNumber($serviceNumber)
     {
-        $res = $this->newQuery()->where(ServiceContract::NUMBER, $serviceNumber)->orderBy(ServiceContract::NUMBER)->limit(1)->get();
-        return $res[0];
+        return $this->newQuery()->where(ServiceContract::NUMBER, $serviceNumber)->orderBy(ServiceContract::NUMBER)->firstOrFail();
     }
 
     public function updateById($id, Request $request)

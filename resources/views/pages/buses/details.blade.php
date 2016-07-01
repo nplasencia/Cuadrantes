@@ -24,9 +24,9 @@
 
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Marca</label>
+                            <label class="control-label col-lg-4" for="brand">Marca</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona una marca ..." class="form-control chzn-select" name="brand_id">
+                                <select data-placeholder="Selecciona una marca ..." class="form-control chosen-select" name="brand_id" id="brand">
                                     <option value=""></option>
                                     @foreach($brands as $brand)
                                         <option value="{{ $brand->id }}"
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Matrícula</label>
+                            <label class="control-label col-lg-4" for="license">Matrícula</label>
                             <div class="col-lg-4">
                                 <input type="text" class="form-control" name="license" id="license"
                                        value="@if(isset($bus) && $bus != null){{ $bus->license }}@else{{ old('license') }}@endif" />
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Plazas sentadas</label>
+                            <label class="control-label col-lg-4" for="seats">Plazas sentadas</label>
                             <div class=" col-lg-4">
                                 <input class="form-control" type="number" name="seats" id="seats"
                                        value="@if(isset($bus) && $bus != null){{ $bus->seats }}@else{{ old('seats') }}@endif">
@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Plazas de pie</label>
+                            <label class="control-label col-lg-4" for="stands">Plazas de pie</label>
                             <div class=" col-lg-4">
                                 <input class="form-control" type="number" name="stands" id="stands"
                                        value="@if(isset($bus) && $bus != null){{ $bus->stands }}@else{{ old('stands') }}@endif">
@@ -66,9 +66,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-4">Fecha de matriculación</label>
+                            <label class="control-label col-lg-4" for="registration">Fecha de matriculación</label>
                             <div class=" col-lg-4">
-                                <input class="form-control" type="date" name="registration" id="registration"
+                                <input data-provide="datepicker" class="form-control" type="date" name="registration" id="registration"
                                        value="@if(isset($bus) && $bus != null){{ $bus->registration }}@else{{ old('registration') }}@endif">
                             </div>
                         </div>
@@ -82,4 +82,10 @@
             </div><!--box-->
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
-@endsection
+@stop
+@push('scripts')
+    <script src="{{ asset('assets/js/libs/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
+
+    $(".chosen-select").chosen();
+@endpush

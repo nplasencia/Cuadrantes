@@ -3,7 +3,6 @@
 namespace Cuadrantes\Http\Controllers;
 
 use Carbon\Carbon;
-use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Entities\Driver;
 use Cuadrantes\Entities\DriverHoliday;
 use Cuadrantes\Entities\DriverRestDay;
@@ -41,8 +40,8 @@ class DriversController extends Controller
             'telephone'         => 'required|digits:9',
             'extension'         => 'required|digits_between:0,9999',
             'email'             => 'required|email',
-            'cap'               => 'required|date',
-            'driver_expiration' => 'required|date'
+            'cap'               => 'required|date_format:d/m/Y',
+            'driver_expiration' => 'required|date_format:d/m/Y'
         ]);
     }
 
@@ -133,7 +132,7 @@ class DriversController extends Controller
 
     public function details($id)
     {
-        $driver = Driver::findOrFail($id);
+        $driver = $this->driverRepository->findOrFail($id);
         $holidays = $driver->holidays;
         $holidays1='';
         $holidays2='';
@@ -143,6 +142,8 @@ class DriversController extends Controller
         if (isset($holidays[1])) {
             $holidays2 = $this->generateUserHolidays($holidays[1]);
         }
+        $driver->cap               = Carbon::createFromFormat('Y-m-d', $driver->cap)->format('d/m/Y');
+        $driver->driver_expiration = Carbon::createFromFormat('Y-m-d', $driver->driver_expiration)->format('d/m/Y');
         $weekdays = Weekday::all();
         $title = $driver->last_name . ', ' . $driver->first_name;
         $iconClass = 'fa fa-user';
@@ -154,8 +155,7 @@ class DriversController extends Controller
     {
         $this->genericValidation($request);
 
-        $driver = new Driver($request->all(), true);
-        $driver->save();
+        $driver = $this->driverRepository->store($request);
 
         $this->saveRestdays($request->get('restDays'), $driver);
         $this->saveHolidays($request->get('holidays1'), $driver);
@@ -169,16 +169,16 @@ class DriversController extends Controller
     {
         $this->genericValidation($request);
 
-        $driver = Driver::findOrFail($id);
+        $driver = $this->driverRepository->findOrFail($id);
         $driver->last_name         = $request->get('last_name');
         $driver->first_name        = $request->get('first_name');
         $driver->dni               = $request->get('dni');
         $driver->telephone         = $request->get('telephone');
         $driver->extension         = $request->get('extension');
         $driver->email             = $request->get('email');
-        $driver->cap               = $request->get('cap');
-        $driver->driver_expiration = $request->get('driver_expiration');
-        $driver->save();
+        $driver->cap               = Carbon::createFromFormat('d/m/Y', $request->get('cap'))->format('Y-m-d');
+        $driver->driver_expiration = Carbon::createFromFormat('d/m/Y', $request->get('driver_expiration'))->format('Y-m-d');
+        $driver->update();
         
         $driverRestDays = DriverRestDay::where('driver_id', $driver->id)->get();
         foreach ($driverRestDays as $driverRestDay) {

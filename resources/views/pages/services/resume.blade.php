@@ -72,10 +72,7 @@
 
 @stop
 @push('scripts')
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script>
-    <script src="{{ asset('/assets/js/datatable_defaults.js') }}"></script>
+    <script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
 
     <script>
         $(function() {

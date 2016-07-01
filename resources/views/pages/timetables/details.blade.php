@@ -4,13 +4,8 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="row">
-                @include('partials.msg_success')
-
-                @include('partials.errors')
-            </div>
-
             <div class="box">
+
                 <header class="dark">
                     <div class="icons">
                         <i class="glyphicon glyphicon-time"></i>
@@ -20,17 +15,21 @@
                     @include('partials.window_options')
                 </header>
 
-                <div class="body">
+                <div class="body collapse in">
+
+                    @include('partials.msg_success')
+
+                    @include('partials.errors')
 
                     <div class="row">
-                        <form class="form-horizontal" method="POST" action="{{ Route('timetable.store', [$line->id]) }}">
+                        <form class="form-horizontal" method="POST" action="{{ route('timetable.store', [$line->id]) }}">
 
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Periodo semana</label>
+                                <label class="control-label col-lg-4" for="period_id">Periodo semana</label>
                                 <div class="col-lg-4">
-                                    <select name="period_id" class="form-control" value="{{ old('period_id') }}">
-                                        <option value=""></option>
+                                    <select name="period_id" id="period_id" class="form-control chosen-select" >
+                                        <option value="" disabled selected>Selecciona un periodo...</option>
                                         @foreach($periods as $period)
                                             <option value="{{ $period->id }}" @if( old('period_id') == $period->id )selected="selected"@endif>
                                                 @lang('timetables.'.$period->code)
@@ -40,10 +39,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Destino</label>
+                                <label class="control-label col-lg-4" for="route_id">Destino</label>
                                 <div class="col-lg-4">
-                                    <select name="route_id" class="form-control" value="{{ old('route_id') }}">
-                                        <option value=""></option>
+                                    <select name="route_id" id="route_id" class="form-control chosen-select">
+                                        <option value="" disabled selected>Selecciona un destino...</option>
                                         @foreach($routes as $route)
                                             <option value="{{ $route->id }}" @if( old('route_id') == $route->id )selected="selected"@endif>
                                                 {{ $route->destiny }}
@@ -53,16 +52,16 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Por...</label>
+                                <label class="control-label col-lg-4" for="by">Por...</label>
                                 <div class="col-lg-4">
-                                    <input type="text" class="form-control" name="by" value="{{ old('by') }}" />
+                                    <input type="text" class="form-control" name="by" id="by" value="{{ old('by') }}" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-lg-4">Hora salida</label>
+                                <label class="control-label col-lg-4" for="time">Hora salida</label>
                                 <div class="col-lg-4">
                                     <div class="input-group date">
-                                        <input name="time" type="time" class="form-control" value="{{ old('time') }}"/>
+                                        <input name="time" type="time" id="time" class="form-control" value="{{ old('time') }}"/>
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-time"></span>
                                         </span>
@@ -80,7 +79,7 @@
                             </div>
 
                             <div class="form-actions no-margin-bottom text-center">
-                                <a class="btn btn-default btn-sm" href="{{ Route('line.resume') }}">Cancelar</a>
+                                <a class="btn btn-default btn-sm" href="{{ route('line.resume') }}">Cancelar</a>
                                 <input type="submit" value="Guardar" class="btn btn-primary">
                             </div>
                         </form>
@@ -158,4 +157,15 @@
             @endforelse
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
-@endsection
+@stop
+@push('scripts')
+    <script src="{{ asset('assets/js/libs/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/libs/jquery.uniform.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            $(".uniform").uniform();
+            $(".chosen-select").chosen();
+        });
+    </script>
+@endpush

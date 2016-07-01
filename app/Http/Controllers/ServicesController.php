@@ -48,6 +48,7 @@ class ServicesController extends Controller
         $iconClass = $this->iconClass;
         $hours = array();
         $viewServices = array();
+
         foreach ($services as $service) {
             foreach($service->timetables as $timetable) {
                 $time = Carbon::createFromFormat('H:i:s', $timetable->time);
@@ -69,6 +70,7 @@ class ServicesController extends Controller
                 if (ColourHelper::isDark($backgroundColour)) {
                     $textColour = '#FFFFFF';
                 }
+
                 $viewServices[$service->time][$service->number][$time->hour][] = ['colour' => $backgroundColour,
                                                                                   'time'   => $time->format('H:i'),
                                                                                   'origin' => $origin,

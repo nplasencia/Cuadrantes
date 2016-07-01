@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="cap">CAP</label>
                             <div class=" col-lg-4">
-                                <input data-provide="datepicker" class="form-control" name="cap" id="cap"
+                                <input class="form-control datepicker" name="cap" id="cap"
                                        value="@if(isset($driver) && $driver != null){{ $driver->cap }}@else{{ old('cap') }}@endif" />
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="driver_expiration">Carnet de conducir</label>
                             <div class=" col-lg-4">
-                                <input data-provide="datepicker" class="form-control" name="driver_expiration" id="driver_expiration"
+                                <input class="form-control datepicker" name="driver_expiration" id="driver_expiration"
                                        value="@if(isset($driver) && $driver != null){{ $driver->driver_expiration }}@else{{ old('driver_expiration') }}@endif" />
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                             <div class="col-lg-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" name="holidays1" id="holidays1" class="form-control"
+                                    <input type="text" name="holidays1" id="holidays1" class="form-control range-picker"
                                            value="@if(isset($driver) && $driver != null){{ $holidays1 }}@else{{ old('holidays1') }}@endif" />
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                             <div class="col-lg-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" name="holidays2" id="holidays2" class="form-control"
+                                    <input type="text" name="holidays2" id="holidays2" class="form-control range-picker"
                                            value="@if(isset($driver) && $driver != null){{ $holidays2 }}@else{{ old('holidays2') }}@endif" />
                                 </div>
                             </div>
@@ -137,21 +137,20 @@
     </div><!-- /.row -->
 @stop
 @push('scripts')
+    <script src="{{ asset('assets/js/libs/chosen.jquery.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/moment.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/locales/bootstrap-datepicker.es.min.js"></script>
-    <script src="{{ asset('assets/js/datepicker_defaults.js') }}"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/daterangepicker.min.js"></script>
 
     <script>
         (function($){
             $(".chosen-select").chosen();
 
-            $('#holidays1, #holidays2').daterangepicker({
+            $(".datepicker").datepicker();
+
+            $('.range-picker').daterangepicker({
 
                 separator: ' - ',
                 locale: {

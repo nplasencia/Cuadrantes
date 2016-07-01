@@ -14,7 +14,7 @@ class RouteRepository extends BaseRepository{
 
     public function findByLineId($line_id)
     {
-        return $this->newQuery()->where(RouteContract::LINE_ID, $line_id)->orderBy(RouteContract::GO);
+        return $this->newQuery()->where(RouteContract::LINE_ID, $line_id)->orderBy(RouteContract::GO)->get();
     }
     
     public function getByPeriodNoService($period_id)

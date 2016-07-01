@@ -3,9 +3,10 @@
 namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\ServiceTimetablesContract;
-use Illuminate\Database\Eloquent\Model;
 use Cuadrantes\Commons\ServiceContract;
 use Cuadrantes\Commons\TimetableContract;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {

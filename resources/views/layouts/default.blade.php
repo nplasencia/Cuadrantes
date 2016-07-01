@@ -23,6 +23,6 @@
     </div>
 </div>
 
-@include('partials.new_footer')
+@include('partials.footer')
 </body>
 </html>

@@ -6,9 +6,9 @@
 
             <div class="box">
 
-                @include('partials.msg_success')
-
                 <div class="body collapse in">
+
+                    @include('partials.msg_success')
 
                     <div class="row" style="margin-left: 0px; margin-bottom: 10px;">
                         <div class="btn-group">
@@ -63,9 +63,7 @@
     </div>
 @stop
 @push('scripts')
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script src="{{ asset('/assets/js/datatable_defaults.js') }}"></script>
+    <script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
 
     <script>
         $(function() {

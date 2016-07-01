@@ -78,7 +78,8 @@ class ServicesController extends Controller
                                                                                   'text'   => $textColour ];
             }
         }
-        asort($hours);
+        asort($hours['afternoon']);
+        asort($hours['morning']);
         //dd($viewServices);
         return view('pages.services.resume', compact('viewServices', 'hours', 'title', 'iconClass'));
     }

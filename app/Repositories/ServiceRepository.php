@@ -3,6 +3,7 @@
 namespace Cuadrantes\Repositories;
 
 use Cuadrantes\Commons\ServiceContract;
+use Cuadrantes\Commons\TimetableContract;
 use Cuadrantes\Entities\Service;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class ServiceRepository extends BaseRepository
 
     public function findByPeriod($period_id)
     {
-        return $this->newQuery()->where(ServiceContract::PERIOD_ID, $period_id)->orderBy(ServiceContract::NUMBER)->with('timetables.route.line')->get();
+        return $this->newQuery()->where(ServiceContract::PERIOD_ID, $period_id)->with('timetables.route.line')->orderBy(ServiceContract::NUMBER)->orderBy(TimetableContract::TIME)->get();
     }
 
     public function findByNumber($serviceNumber)

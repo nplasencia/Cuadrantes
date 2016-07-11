@@ -8,6 +8,5 @@ class ServiceContract extends CuadrantesContract {
         PERIOD_ID  = 'period_id',
         TIME       = 'time',
         NUMBER     = 'number',
-        GROUP      = 'group',
         AUX        = 'aux';
 }

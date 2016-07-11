@@ -26,7 +26,7 @@ class Driver extends Entity
 
     public function isRestDay(Weekday $weekday)
     {
-        return $this->restDays()->where('weekday_id', $weekday->id)->where('active', true)->count();
+        return $this->restDays()->where('weekday_id', $weekday->id)->count();
     }
 
     public function addRestDay(array $weekdays)

@@ -8,6 +8,8 @@ use Cuadrantes\Commons\TimetableContract;
 
 class Period extends Model
 {
+    public $timestamps = false;
+
     protected $table = PeriodContract::TABLE_NAME;
 
     protected $fillable = [PeriodContract::CODE, PeriodContract::VALUE];

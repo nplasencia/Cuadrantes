@@ -19,7 +19,7 @@ class CreateDriverHolidaysTable extends Migration
             $table->unsignedInteger(DriverHolidayContract::DRIVER_ID);
             $table->date(DriverHolidayContract::FROM);
             $table->date(DriverHolidayContract::TO);
-            $table->boolean(DriverHolidayContract::ACTIVE)->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(DriverHolidayContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME)->onDelete('cascade');

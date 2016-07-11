@@ -12,7 +12,7 @@ class Service extends Model
 {
     protected $table = ServiceContract::TABLE_NAME;
 
-    protected $fillable = [ServiceContract::PERIOD_ID, ServiceContract::TIME, ServiceContract::NUMBER, ServiceContract::AUX, ServiceContract::GROUP];
+    protected $fillable = [ServiceContract::PERIOD_ID, ServiceContract::TIME, ServiceContract::NUMBER, ServiceContract::AUX];
 
     public function period()
     {

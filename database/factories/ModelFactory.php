@@ -45,8 +45,7 @@ $factory->define(Driver::class, function (Faker\Generator $faker) {
 $factory->define(DriverRestDay::class, function (Faker\Generator $faker) {
    return [
         'driver_id'         => $faker->numberBetween(1, 300),
-        'weekday_id'        => $faker->numberBetween(1, 7),
-        'active'            => $faker->boolean()
+        'weekday_id'        => $faker->numberBetween(1, 7)
    ];
 });
 
@@ -54,8 +53,7 @@ $factory->define(DriverHoliday::class, function (Faker\Generator $faker) {
    return [
        'driver_id'          => $faker->numberBetween(1, 300),
        'date_from'          => $faker->date(),
-       'date_to'            => $faker->date(),
-       'active'             => $faker->boolean()
+       'date_to'            => $faker->date()
    ];
 });
 

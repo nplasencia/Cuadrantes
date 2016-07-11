@@ -71,6 +71,9 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": "{!! route('bus.ajaxResume') !!}",
+                "fnDrawCallback": function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
                 columns: [
                     { data: 'license', name: 'license'},
                     { data: 'brand.name', name: 'brand.name'},

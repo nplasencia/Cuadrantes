@@ -74,6 +74,9 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": "{!! route('driver.ajaxResume') !!}",
+                "fnDrawCallback": function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
                 columns: [
                     { data: 'last_name'},
                     { data: 'first_name'},

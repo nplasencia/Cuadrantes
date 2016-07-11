@@ -69,6 +69,9 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": "{!! route('line.ajaxResume') !!}",
+                "fnDrawCallback": function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
                 columns: [
                     { data: 'number'},
                     { data: 'name'},

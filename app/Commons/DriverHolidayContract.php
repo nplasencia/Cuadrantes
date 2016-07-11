@@ -7,8 +7,5 @@ class DriverHolidayContract extends CuadrantesContract {
         TABLE_NAME = 'driver_holidays',
         DRIVER_ID  = 'driver_id',
         FROM       = 'date_from',
-        TO         = 'date_to',
-        ACTIVE     = 'active';
-
-    public static $COLS = [DriverHolidayContract::DRIVER_ID, DriverHolidayContract::FROM, DriverHolidayContract::TO, DriverHolidayContract::ACTIVE];
+        TO         = 'date_to';
 }

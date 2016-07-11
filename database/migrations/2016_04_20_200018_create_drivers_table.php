@@ -17,7 +17,7 @@ class CreateDriversTable extends Migration
             $table->increments(DriverContract::ID);
             $table->string(DriverContract::FIRST_NAME);
             $table->string(DriverContract::LAST_NAME);
-            $table->string(DriverContract::DNI)->unique();
+            $table->string(DriverContract::DNI);
             $table->string(DriverContract::TELEPHONE);
             $table->unsignedSmallInteger(DriverContract::EXTENSION);
             $table->string(DriverContract::EMAIL);

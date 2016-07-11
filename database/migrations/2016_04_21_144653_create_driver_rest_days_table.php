@@ -19,7 +19,7 @@ class CreateDriverRestDaysTable extends Migration
             $table->increments(DriverRestdayContract::ID);
             $table->unsignedInteger(DriverRestdayContract::DRIVER_ID);
             $table->unsignedInteger(DriverRestdayContract::WEEKDAY_ID);
-            $table->boolean(DriverRestdayContract::ACTIVE)->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(DriverRestdayContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME)->onDelete('cascade');

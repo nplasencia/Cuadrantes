@@ -2,9 +2,14 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\DriverRestdayContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class DriverRestDay extends Entity
 {
-    protected $fillable = ['driver_id', 'weekday_id'];
+    use SoftDeletes;
+
+    protected $fillable = [DriverRestdayContract::DRIVER_ID, DriverRestdayContract::WEEKDAY_ID];
 
     public function getDriver()
     {

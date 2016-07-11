@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Cuadrantes\Entities\DriverRestDay;
+
+use Illuminate\Database\Seeder;
 
 class DriverRestTableSeeder extends Seeder
 {
@@ -12,17 +13,26 @@ class DriverRestTableSeeder extends Seeder
      */
     public function run()
     {
-        $drivers = DB::table('drivers')->get();
+        /*$drivers = Driver::all();
         foreach ($drivers as $driver) {
             factory(DriverRestDay::class)->create([
-                'driver_id' => $driver->id,
-                'active'    => 1
+                'driver_id' => $driver->id
             ]);
 
             factory(DriverRestDay::class)->create([
-                'driver_id' => $driver->id,
-                'active'    => 1
+                'driver_id' => $driver->id
             ]);
+        }*/
+        $driversRestDays = [[1,6],[1,7],[2,6],[2,7],[3,6],[3,7],[4,1],[4,7],[5,5],[5,6],[6,6],[6,7],[7,6],[7,7],[8,6],[8,7],[9,6],[9,7],[10,6],[10,7],[11,6],[11,7],[12,6],[12,7],[13,6],[13,7],[14,5],[14,6],[15,5],[15,6],[16,6],[16,7],[17,2],[17,6],[18,5],[18,6],[19,5],[19,6],[20,5],[20,6],[21,3],[21,4],[22,5],[22,6],[23,1],[23,4],[24,6],[24,7],[25,6],[25,7],[26,1],[26,7],[27,5],[27,6],[28,1],[28,7],[29,6],[29,7],[30,5],[30,6],[31,6],[31,7],[32,5],[32,6],
+                            [33,6],[33,7],[34,6],[34,7],[35,6],[35,7],[36,6],[36,7],[37,1],[37,7],[38,6],[38,7],[39,1],[39,7],[40,1],[40,7],[41,1],[41,7],[42,5],[42,6],[43,5],[43,6],[44,6],[44,7],[45,6],[45,7],[46,1],[46,7],[47,5],[47,6],[48,5],[48,6],[49,1],[49,7],[50,2],[50,4],[51,4],[51,5],[52,4],[52,5],[53,1],[53,2],[54,4],[54,5],[55,4],[55,5],[56,2],[56,3],[57,1],[57,2],[58,3],[58,4],[59,3],[59,4],[60,1],[60,2],[61,1],[61,2],[62,3],[62,4],[63,3],
+                            [63,4],[64,3],[64,4],[65,3],[65,4],[66,3],[66,4],[67,1],[67,2],[69,2],[69,3],[70,1],[70,2],[71,2],[71,3],[72,1],[72,2],[73,2],[73,3],[74,2],[74,3],[75,3],[75,4],[76,3],[76,4],[77,1],[77,2],[78,2],[78,3],[79,1],[79,2],[80,3],[80,4],[81,3],[81,4]
+                           ];
+
+        foreach ($driversRestDays as $driverRestDayData) {
+            $driversRestDay = new DriverRestDay();
+            $driversRestDay->driver_id  = $driverRestDayData[0];
+            $driversRestDay->weekday_id = $driverRestDayData[1];
+            $driversRestDay->save();
         }
     }
 }

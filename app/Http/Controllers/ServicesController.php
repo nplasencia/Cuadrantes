@@ -84,9 +84,17 @@ class ServicesController extends Controller
         return view('pages.services.resume', compact('viewServices', 'hours', 'title', 'iconClass'));
     }
 
-    public function all()
+    public function all($period_id)
     {
-        $services = $this->serviceRepository->findByPeriod(1);
+        $services = $this->serviceRepository->findByPeriod($period_id);
+        switch ($period_id) {
+            case 2:
+                $this->title = "Servicios sábados";
+                break;
+            case 3:
+                $this->title = "Servicios domingos/festivos";
+                break;
+        }
         return $this->resume($services);
     }
 

@@ -114,7 +114,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 // Services
 Route::group(['middleware' => 'auth'], function() {
-    Route::get ('services', 'ServicesController@all')->name('service.resume');
+    Route::get ('services/{period_id}' , 'ServicesController@all')->name('service.resume');
 
     Route::get ('newService', 'ServicesController@create')->name('service.create');
     Route::post('newService', 'ServicesController@store')->name('service.save');

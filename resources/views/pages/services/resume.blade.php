@@ -9,7 +9,7 @@
                         <div class="icons">
                             <i class="fa fa-tasks"></i>
                         </div>
-                        <h5>Servicios laborales @lang('services.'.$time)</h5>
+                        <h5>{{ $title }} @lang('services.'.$time)</h5>
 
                         @include('partials.window_options')
                     </header>

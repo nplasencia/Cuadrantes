@@ -3,10 +3,14 @@
 return array (
 
     'items' => array (
-        'Principal'   => array('link' => 'driver.resume', 'icon' => 'fa fa-dashboard'),
-        'Conductores' => array('link' => 'driver.resume', 'icon' => 'fa fa-users'),
-        'Guaguas'     => array('link' => 'bus.resume',    'icon' => 'fa fa-car'),
-        'Líneas'      => array('link' => 'line.resume',   'icon' => 'fa fa-bus'),
-        'Servicios'   => array('link' => 'service.resume','icon' => 'fa fa-tasks'),
+        'Principal'   => array('link' => 'driver.resume', 'icon' => 'fa fa-dashboard', 'subMenu' => []),
+        'Conductores' => array('link' => 'driver.resume', 'icon' => 'fa fa-users',     'subMenu' => []),
+        'Guaguas'     => array('link' => 'bus.resume',    'icon' => 'fa fa-car',       'subMenu' => []),
+        'Líneas'      => array('link' => 'line.resume',   'icon' => 'fa fa-bus',       'subMenu' => []),
+        'Servicios'   => array('link' => null,            'icon' => 'fa fa-tasks',     'subMenu' => [
+            'Laborales'    => '/services/1',
+            'Sábados'      => '/services/2',
+            'Dom/Festivos' => '/services/3',
+        ]),
     )
 );

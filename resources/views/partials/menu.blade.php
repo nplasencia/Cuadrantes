@@ -3,11 +3,28 @@
     <li class="nav-divider"></li>
 
     @foreach($items as $routeName => $values)
-        <li class="">
-            <a href="{{ route($values['link']) }}">
-                <i class="{{ $values['icon'] }}"></i>
-                <span class="link-title">&nbsp; {{ $routeName }}</span>
-            </a>
+        <li>
+            @if(!isset($values['link']))
+                <a>
+                    <i class="{{ $values['icon'] }}"></i>
+                    <span class="link-title">&nbsp; {{ $routeName }}</span>
+                <span class="fa arrow"></span>
+                <ul>
+                    @foreach($values['subMenu'] as $subMenuName => $subMenuLink)
+                        <li>
+                            <a href="{{ $subMenuLink }}">
+                                <i class="fa fa-angle-right"></i>
+                                &nbsp; {{ $subMenuName }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <a href="{{ route($values['link']) }}">
+                    <i class="{{ $values['icon'] }}"></i>
+                    <span class="link-title">&nbsp; {{ $routeName }}</span>
+                </a>
+            @endif
         </li>
     @endforeach
 

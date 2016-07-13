@@ -11,7 +11,8 @@ namespace Cuadrantes\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Entity extends Model {
+class Entity extends Model
+{
 
     /**
      * Método utilizado por las entities para traer su clase. Sólo es necesario si nuestra versión de PHP es menor a la

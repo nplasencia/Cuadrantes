@@ -2,7 +2,8 @@
 
 namespace Cuadrantes\Commons;
 
-class BrandContract extends CuadrantesContract {
+class BrandContract extends CuadrantesContract
+{
     const
         TABLE_NAME = 'brands',
         NAME       = 'name';

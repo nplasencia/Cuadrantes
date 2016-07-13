@@ -15,6 +15,11 @@ class ServiceRepository extends BaseRepository
         return new Service();
     }
 
+    public function getAll()
+    {
+        return $this->newQuery()->orderBy(ServiceContract::PERIOD_ID)->get();
+    }
+
     public function findByPeriod($period_id)
     {
         return $this->newQuery()->where(ServiceContract::PERIOD_ID, $period_id)->with('timetables.route.line')->orderBy(ServiceContract::NUMBER)->orderBy(TimetableContract::TIME)->get();

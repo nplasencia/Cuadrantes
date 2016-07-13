@@ -20,7 +20,9 @@ class CreateServicesTable extends Migration
             $table->unsignedInteger(ServiceContract::PERIOD_ID);
             $table->enum(ServiceContract::TIME, ['morning', 'afternoon']);
             $table->unsignedSmallInteger(ServiceContract::NUMBER);
+            $table->unsignedSmallInteger(ServiceContract::GROUP)->nullable()->default(null);
             $table->boolean(ServiceContract::AUX);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(ServiceContract::PERIOD_ID)->references(PeriodContract::ID)->on(PeriodContract::TABLE_NAME);

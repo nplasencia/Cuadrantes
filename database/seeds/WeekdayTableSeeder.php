@@ -14,10 +14,12 @@ class WeekdayTableSeeder extends Seeder
      */
     public function run()
     {
-        $weekdays = ['MON' => 'Lunes', 'TUE' => 'Martes', 'WED' => 'Miércoles', 'THU' => 'Jueves', 'FRI' => 'Viernes', 'SAT' => 'Sábado', 'SUN' => 'Domingo'];
+        $weekdays = [[1, 'MON', 'Lunes'], [1, 'TUE', 'Martes'], [1, 'WED', 'Miércoles'], [1, 'THU', 'Jueves'], [1, 'FRI', 'Viernes'],
+                     [2, 'SAT', 'Sábado'], [3, 'SUN', 'Domingo']
+                    ];
 
-        foreach ($weekdays as $code => $name) {
-            $weekday = new Weekday([WeekdayContract::CODE => $code, WeekdayContract::VALUE => $name]);
+        foreach ($weekdays as $values) {
+            $weekday = new Weekday([WeekdayContract::PERIOD_ID => $values[0], WeekdayContract::CODE => $values[1], WeekdayContract::VALUE => $values[2]]);
             $weekday->save();
         }
     }

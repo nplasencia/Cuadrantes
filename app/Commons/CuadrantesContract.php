@@ -2,7 +2,7 @@
 
 namespace Cuadrantes\Commons;
 
-class CuadrantesContract {
-
+class CuadrantesContract
+{
     const ID = 'id';
 }

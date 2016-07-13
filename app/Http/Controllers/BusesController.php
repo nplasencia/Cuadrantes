@@ -76,8 +76,7 @@ class BusesController extends Controller
     {
         $title = $this->title;
         $iconClass = $this->iconClass;
-        $searchRoute = 'bus.search';
-        return view('pages.buses.resume', compact('title', 'iconClass', 'searchRoute', 'buses'));
+        return view('pages.buses.resume', compact('title', 'iconClass', 'buses'));
     }
 
     public function all()

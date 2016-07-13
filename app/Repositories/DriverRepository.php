@@ -17,12 +17,12 @@ class DriverRepository extends BaseRepository
 
     public function getAll()
     {
-        return $this->newQuery()->orderBy(DriverContract::LAST_NAME, 'ASC')->orderBy(DriverContract::FIRST_NAME, 'ASC')->get();
+        return $this->newQuery()->orderBy(DriverContract::LAST_NAME, 'ASC')->orderBy(DriverContract::FIRST_NAME, 'ASC')->with('restDays', 'holidays')->get();
     }
 
     public function getAllPaginated($numberOfElements)
     {
-        return $this->newQuery()->orderBy(DriverContract::LAST_NAME, 'ASC')->orderBy(DriverContract::FIRST_NAME, 'ASC')->paginate($numberOfElements);
+        return $this->newQuery()->orderBy(DriverContract::LAST_NAME, 'ASC')->orderBy(DriverContract::FIRST_NAME, 'ASC')->with('restDays', 'holidays')->paginate($numberOfElements);
     }
 
     public function store(Request $request)

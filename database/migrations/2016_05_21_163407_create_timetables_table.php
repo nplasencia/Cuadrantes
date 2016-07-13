@@ -22,7 +22,7 @@ class CreateTimetablesTable extends Migration
             $table->time(TimetableContract::TIME);
             $table->string(TimetableContract::BY);
             $table->boolean(TimetableContract::PASS)->default(false);
-            $table->boolean(TimetableContract::ACTIVE)->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(TimetableContract::ROUTE_ID)->references(RouteContract::ID)->on(RouteContract::TABLE_NAME)->onDelete('cascade');

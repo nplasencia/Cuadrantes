@@ -2,7 +2,8 @@
 
 namespace Cuadrantes\Commons;
 
-class UserContract extends CuadrantesContract {
+class UserContract extends CuadrantesContract
+{
     const
         TABLE_NAME = 'users',
         NAME       = 'name',

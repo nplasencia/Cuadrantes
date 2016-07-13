@@ -2,7 +2,8 @@
 
 namespace Cuadrantes\Commons;
 
-class DriverContract extends CuadrantesContract {
+class DriverContract extends CuadrantesContract
+{
     const
         TABLE_NAME = 'drivers',
         FIRST_NAME = 'first_name',

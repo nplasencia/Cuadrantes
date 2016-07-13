@@ -10,5 +10,10 @@ class Weekday extends Entity
 
     protected $table = WeekdayContract::TABLE_NAME;
 
-    protected $fillable = [WeekdayContract::CODE, WeekdayContract::VALUE];
+    protected $fillable = [WeekdayContract::PERIOD_ID, WeekdayContract::CODE, WeekdayContract::VALUE];
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class);
+    }
 }

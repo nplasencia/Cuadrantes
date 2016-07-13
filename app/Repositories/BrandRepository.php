@@ -5,7 +5,8 @@ namespace Cuadrantes\Repositories;
 use Cuadrantes\Entities\Brand;
 use Cuadrantes\Commons\BrandContract;
 
-class BrandRepository extends BaseRepository {
+class BrandRepository extends BaseRepository
+{
     
     public function getEntity() {
         return new Brand();

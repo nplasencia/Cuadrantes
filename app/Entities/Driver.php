@@ -4,6 +4,8 @@ namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\DriverContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class Driver extends Entity
 {
@@ -24,9 +26,45 @@ class Driver extends Entity
         return $this->hasMany(DriverHoliday::class);
     }
 
-    public function isRestDay(Weekday $weekday)
+    public function isRestDay(Weekday $weekday, Collection $restDays = null)
     {
-        return $this->restDays()->where('weekday_id', $weekday->id)->count();
+        if (!isset($restDays)) {
+            return $this->restDays()->where('weekday_id', $weekday->id)->count();
+        } else {
+            foreach ($restDays as $restDay) {
+                if ($restDay->id == $weekday->id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public function isInHolidays(Carbon $date, Collection $driverHolidays = null)
+    {
+        if (!isset($driverHolidays)) {
+            $driverHolidays = $this->holidays;
+        }
+        
+        foreach ($driverHolidays as $driverHoliday) {
+            $holidayFrom = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_from);
+            $holidayTo = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_to);
+
+            if( $date->between($holidayFrom, $holidayTo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function pair()
+    {
+        return $this->belongsTo(Pair::class);
+    }
+
+    public function getCompleteName()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 
     public function addRestDay(array $weekdays)

@@ -2,13 +2,13 @@
 
 namespace Cuadrantes\Repositories;
 
-use Cuadrantes\Entities\Weekday;
+use Cuadrantes\Entities\ServiceGroupOrder;
 
-class WeekdayRepository extends BaseRepository{
+class ServiceGroupOrderRepository extends BaseRepository{
     
     public function getEntity()
     {
-        return new Weekday();
+        return new ServiceGroupOrder();
     }
 
     public function getAll()

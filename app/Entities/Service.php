@@ -7,9 +7,12 @@ use Cuadrantes\Commons\ServiceContract;
 use Cuadrantes\Commons\TimetableContract;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
+    use SoftDeletes;
+
     protected $table = ServiceContract::TABLE_NAME;
 
     protected $fillable = [ServiceContract::PERIOD_ID, ServiceContract::TIME, ServiceContract::NUMBER, ServiceContract::AUX];

@@ -20,6 +20,7 @@ class CreateRoutesTable extends Migration
             $table->string(RouteContract::ORIGIN);
             $table->string(RouteContract::DESTINY);
             $table->boolean(RouteContract::GO);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(RouteContract::LINE_ID)->references(LineContract::ID)->on(LineContract::TABLE_NAME)->onDelete('cascade');

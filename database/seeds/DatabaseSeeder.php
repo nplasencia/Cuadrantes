@@ -16,17 +16,20 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserTableSeeder::class);
         $this->call(DriverTableSeeder::class);
+        $this->call(PeriodTableSeeder::class);
         $this->call(WeekdayTableSeeder::class);
         $this->call(DriverRestTableSeeder::class);
         $this->call(DriverHolidayTableSeeder::class);
         $this->call(BrandTableSeeder::class);
         $this->call(BusTableSeeder::class);
         $this->call(LineTableSeeder::class);
-        $this->call(PeriodTableSeeder::class);
         $this->call(RouteTableSeeder::class);
         $this->call(TimetableTableSeeder::class);
         $this->call(ServiceTableSeeder::class);
         $this->call(ServiceTimetableSeeder::class);
+        $this->call(PairTableSeeder::class);
+        $this->call(ServiceConditionSeeder::class);
+        $this->call(ServiceGroupOrderSeeder::class);
 
         Model::reguard();
     }

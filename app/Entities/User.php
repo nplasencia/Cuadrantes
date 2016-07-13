@@ -40,7 +40,7 @@ class User extends Entity implements AuthenticatableContract,
     protected $hidden = [UserContract::PASSWORD, 'remember_token'];
 
     public function getCompleteName() {
-        return $this->name.' '.$this->surname;
+        return "{$this->name} {$this->surname}";
     }
 
     public function hasProfileImage() {

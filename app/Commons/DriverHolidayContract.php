@@ -2,7 +2,8 @@
 
 namespace Cuadrantes\Commons;
 
-class DriverHolidayContract extends CuadrantesContract {
+class DriverHolidayContract extends CuadrantesContract
+{
     const
         TABLE_NAME = 'driver_holidays',
         DRIVER_ID  = 'driver_id',

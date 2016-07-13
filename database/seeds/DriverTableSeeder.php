@@ -27,8 +27,8 @@ class DriverTableSeeder extends Seeder
 
         foreach ($drivers as $driverData) {
             $driver = new Driver();
-            $driver->first_name        = $driverData[0];
-            $driver->last_name         = $driverData[1];
+            $driver->last_name         = $driverData[0];
+            $driver->first_name        = $driverData[1];
             $driver->telephone         = $driverData[2];
             $driver->extension         = $driverData[3];
             $driver->cap               = $driverData[4];

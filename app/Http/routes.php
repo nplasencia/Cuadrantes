@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('ajax/drivers', 'DriversController@ajaxResume')->name('driver.ajaxResume');
     Route::get ('ajax/buses'  , 'BusesController@ajaxResume')->name('bus.ajaxResume');
     Route::get ('ajax/lines'  , 'LinesController@ajaxResume')->name('line.ajaxResume');
+    Route::get ('ajax/pairs'  , 'PairsController@ajaxResume')->name('pair.ajaxResume');
 
 });
 
@@ -62,6 +63,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('driverDestroy/{id}', 'DriversController@destroy')->name('driver.destroy');
     Route::delete ('driverDestroy/{id}', 'DriversController@destroy')->name('driver.destroy');
 
+});
+
+//Pairs
+Route::group(['middleware' => 'auth'], function() {
+
+    Route::get ('pairs', 'PairsController@all')->name('pairs.resume');
+    
 });
 
 // Buses
@@ -128,5 +136,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('serviceAddTimetable/{id}', 'ServicesController@addTimetable')->name('service.addTimetable');
     Route::get('serviceDestroyTimetable/{service_id}/{timetable_id}', 'ServicesController@destroyTimetable')->name('service.destroyTimetable');
 
+});
 
+Route::group(['middleware' => 'auth'], function() {
+    Route::get ('cuadrantes' , 'CuadrantesController@complexAlgorithm')->name('cuadrantes.complex');
 });

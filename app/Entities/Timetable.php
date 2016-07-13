@@ -5,9 +5,12 @@ namespace Cuadrantes\Entities;
 use Cuadrantes\Commons\ServiceTimetablesContract;
 use Illuminate\Database\Eloquent\Model;
 use Cuadrantes\Commons\TimetableContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Timetable extends Model
 {
+    use SoftDeletes;
+
     protected $table = TimetableContract::TABLE_NAME;
 
     protected $fillable = [TimetableContract::ROUTE_ID, TimetableContract::PERIOD_ID, TimetableContract::TIME, TimetableContract::BY, TimetableContract::PASS];

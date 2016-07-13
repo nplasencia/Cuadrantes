@@ -17,7 +17,7 @@ use Yajra\Datatables\Datatables;
 class DriversController extends Controller
 {
     protected $defaultPagination = 25;
-    protected $iconClass = 'fa fa-users';
+    protected $iconClass = 'fa fa-user';
     protected $title = "Conductores";
 
     private $driverRepository;
@@ -102,18 +102,18 @@ class DriversController extends Controller
 
     }
 
-    private function generateUserHolidays($holidays) {
+    private function generateUserHolidays($holidays)
+    {
         $from = date("d/m/Y", strtotime($holidays->date_from));
         $to = date("d/m/Y", strtotime($holidays->date_to));
         return $from.' - '.$to;
     }
 
-    private function resume($drivers) {
+    private function resume($drivers)
+    {
         $title = $this->title;
         $iconClass = $this->iconClass;
-        $paginationClass = $drivers;
-        $searchRoute = 'driver.search';
-        return view('pages.drivers.resume', compact('drivers', 'title', 'iconClass', 'searchRoute', 'paginationClass'));
+        return view('pages.drivers.resume', compact('drivers', 'title', 'iconClass'));
     }
 
     public function create()

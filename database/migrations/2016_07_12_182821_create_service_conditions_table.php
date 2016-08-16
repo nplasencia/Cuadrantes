@@ -20,8 +20,8 @@ class CreateServiceConditionsTable extends Migration
             $table->increments(ServiceConditionContract::ID);
             $table->unsignedInteger(ServiceConditionContract::PERIOD_ID);
             $table->unsignedInteger(ServiceConditionContract::SERVICE_GROUP);
-            $table->unsignedInteger(ServiceConditionContract::PAIR_ID);
-            $table->unsignedInteger(ServiceConditionContract::SUBSTITUTE_ID);
+            $table->unsignedInteger(ServiceConditionContract::PAIR_ID)->nullable();
+            $table->unsignedInteger(ServiceConditionContract::SUBSTITUTE_ID)->nullable();
             $table->softDeletes();
             $table->timestamps();
 

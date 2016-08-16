@@ -47,10 +47,11 @@ class Driver extends Entity
         }
         
         foreach ($driverHolidays as $driverHoliday) {
-            $holidayFrom = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_from);
-            $holidayTo = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_to);
+            $holidayFrom = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_from)->setTime(0, 0, 0);
+            $holidayTo = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_to)->setTime(0, 0, 0);
 
-            if( $date->between($holidayFrom, $holidayTo)) {
+            if( $date->between($holidayFrom, $holidayTo, true)) {
+
                 return true;
             }
         }

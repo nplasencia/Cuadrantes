@@ -95,21 +95,34 @@ class CuadrantesController extends Controller
         return true;
     }
 
-    private function getLastWeekData()
+    private function getSubstitute($substitutes, $today, $weekday)
     {
-        return false;
+    	if ($substitutes === null || $substitutes->isEmpty()) {
+    		echo " No existen sustitutos o no quedan.";
+    		return false;
+	    }
+	    $substitutes->shuffle();
+	    $substitute = $substitutes->pop();
+	    if ($substitute->isRestDay( $weekday, $substitute->restDays ) || $substitute->isInHolidays( $today, $substitute->holidays )) {
+	    	echo " El sustituto {$substitute->getCompleteName()} está de vacaciones o de descanso para este día.";
+	    	return $this->getSubstitute($substitutes, $today, $weekday);
+	    }
+	    return $substitute;
     }
 
     public function complexAlgorithm()
     {
         $servicesConditions = $this->getConditions();
-        $services = $this->getServices();
+        $servicesOrdered = $this->getServices();
         $weekdays = $this->getWeekdays();
         $groupServiceOrders = $this->getServiceGroupOrder();
 
-        foreach ($services as $period => $groups) {
+	    $cuadrantes = array();
+
+        foreach ($servicesOrdered as $period => $groups) {
             foreach ($groups as $group => $services) {
                 if (!isset($servicesConditions[$period][$group])) {
+	                echo "<b>No existe una condición para el servicio ".implode(',', $servicesOrdered[$period][$group])."</b><br><br>";
                     continue;
                 }
                 $conditions = $servicesConditions[$period][$group];
@@ -120,23 +133,45 @@ class CuadrantesController extends Controller
                     echo "Miramos el día {$weekday->value}<br>";
 
                     foreach ($conditions as $condition) {
-                        foreach ($condition->pair->drivers as $driver) {
+                    	$substitutes = null;
+                    	if ($condition->substitute !== null) {
+		                    $substitutes = $condition->substitute->drivers;
+	                    }
+                    	if ($condition->pair === null) {
+                    		echo "El servicio número {$servicesOrdered[$period][$group][0]['number']} puede ser realizado por cualquier conductor<br>";
+		                    $cuadrantes[$weekday->value][$servicesOrdered[$period][$group][0]['number']] = false ;
+	                    } else {
+		                    foreach ( $condition->pair->drivers as $driver ) {
+		                    	$substitute = null;
+			                    if ( $driver->isInHolidays( $now, $driver->holidays ) ) {
+				                    echo "El conductor {$driver->getCompleteName()} <b>está de vacaciones</b> este día. Buscamos sustituto.";
+									$substitute = $this->getSubstitute($substitutes, $now, $weekday);
 
-                            if ($driver->isInHolidays($now, $driver->holidays)) {
-                                echo "El conductor {$driver->getCompleteName()} <b>está de vacaciones</b> este día.
-                                      Hacemos uso de un sustituto mirando si el servicio era de mañana o tarde<br>";
-                            } else if ($driver->isRestDay($weekday, $driver->restDays)) {
-                                echo "El conductor {$driver->getCompleteName()} <b>descansa</b> este día.<br>";
-                            } else {
-                                $calculoNormalizado = ($now->weekOfYear/sizeof($services) - floor($now->weekOfYear/sizeof($services)))*sizeof($services);
-                                if( isset($groupServiceOrders[$driver->id][$calculoNormalizado])) {
-                                    echo "El conductor {$driver->getCompleteName()} se asigna al servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}<br>";
-                                } else {
-                                    echo "No se ha asignado valor inicial para este tema<br>";
-                                }
-                            }
+			                    } else if ( $driver->isRestDay( $weekday, $driver->restDays ) ) {
+				                    echo "El conductor {$driver->getCompleteName()} <b>descansa</b> este día. Buscamos sustituto.";
+				                    $substitute = $this->getSubstitute($substitutes, $now, $weekday);
+			                    }
 
-                        }
+			                    $calculoNormalizado = ( $now->weekOfYear / sizeof( $services ) - floor( $now->weekOfYear / sizeof( $services ) ) ) * sizeof( $services );
+			                    if ( isset( $groupServiceOrders[ $driver->id ][ $calculoNormalizado ] ) ) {
+			                    	if ($substitute === null) {
+					                    echo "Servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}: Conductor {$driver->getCompleteName()} <br>";
+					                    $cuadrantes[$weekday->value][$groupServiceOrders[$driver->id][$calculoNormalizado]] = $driver;
+				                    } else {
+				                    	if ($substitute === false) {
+				                    		echo "Servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}: No existe conductor ni sustituto. Esperamos siguiente iteración.<br>";
+						                    $cuadrantes[$weekday->value][$groupServiceOrders[$driver->id][$calculoNormalizado]] = false;
+					                    } else {
+						                    echo "Servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}: Conductor {$substitute->getCompleteName()} <br>";
+						                    $cuadrantes[$weekday->value][$groupServiceOrders[$driver->id][$calculoNormalizado]] = $substitute;
+					                    }
+				                    }
+			                    } else {
+				                    echo "No se ha asignado valor inicial para este tema $calculoNormalizado<br>";
+			                    }
+
+		                    }
+	                    }
                     }
                     $now->addDay();
                     echo "<br>";
@@ -144,6 +179,18 @@ class CuadrantesController extends Controller
             }
         }
 
+        foreach ($cuadrantes as $weekday => $services) {
+        	echo "<b>$weekday</b><br>";
+        	ksort($services);
+        	foreach ($services as $service => $driver) {
+		        echo "Servicio $service;";
+        		if ($driver === false) {
+			        echo "Asignar manualmente;<br>";
+		        } else {
+			        echo "{$driver->getCompleteName()};<br>";
+		        }
+	        }
+        }
 
     }
 }

@@ -23,6 +23,7 @@ class CreateDriversTable extends Migration
             $table->string(DriverContract::EMAIL);
             $table->date(DriverContract::CAP);
             $table->date(DriverContract::EXPIRATION);
+            $table->boolean(DriverContract::MORNING)->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

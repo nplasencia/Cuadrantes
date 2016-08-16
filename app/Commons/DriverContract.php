@@ -13,5 +13,6 @@ class DriverContract extends CuadrantesContract
         EXTENSION  = 'extension',
         EMAIL      = 'email',
         CAP        = 'cap',
-        EXPIRATION = 'driver_expiration';
+        EXPIRATION = 'driver_expiration',
+        MORNING    = 'morning';
 }

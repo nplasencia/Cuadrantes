@@ -2,10 +2,10 @@
 
 namespace Cuadrantes\Commons;
 
-class ServiceConditionContract extends CuadrantesContract
+class ServiceSubstituteContract extends CuadrantesContract
 {
     const
-        TABLE_NAME    = 'service_conditions',
+        TABLE_NAME    = 'service_substitutes',
         PERIOD_ID     = 'period_id',
         SERVICE_GROUP = 'service_group',
         DRIVER_ID     = 'driver_id';

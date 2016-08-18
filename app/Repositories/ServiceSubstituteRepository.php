@@ -2,20 +2,20 @@
 
 namespace Cuadrantes\Repositories;
 
-use Cuadrantes\Commons\ServiceConditionContract;
-use Cuadrantes\Entities\ServiceCondition;
+use Cuadrantes\Commons\ServiceSubstituteContract;
+use Cuadrantes\Entities\ServiceSubstitute;
 
-class ServiceConditionRepository extends BaseRepository
+class ServiceSubstituteRepository extends BaseRepository
 {
     
     public function getEntity()
     {
-        return new ServiceCondition();
+        return new ServiceSubstitute();
     }
 
     public function getAll()
     {
-        return $this->newQuery()->orderBy(ServiceConditionContract::PERIOD_ID)->with('pair')->get();
+        return $this->newQuery()->orderBy(ServiceSubstituteContract::PERIOD_ID)->with('driver')->get();
     }
 
 }

@@ -13,6 +13,6 @@ class ServiceGroupOrderRepository extends BaseRepository{
 
     public function getAll()
     {
-        return $this->newQuery()->get();
+        return $this->newQuery()->with('service')->get();
     }
 }

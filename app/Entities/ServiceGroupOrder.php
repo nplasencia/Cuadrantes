@@ -11,6 +11,21 @@ class ServiceGroupOrder extends Entity
 
     protected $table = ServiceGroupOrderContract::TABLE_NAME;
 
-    protected $fillable = [ServiceGroupOrderContract::DRIVER_ID, ServiceGroupOrderContract::SERVICE_ID, ServiceGroupOrderContract::NORMALIZED];
+    protected $fillable = [ServiceGroupOrderContract::PERIOD_ID, ServiceGroupOrderContract::DRIVER_ID, ServiceGroupOrderContract::SERVICE_ID, ServiceGroupOrderContract::NORMALIZED];
+
+	public function period()
+	{
+		return $this->belongsTo(Period::class);
+	}
+
+	public function driver()
+	{
+		return $this->belongsTo(Driver::class);
+	}
+
+	public function service()
+	{
+		return $this->belongsTo(Service::class);
+	}
     
 }

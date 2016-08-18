@@ -12,26 +12,15 @@ class ServiceCondition extends Entity
 
     protected $table = ServiceConditionContract::TABLE_NAME;
 
-    protected $fillable = [ServiceConditionContract::PERIOD_ID,     ServiceConditionContract::SERVICE_GROUP, ServiceConditionContract::PAIR_ID,
-                           ServiceConditionContract::SUBSTITUTE_ID];
+    protected $fillable = [ServiceConditionContract::PERIOD_ID, ServiceConditionContract::SERVICE_GROUP, ServiceConditionContract::DRIVER_ID];
 
     public function period()
     {
         return $this->belongsTo(Period::class);
     }
 
-    public function pair()
+    public function driver()
     {
-        return $this->belongsTo(Pair::class);
-    }
-
-    public function substitute()
-    {
-        return $this->belongsTo(Pair::class, ServiceConditionContract::SUBSTITUTE_ID);
-    }
-
-    public function getDriversCount()
-    {
-        return sizeof($this->pair->drivers);
+        return $this->belongsTo(Driver::class);
     }
 }

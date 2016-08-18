@@ -1,7 +1,7 @@
 <?php
 
 use Cuadrantes\Commons\ServiceConditionContract;
-use Cuadrantes\Commons\PairContract;
+use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Commons\PeriodContract;
 
 use Illuminate\Database\Schema\Blueprint;
@@ -20,16 +20,14 @@ class CreateServiceConditionsTable extends Migration
             $table->increments(ServiceConditionContract::ID);
             $table->unsignedInteger(ServiceConditionContract::PERIOD_ID);
             $table->unsignedInteger(ServiceConditionContract::SERVICE_GROUP);
-            $table->unsignedInteger(ServiceConditionContract::PAIR_ID)->nullable();
-            $table->unsignedInteger(ServiceConditionContract::SUBSTITUTE_ID)->nullable();
+            $table->unsignedInteger(ServiceConditionContract::DRIVER_ID);
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign(ServiceConditionContract::PERIOD_ID)->references(PeriodContract::ID)->on(PeriodContract::TABLE_NAME);
-            $table->foreign(ServiceConditionContract::PAIR_ID)->references(PairContract::ID)->on(PairContract::TABLE_NAME);
-            $table->foreign(ServiceConditionContract::SUBSTITUTE_ID)->references(PairContract::ID)->on(PairContract::TABLE_NAME);
+            $table->foreign(ServiceConditionContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME);
 
-            $table->unique( [ServiceConditionContract::PERIOD_ID, ServiceConditionContract::SERVICE_GROUP, ServiceConditionContract::PAIR_ID] );
+            $table->unique( [ServiceConditionContract::PERIOD_ID, ServiceConditionContract::SERVICE_GROUP, ServiceConditionContract::DRIVER_ID] );
         });
     }
 

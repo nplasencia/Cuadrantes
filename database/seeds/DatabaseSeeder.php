@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceTimetableSeeder::class);
         $this->call(PairTableSeeder::class);
         $this->call(ServiceConditionSeeder::class);
+	    $this->call(ServiceSubstituteSeeder::class);
         $this->call(ServiceGroupOrderSeeder::class);
 
         Model::reguard();

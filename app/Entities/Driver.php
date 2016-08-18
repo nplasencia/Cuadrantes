@@ -51,7 +51,6 @@ class Driver extends Entity
             $holidayTo = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_to)->setTime(0, 0, 0);
 
             if( $date->between($holidayFrom, $holidayTo, true)) {
-
                 return true;
             }
         }

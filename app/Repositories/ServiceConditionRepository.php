@@ -15,7 +15,7 @@ class ServiceConditionRepository extends BaseRepository
 
     public function getAll()
     {
-        return $this->newQuery()->orderBy(ServiceConditionContract::PERIOD_ID)->with('pair')->get();
+        return $this->newQuery()->orderBy(ServiceConditionContract::PERIOD_ID)->with('driver')->get();
     }
 
 }

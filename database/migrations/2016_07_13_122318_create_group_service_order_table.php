@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Cuadrantes\Commons\ServiceGroupOrderContract;
 use Cuadrantes\Commons\ServiceContract;
 use Cuadrantes\Commons\DriverContract;
+use Cuadrantes\Commons\PeriodContract;
 
 class CreateGroupServiceOrderTable extends Migration
 {
@@ -17,12 +18,14 @@ class CreateGroupServiceOrderTable extends Migration
     {
         Schema::create(ServiceGroupOrderContract::TABLE_NAME, function (Blueprint $table) {
             $table->increments(ServiceGroupOrderContract::ID);
+	        $table->unsignedInteger(ServiceGroupOrderContract::PERIOD_ID);
             $table->unsignedInteger(ServiceGroupOrderContract::DRIVER_ID);
             $table->unsignedInteger(ServiceGroupOrderContract::SERVICE_ID);
             $table->unsignedInteger(ServiceGroupOrderContract::NORMALIZED);
             $table->softDeletes();
             $table->timestamps();
 
+	        $table->foreign(ServiceGroupOrderContract::PERIOD_ID)->references(PeriodContract::ID)->on(PeriodContract::TABLE_NAME);
             $table->foreign(ServiceGroupOrderContract::SERVICE_ID)->references(ServiceContract::ID)->on(ServiceContract::TABLE_NAME);
             $table->foreign(ServiceGroupOrderContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME);
 

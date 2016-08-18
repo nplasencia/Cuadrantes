@@ -2,17 +2,17 @@
 
 namespace Cuadrantes\Entities;
 
-use Cuadrantes\Commons\ServiceConditionContract;
+use Cuadrantes\Commons\ServiceSubstituteContract;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ServiceCondition extends Entity
+class ServiceSubstitute extends Entity
 {
     use SoftDeletes;
 
-    protected $table = ServiceConditionContract::TABLE_NAME;
+    protected $table = ServiceSubstituteContract::TABLE_NAME;
 
-    protected $fillable = [ServiceConditionContract::PERIOD_ID, ServiceConditionContract::SERVICE_GROUP, ServiceConditionContract::DRIVER_ID];
+    protected $fillable = [ServiceSubstituteContract::PERIOD_ID, ServiceSubstituteContract::SERVICE_GROUP, ServiceSubstituteContract::DRIVER_ID];
 
     public function period()
     {

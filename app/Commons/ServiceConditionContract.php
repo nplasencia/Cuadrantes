@@ -8,6 +8,5 @@ class ServiceConditionContract extends CuadrantesContract
         TABLE_NAME    = 'service_conditions',
         PERIOD_ID     = 'period_id',
         SERVICE_GROUP = 'service_group',
-        PAIR_ID       = 'pair_id',
-        SUBSTITUTE_ID = 'substitute_id';
+        DRIVER_ID     = 'driver_id';
 }

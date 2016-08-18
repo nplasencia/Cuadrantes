@@ -7,25 +7,31 @@ use Cuadrantes\Entities\ServiceCondition;
 use Cuadrantes\Repositories\ServiceConditionRepository;
 use Cuadrantes\Repositories\ServiceGroupOrderRepository;
 use Cuadrantes\Repositories\ServiceRepository;
+use Cuadrantes\Repositories\ServiceSubstituteRepository;
 use Cuadrantes\Repositories\WeekdayRepository;
 use Cuadrantes\Http\Requests;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class CuadrantesController extends Controller
 {
     private $serviceConditionRepository;
+	private $serviceSubstituteRepository;
     private $serviceRepository;
     private $weekdayRepository;
     private $serviceGroupOrderRepository;
+	private $substitutes;
 
     public function __construct(ServiceConditionRepository $serviceConditionRepository, ServiceRepository $serviceRepository,
-                                WeekdayRepository $weekdayRepository, ServiceGroupOrderRepository $serviceGroupOrderRepository)
+                                WeekdayRepository $weekdayRepository, ServiceGroupOrderRepository $serviceGroupOrderRepository,
+								ServiceSubstituteRepository $serviceSubstituteRepository)
     {
         $this->serviceConditionRepository  = $serviceConditionRepository;
         $this->serviceRepository = $serviceRepository;
         $this->weekdayRepository = $weekdayRepository;
         $this->serviceGroupOrderRepository = $serviceGroupOrderRepository;
+	    $this->serviceSubstituteRepository = $serviceSubstituteRepository;
     }
 
     private function getConditions()
@@ -40,6 +46,20 @@ class CuadrantesController extends Controller
         }
 
         return $orderedConditions;
+    }
+
+    private function getSubstitutes()
+    {
+	    // Nos traemos ahora todas las sustituciones de los servicios
+	    $servicesSubstitutes = $this->serviceSubstituteRepository->getAll();
+
+	    // Lo ordenamos en un array que separará, por un lado, los periodos y, dentro de cada uno de ellos, las condiciones por grupos
+	    $orderedSubstitutes = array();
+	    foreach ($servicesSubstitutes as $serviceSubstitute) {
+		    $orderedSubstitutes[$serviceSubstitute->period_id][$serviceSubstitute->service_group][] = $serviceSubstitute->driver;
+	    }
+
+	    return $orderedSubstitutes;
     }
 
     private function getServices()
@@ -72,7 +92,10 @@ class CuadrantesController extends Controller
         $orders = $this->serviceGroupOrderRepository->getAll();
         $orderedOrders = array();
         foreach ($orders as $order) {
-            $orderedOrders[$order->driver_id][$order->normalized] = $order->service_id;
+            $orderedOrders[$order->period_id][$order->driver_id][$order->normalized] = $order->service;
+	        if ($order->driver_id == 39){
+
+	        }
         }
         return $orderedOrders;
     }
@@ -82,7 +105,7 @@ class CuadrantesController extends Controller
         // Comprobaciones
         $driversCount = 0;
         foreach ($conditions as $condition) {
-            $driversCount += $condition->getDriversCount();
+
         }
 
         // 1. El número de conductores debe de cuadrar con el número de servicios
@@ -95,17 +118,18 @@ class CuadrantesController extends Controller
         return true;
     }
 
-    private function getSubstitute($substitutes, $today, $weekday)
+    private function getSubstitute($today, $weekday)
     {
-    	if ($substitutes === null || $substitutes->isEmpty()) {
+    	if ($this->substitutes === null || sizeof($this->substitutes) == 0) {
     		echo " No existen sustitutos o no quedan.";
     		return false;
 	    }
-	    $substitutes->shuffle();
-	    $substitute = $substitutes->pop();
+	    shuffle($this->substitutes);
+
+	    $substitute = array_pop($this->substitutes);
 	    if ($substitute->isRestDay( $weekday, $substitute->restDays ) || $substitute->isInHolidays( $today, $substitute->holidays )) {
 	    	echo " El sustituto {$substitute->getCompleteName()} está de vacaciones o de descanso para este día.";
-	    	return $this->getSubstitute($substitutes, $today, $weekday);
+	    	return $this->getSubstitute($today, $weekday);
 	    }
 	    return $substitute;
     }
@@ -113,6 +137,7 @@ class CuadrantesController extends Controller
     public function complexAlgorithm()
     {
         $servicesConditions = $this->getConditions();
+	    $servicesSubstitutes = $this->getSubstitutes();
         $servicesOrdered = $this->getServices();
         $weekdays = $this->getWeekdays();
         $groupServiceOrders = $this->getServiceGroupOrder();
@@ -121,56 +146,64 @@ class CuadrantesController extends Controller
 
         foreach ($servicesOrdered as $period => $groups) {
             foreach ($groups as $group => $services) {
-                if (!isset($servicesConditions[$period][$group])) {
-	                echo "<b>No existe una condición para el servicio ".implode(',', $servicesOrdered[$period][$group])."</b><br><br>";
-                    continue;
-                }
-                $conditions = $servicesConditions[$period][$group];
+
+				$substitutions = array(); //Este array almacenará las sustituciones que existan para cada grupo de servicios
+
+	            $this->substitutes = null;
+	            if (isset($servicesSubstitutes[$period][$group])) {
+		            $this->substitutes = $servicesSubstitutes[$period][$group];
+		            echo "Hay asignados ".sizeof($this->substitutes)." sustitutos para el grupo de servicios $group del periodo $period<br>";
+	            }
 
                 $now = new Carbon();
                 $now = $now->startOfWeek();
                 foreach ($weekdays[$period] as $weekday) {
                     echo "Miramos el día {$weekday->value}<br>";
 
+	                if (!isset($servicesConditions[$period][$group])) {
+		                echo "<b>No existe una condición para el servicio ".implode(',', $servicesOrdered[$period][$group])."</b>. Se puede asignar cualquier conductor.<br><br>";
+		                $cuadrantes[$weekday->value][$servicesOrdered[$period][$group][0]->number] = false;
+		                continue;
+	                }
+	                $conditions = $servicesConditions[$period][$group];
+
                     foreach ($conditions as $condition) {
-                    	$substitutes = null;
-                    	if ($condition->substitute !== null) {
-		                    $substitutes = $condition->substitute->drivers;
-	                    }
-                    	if ($condition->pair === null) {
-                    		echo "El servicio número {$servicesOrdered[$period][$group][0]['number']} puede ser realizado por cualquier conductor<br>";
-		                    $cuadrantes[$weekday->value][$servicesOrdered[$period][$group][0]['number']] = false ;
-	                    } else {
-		                    foreach ( $condition->pair->drivers as $driver ) {
-		                    	$substitute = null;
-			                    if ( $driver->isInHolidays( $now, $driver->holidays ) ) {
-				                    echo "El conductor {$driver->getCompleteName()} <b>está de vacaciones</b> este día. Buscamos sustituto.";
-									$substitute = $this->getSubstitute($substitutes, $now, $weekday);
-
-			                    } else if ( $driver->isRestDay( $weekday, $driver->restDays ) ) {
-				                    echo "El conductor {$driver->getCompleteName()} <b>descansa</b> este día. Buscamos sustituto.";
-				                    $substitute = $this->getSubstitute($substitutes, $now, $weekday);
-			                    }
-
-			                    $calculoNormalizado = ( $now->weekOfYear / sizeof( $services ) - floor( $now->weekOfYear / sizeof( $services ) ) ) * sizeof( $services );
-			                    if ( isset( $groupServiceOrders[ $driver->id ][ $calculoNormalizado ] ) ) {
-			                    	if ($substitute === null) {
-					                    echo "Servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}: Conductor {$driver->getCompleteName()} <br>";
-					                    $cuadrantes[$weekday->value][$groupServiceOrders[$driver->id][$calculoNormalizado]] = $driver;
-				                    } else {
-				                    	if ($substitute === false) {
-				                    		echo "Servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}: No existe conductor ni sustituto. Esperamos siguiente iteración.<br>";
-						                    $cuadrantes[$weekday->value][$groupServiceOrders[$driver->id][$calculoNormalizado]] = false;
-					                    } else {
-						                    echo "Servicio número {$groupServiceOrders[$driver->id][$calculoNormalizado]}: Conductor {$substitute->getCompleteName()} <br>";
-						                    $cuadrantes[$weekday->value][$groupServiceOrders[$driver->id][$calculoNormalizado]] = $substitute;
-					                    }
-				                    }
-			                    } else {
-				                    echo "No se ha asignado valor inicial para este tema $calculoNormalizado<br>";
-			                    }
-
+                        $substitute = null;
+	                    $driver = $condition->driver;
+	                    if ( $driver->isInHolidays( $now, $driver->holidays ) ) {
+		                    echo "El conductor {$driver->getCompleteName()} <b>está de vacaciones</b> este día. Buscamos sustituto.";
+		                    if (!isset($substitutions[$driver->id])) {
+			                    $substitutions[$driver->id] = $this->getSubstitute($now, $weekday);
 		                    }
+		                    $substitute = $substitutions[$driver->id];
+
+	                    } else if ( $driver->isRestDay( $weekday, $driver->restDays ) ) {
+		                    echo "El conductor {$driver->getCompleteName()} <b>descansa</b> este día. Buscamos sustituto.";
+		                    if (!isset($substitutions[$driver->id])) {
+			                    $substitutions[$driver->id] = $this->getSubstitute($now, $weekday);
+		                    }
+		                    $substitute = $substitutions[$driver->id];
+	                    }
+
+	                    $calculoNormalizado = intval(( $now->weekOfYear / sizeof( $services ) - floor( $now->weekOfYear / sizeof( $services ) ) ) * sizeof( $services ));
+	                    //echo "CALCULO: $calculoNormalizado<br>";
+
+	                    if ( isset( $groupServiceOrders[ $period ] [ $driver->id ][ $calculoNormalizado ] ) ) {
+	                    	$service = $groupServiceOrders[ $period ] [ $driver->id ][ $calculoNormalizado ];
+	                        if ($substitute === null) {
+			                    echo "Servicio número {$service->number}: Conductor {$driver->getCompleteName()} <br>";
+			                    $cuadrantes[$weekday->value][$service->number] = $driver;
+		                    } else {
+		                        if ($substitute === false) {
+		                            echo "Servicio número {$service->number}: No existe conductor ni sustituto. Esperamos siguiente iteración.<br>";
+				                    $cuadrantes[$weekday->value][$service->number] = false;
+			                    } else {
+				                    echo "Servicio número {$service->number}: Conductor {$substitute->getCompleteName()} <br>";
+				                    $cuadrantes[$weekday->value][$service->number] = $substitute;
+			                    }
+		                    }
+	                    } else {
+		                    echo "No se ha asignado valor inicial para este tema $calculoNormalizado<br>";
 	                    }
                     }
                     $now->addDay();
@@ -185,7 +218,7 @@ class CuadrantesController extends Controller
         	foreach ($services as $service => $driver) {
 		        echo "Servicio $service;";
         		if ($driver === false) {
-			        echo "Asignar manualmente;<br>";
+			        echo "Asignar sustituto;<br>";
 		        } else {
 			        echo "{$driver->getCompleteName()};<br>";
 		        }

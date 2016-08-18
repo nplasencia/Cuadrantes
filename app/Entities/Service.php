@@ -26,4 +26,9 @@ class Service extends Model
     {
         return $this->belongsToMany(Timetable::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)->orderBy(TimetableContract::TIME);
     }
+
+    public function getHours()
+    {
+    	dd($this->timetables());
+    }
 }

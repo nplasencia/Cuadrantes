@@ -6,7 +6,8 @@ use Cuadrantes\Entities\DriverHoliday;
 
 class DriverHolidayRepository extends BaseRepository{
     
-    public function getEntity() {
+    public function getEntity()
+    {
         return new DriverHoliday();
     }
 }

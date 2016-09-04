@@ -2,21 +2,18 @@
 
 namespace Cuadrantes\Http\Controllers;
 
-use Cuadrantes\Commons\ServiceGroupOrderContract;
+use Cuadrantes\Entities\Cuadrante;
 use Cuadrantes\Entities\Period;
 use Cuadrantes\Entities\Weekday;
-use Cuadrantes\Entities\ServiceCondition;
+use Cuadrantes\Repositories\CuadranteRepository;
 use Cuadrantes\Repositories\DriverRepository;
 use Cuadrantes\Repositories\ServiceConditionRepository;
 use Cuadrantes\Repositories\ServiceGroupOrderRepository;
 use Cuadrantes\Repositories\ServiceRepository;
 use Cuadrantes\Repositories\ServiceSubstituteRepository;
 use Cuadrantes\Repositories\WeekdayRepository;
-use Cuadrantes\Http\Requests;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use spec\PhpSpec\Runner\MatcherManagerSpec;
 
 class CuadrantesController extends Controller
 {
@@ -27,10 +24,12 @@ class CuadrantesController extends Controller
     private $serviceGroupOrderRepository;
 	private $driverRepository;
 	private $substitutes;
+	private $cuadranteRepository;
 
     public function __construct(ServiceConditionRepository $serviceConditionRepository, ServiceRepository $serviceRepository,
                                 WeekdayRepository $weekdayRepository, ServiceGroupOrderRepository $serviceGroupOrderRepository,
-								ServiceSubstituteRepository $serviceSubstituteRepository, DriverRepository $driverRepository)
+								ServiceSubstituteRepository $serviceSubstituteRepository, DriverRepository $driverRepository,
+								CuadranteRepository $cuadranteRepository)
     {
         $this->serviceConditionRepository  = $serviceConditionRepository;
         $this->serviceRepository = $serviceRepository;
@@ -38,6 +37,7 @@ class CuadrantesController extends Controller
         $this->serviceGroupOrderRepository = $serviceGroupOrderRepository;
 	    $this->serviceSubstituteRepository = $serviceSubstituteRepository;
 	    $this->driverRepository = $driverRepository;
+	    $this->cuadranteRepository = $cuadranteRepository;
     }
 
     private function getConditions()
@@ -171,8 +171,10 @@ class CuadrantesController extends Controller
         $weekdays = $this->getWeekdays();
         $groupServiceOrders = $this->getServiceGroupOrder();
 
-	    for ($i=0; $i<4;$i++) {
+	    //Eliminamos todos aquellos servicios almacenados en la base de datos cuya fecha sea mayor a hoy
+		$this->cuadranteRepository->deleteAllAfterDate(new Carbon());
 
+	    for ($i=0; $i<8;$i++) {
 		    $cuadrantes = array();
 
 		    foreach ( $servicesOrdered as $period => $groups ) {
@@ -192,20 +194,24 @@ class CuadrantesController extends Controller
 				    foreach ( $weekdays[ $period ] as $weekday ) {
 					    $now = $now->startOfWeek()->addDays( $weekday->id - 1 );
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
+					    if (!$now->isFuture()) {
+					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
+						    continue;
+					    }
 
 					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {
 					    	if ($period == Period::SUNDAY && $services[0]->number == 13) {
 							    echo "<b>Condición programada manualmente: Conductor que haga el servicio 13 el sábado.<br></b>";
-							    $cuadrantes[ $now->toDateString() ][ $services[0]->number ] = null;
+							    $cuadrantes[ $now->toDateString() ][ $services[0]->id ] = null;
 						    } elseif ($period == Period::SUNDAY && $services[0]->number == 28) {
 							    echo "<b>Condición programada manualmente para servicios 28, 29, 30, 33 y 34: Conductor que haga servicio 3 durante la semana y libre sábado.<br></b>";
 							    foreach ( $services as $service ) {
-								    $cuadrantes[ $now->toDateString() ][ $service->number ] = null;
+								    $cuadrantes[ $now->toDateString() ][ $service->id ] = null;
 							    }
 						    } else {
 							    foreach ( $services as $service ) {
 								    echo "<b>No existe una condición para el servicio {$service->number}</b>. Se puede asignar cualquier conductor.<br><br>";
-								    $cuadrantes[ $now->toDateString() ][ $service->number ] = false;
+								    $cuadrantes[ $now->toDateString() ][ $service->id ] = false;
 							    }
 						    }
 						    $now->addDay();
@@ -261,14 +267,14 @@ class CuadrantesController extends Controller
 							    $serviciosAsignados[] = $service->id;
 							    if ( $substitute === null ) {
 								    echo "Servicio número {$service->number}: Conductor {$driver->getCompleteName()} <br>";
-								    $cuadrantes[ $now->toDateString() ][ $service->number ] = $driver;
+								    $cuadrantes[ $now->toDateString() ][ $service->id ] = $driver;
 							    } else {
 								    if ( $substitute === false ) {
 									    echo "Servicio número {$service->number}: No existe conductor ni sustituto. Esperamos siguiente iteración.<br>";
-									    $cuadrantes[ $now->toDateString() ][ $service->number ] = false;
+									    $cuadrantes[ $now->toDateString() ][ $service->id ] = false;
 								    } else {
 									    echo "Servicio número {$service->number}: Conductor {$substitute->getCompleteName()} <br>";
-									    $cuadrantes[ $now->toDateString() ][ $service->number ] = $substitute;
+									    $cuadrantes[ $now->toDateString() ][ $service->id ] = $substitute;
 								    }
 							    }
 						    } else {
@@ -282,7 +288,7 @@ class CuadrantesController extends Controller
 							foreach ($services as $service) {
 								if (!in_array($service->id, $serviciosAsignados)) {
 									echo "<b>No existe una condición para el servicio {$service->number}</b>. Se puede asignar cualquier conductor.<br><br>";
-									$cuadrantes[ $now->toDateString() ][ $service->number ] = false;
+									$cuadrantes[ $now->toDateString() ][ $service->id ] = false;
 								}
 							}
 					    }
@@ -314,7 +320,8 @@ class CuadrantesController extends Controller
 			    $conductoresEspecialesDomingo = array();
 			    if ($date->dayOfWeek == Carbon::SUNDAY) {
 				    //No podemos asignar como replacement para el domingo al conductor que haya realizado el servicio 13 el sábado
-				    $conductorServicio13Sabado = $cuadranteFinal[ $date->addDays(-1)->toDateString() ][ 13 ];
+				    //TODO: Esto tengo que arreglarlo sí o sí
+				    $conductorServicio13Sabado = $cuadranteFinal[ $date->addDays(-1)->toDateString() ][ 75 ];
 				    $drivers[] = $conductorServicio13Sabado->id;
 
 				    // Tampoco podemos asignar como replacements a los 5 conductores que seleccionemos para los servicios 28, 29, 30, 33 y 34 del domingo
@@ -323,7 +330,7 @@ class CuadrantesController extends Controller
 				    	if (!$conductorLinea3->isInHolidays( $date, $conductorLinea3->holidays ) && $horasTrabajadasSemana[$conductorLinea3->id] < 5) {
 				    		$conductoresEspecialesDomingo[] = $conductorLinea3;
 						    $drivers[] = $conductorLinea3->id;
-						    if (sizeof($conductoresEspecialesDomingo) == 5) break;
+						    //if (sizeof($conductoresEspecialesDomingo) == 5) break;
 					    }
 				    }
 			    }
@@ -342,6 +349,10 @@ class CuadrantesController extends Controller
 			    echo "<br>Servicios asignados<br>";
 			    echo "------------------------<br>";
 			    foreach ( $services as $service => $driver ) {
+			    	$cuadrante = new Cuadrante();
+				    $cuadrante->service_id = $service;
+				    $cuadrante->date = $date;
+
 			    	echo "Service $service;";
 				    if ( $driver === false ) {
 					    if ( sizeof( $replacements ) > 0 ) {
@@ -349,25 +360,33 @@ class CuadrantesController extends Controller
 						    $replacement = array_pop( $replacements );
 						    echo "{$replacement->getCompleteName()};Sustituto;<br>";
 						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $replacement;
+						    $cuadrante->driver_id = $replacement->id;
+						    $cuadrante->substitute = true;
 					    } else {
 						    $cuadranteFinal[ $date->toDateString() ][ $service ] = false;
 						    echo "No quedan sustitutos disponibles;<br>";
 					    }
 				    } elseif ($driver === null) {
-				    	if ($service == 13) {
+				    	// El servicio 13 el domingo
+				    	if ($service == 75) {
 						    // Servicio 13 el domingo que ha de ser realizado por el que hizo el servicio 13 el sábado
 						    echo "Ha de ser realizado por el del sábado anterior.";
 						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $conductorServicio13Sabado;
+						    $cuadrante->driver_id = $conductorServicio13Sabado->id;
 					    } else {
 					    	// Servicios 28, 29, 30, 33 y 34 del domingo
-						    if (sizeof($conductoresEspecialesDomingo > 0)) {
-							    $cuadranteFinal[ $date->toDateString() ][ $service ] = array_pop( $conductoresEspecialesDomingo );
+
+						    if (!empty($conductoresEspecialesDomingo)) {
+						    	$conductorSeleccionado = array_pop( $conductoresEspecialesDomingo );
+							    $cuadranteFinal[ $date->toDateString() ][ $service ] = $conductorSeleccionado;
+							    $cuadrante->driver_id = $conductorSeleccionado->id;
 						    } else {
 							    $cuadranteFinal[ $date->toDateString() ][ $service ] = false;
 						    }
 					    }
 				    } else {
 					    $cuadranteFinal[ $date->toDateString() ][ $service ] = $driver;
+					    $cuadrante->driver_id = $driver->id;
 				    }
 					$selectedDriver = $cuadranteFinal[ $date->toDateString() ][ $service ];
 
@@ -387,6 +406,7 @@ class CuadrantesController extends Controller
 						    }
 					    }
 				    }
+				    $cuadrante->save();
 			    }
 
 			    echo "<br>Sustitutos libres<br>";

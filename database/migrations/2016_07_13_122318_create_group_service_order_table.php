@@ -19,6 +19,7 @@ class CreateGroupServiceOrderTable extends Migration
         Schema::create(ServiceGroupOrderContract::TABLE_NAME, function (Blueprint $table) {
             $table->increments(ServiceGroupOrderContract::ID);
 	        $table->unsignedInteger(ServiceGroupOrderContract::PERIOD_ID);
+	        $table->unsignedInteger(ServiceGroupOrderContract::GROUP);
             $table->unsignedInteger(ServiceGroupOrderContract::DRIVER_ID);
             $table->unsignedInteger(ServiceGroupOrderContract::SERVICE_ID);
             $table->unsignedInteger(ServiceGroupOrderContract::NORMALIZED);

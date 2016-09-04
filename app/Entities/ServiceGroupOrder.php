@@ -11,7 +11,7 @@ class ServiceGroupOrder extends Entity
 
     protected $table = ServiceGroupOrderContract::TABLE_NAME;
 
-    protected $fillable = [ServiceGroupOrderContract::PERIOD_ID, ServiceGroupOrderContract::DRIVER_ID, ServiceGroupOrderContract::SERVICE_ID, ServiceGroupOrderContract::NORMALIZED];
+    protected $fillable = [ServiceGroupOrderContract::PERIOD_ID, ServiceGroupOrderContract::GROUP, ServiceGroupOrderContract::DRIVER_ID, ServiceGroupOrderContract::SERVICE_ID, ServiceGroupOrderContract::NORMALIZED];
 
 	public function period()
 	{

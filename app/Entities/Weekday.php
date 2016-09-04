@@ -6,6 +6,8 @@ use Cuadrantes\Commons\WeekdayContract;
 
 class Weekday extends Entity
 {
+	const SATURDAY = 6;
+
     public $timestamps = false;
 
     protected $table = WeekdayContract::TABLE_NAME;

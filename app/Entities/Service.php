@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Entities;
 
+use Carbon\Carbon;
 use Cuadrantes\Commons\ServiceTimetablesContract;
 use Cuadrantes\Commons\ServiceContract;
 use Cuadrantes\Commons\TimetableContract;
@@ -27,8 +28,21 @@ class Service extends Model
         return $this->belongsToMany(Timetable::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)->orderBy(TimetableContract::TIME);
     }
 
-    public function getHours()
+    public function excludedPeriod()
     {
-    	dd($this->timetables());
+    	return $this->belongsTo(ServiceExcludedPeriod::class);
+    }
+
+    public function isExcluded()
+    {
+    	if ($this->excludedPeriod != null) {
+    		$now = Carbon::now();
+		    $excludedFrom = Carbon::createFromFormat('Y-m-d', $this->excludedPeriod->date_from)->setTime(0, 0, 0)->year($now->year);
+		    $excludedTo = Carbon::createFromFormat('Y-m-d', $this->excludedPeriod->date_to)->setTime(23, 59, 59)->year($now->year);
+		    if( $now->between($excludedFrom, $excludedTo, true)) {
+			    return true;
+		    }
+	    }
+	    return false;
     }
 }

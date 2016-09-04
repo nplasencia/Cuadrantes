@@ -17,7 +17,7 @@ class ServiceRepository extends BaseRepository
 
     public function getAll()
     {
-        return $this->newQuery()->orderBy(ServiceContract::PERIOD_ID)->get();
+        return $this->newQuery()->orderBy(ServiceContract::PERIOD_ID)->with('excludedPeriod')->get();
     }
 
     public function findByPeriod($period_id)

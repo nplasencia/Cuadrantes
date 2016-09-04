@@ -26,8 +26,14 @@ class Driver extends Entity
         return $this->hasMany(DriverHoliday::class);
     }
 
-    public function isRestDay(Weekday $weekday, Collection $restDays = null)
+    public function isRestDay($weekday, Collection $restDays = null)
     {
+    	if (!($weekday instanceof Weekday)) {
+    		$weekdayId = $weekday;
+    		$weekday = new Weekday();
+		    $weekday->id = $weekdayId;
+	    }
+
         if (!isset($restDays)) {
             return $this->restDays()->where('weekday_id', $weekday->id)->count();
         } else {
@@ -45,10 +51,10 @@ class Driver extends Entity
         if (!isset($driverHolidays)) {
             $driverHolidays = $this->holidays;
         }
-        
+
         foreach ($driverHolidays as $driverHoliday) {
             $holidayFrom = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_from)->setTime(0, 0, 0);
-            $holidayTo = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_to)->setTime(0, 0, 0);
+            $holidayTo = Carbon::createFromFormat('Y-m-d', $driverHoliday->date_to)->setTime(23, 59, 59);
 
             if( $date->between($holidayFrom, $holidayTo, true)) {
                 return true;

@@ -8,6 +8,8 @@ use Cuadrantes\Commons\TimetableContract;
 
 class Period extends Model
 {
+	const SUNDAY = 3;
+
     public $timestamps = false;
 
     protected $table = PeriodContract::TABLE_NAME;

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LineTableSeeder::class);
         $this->call(RouteTableSeeder::class);
         $this->call(TimetableTableSeeder::class);
+	    $this->call(ServiceExcludedPeriodTableSeeder::class);
         $this->call(ServiceTableSeeder::class);
         $this->call(ServiceTimetableSeeder::class);
         $this->call(PairTableSeeder::class);

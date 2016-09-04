@@ -33,4 +33,10 @@ class DriverRepository extends BaseRepository
         $driver->save();
         return $driver;
     }
+
+    public function getDriversNotInArray(Array $drivers)
+    {
+    	return $this->newQuery()->whereNotIn(DriverContract::ID, $drivers)->orderBy(DriverContract::LAST_NAME, 'ASC')
+		    ->orderBy(DriverContract::FIRST_NAME, 'ASC')->with('restDays', 'holidays')->get();
+    }
 }

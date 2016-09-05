@@ -12,7 +12,7 @@ class PeriodTableSeeder extends Seeder
      */
     public function run()
     {
-        $periods = ['WORK' => 'Laborales', 'SATURDAY' => 'Sábados', 'SUNDAY' => 'Domingos/festivos'];
+        $periods = ['WORK' => 'Laborales', 'SATURDAY' => 'Sábados', 'SUNDAY' => 'Domingos', 'FESTIVES' => 'Festivos'];
 
         foreach ($periods as $code => $value) {
             $period = new Period();

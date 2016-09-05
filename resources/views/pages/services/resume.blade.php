@@ -3,7 +3,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            @foreach($viewServices as $time => $viewService)
+            @forelse($viewServices as $time => $viewService)
                 <div class="box">
                     <header class="dark">
                         <div class="icons">
@@ -30,43 +30,51 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($viewService as $serviceNumber => $serviceHours)
-                                    <tr>
-                                        <td class="text-center" style="vertical-align: middle;">
-                                            Servicio {{ $serviceNumber }}<br><br>
-                                            <div class="btn-group">
-                                                <a href="{{ route('service.details', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            </div>
-                                            <div class="btn-group">
-                                                <a href="{{ route('service.destroy', $serviceNumber) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        @foreach($hours[$time] as $hour)
-                                                <td style="vertical-align: middle;">
-                                                    @if(isset($serviceHours[$hour]))
-                                                        @foreach($serviceHours[$hour] as $timetable)
-                                                            <a data-placement="bottom" data-original-title="Servicio {{ $serviceNumber }}"
-                                                               data-toggle="tooltip" class="btn btn-sm btn-default text-center"
-                                                               style="background-color: {{ $timetable['colour'] }}; color: {{$timetable['text']}};">
-                                                                {{ $timetable['time'] }}<br>
-                                                                {!! $timetable['origin'] !!}<br>
-                                                                Línea {{ $timetable['line'] }}
-                                                            </a>
-                                                        @endforeach
-                                                     @endif
-                                                </td>
-                                        @endforeach
-                                    </tr>
+
+                                @foreach($viewService as $serviceId => $serviceIdNumber)
+
+                                    @foreach($serviceIdNumber as $serviceNumber => $serviceHours)
+                                        <tr>
+                                            <td class="text-center" style="vertical-align: middle;">
+                                                Servicio {{ $serviceNumber }}<br><br>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('service.details', $serviceId) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('service.destroy', $serviceId) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            @foreach($hours[$time] as $hour)
+                                                    <td style="vertical-align: middle;">
+                                                        @if(isset($serviceHours[$hour]))
+                                                            @foreach($serviceHours[$hour] as $timetable)
+                                                                <a data-placement="bottom" data-original-title="Servicio {{ $serviceNumber }}"
+                                                                   data-toggle="tooltip" class="btn btn-sm btn-default text-center"
+                                                                   style="background-color: {{ $timetable['colour'] }}; color: {{$timetable['text']}};">
+                                                                    {{ $timetable['time'] }}<br>
+                                                                    {!! $timetable['origin'] !!}<br>
+                                                                    Línea {{ $timetable['line'] }}
+                                                                </a>
+                                                            @endforeach
+                                                         @endif
+                                                    </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="box text-center">
+                    <h2>No se han encontrado servicios para este periodo</h2>
+                </div>
+            @endforelse
         </div>
     </div>
 

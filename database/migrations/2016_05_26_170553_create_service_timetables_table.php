@@ -20,6 +20,7 @@ class CreateServiceTimetablesTable extends Migration
             $table->unsignedInteger(ServiceTimetablesContract::SERVICE_ID);
             $table->unsignedInteger(ServiceTimetablesContract::TIMETABLE_ID);
             $table->string(ServiceTimetablesContract::COLOUR, 6)->default('FFFFFF');
+	        $table->softDeletes();
 
             $table->foreign(ServiceTimetablesContract::SERVICE_ID)->references(ServiceContract::ID)->on(ServiceContract::TABLE_NAME);
             $table->foreign(ServiceTimetablesContract::TIMETABLE_ID)->references(TimetableContract::ID)->on(TimetableContract::TABLE_NAME);

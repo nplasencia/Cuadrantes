@@ -9,9 +9,10 @@ return array (
         'Guaguas'     => array('link' => 'bus.resume',    'icon' => 'fa fa-car',       'subMenu' => []),
         'Líneas'      => array('link' => 'line.resume',   'icon' => 'fa fa-bus',       'subMenu' => []),
         'Servicios'   => array('link' => null,            'icon' => 'fa fa-tasks',     'subMenu' => [
-            'Laborales'    => '/services/1',
-            'Sábados'      => '/services/2',
-            'Dom/Festivos' => '/services/3',
+            'Laborales' => '/services/1',
+            'Sábados'   => '/services/2',
+            'Domingos'  => '/services/3',
+            'Festivos'  => '/services/4',
         ]),
         'Cuadrantes'  => array('link' => 'cuadrantes.resume', 'icon' => 'fa fa-braille', 'subMenu' => []),
     )

@@ -127,11 +127,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('newService', 'ServicesController@create')->name('service.create');
     Route::post('newService', 'ServicesController@store')->name('service.save');
 
-    Route::get ('service/{service_number}', 'ServicesController@details')->name('service.details');
-    Route::post('service/{service_number}', 'ServicesController@update')->name('service.update');
+    Route::get ('service/{serviceId}', 'ServicesController@details')->name('service.details');
+    Route::post('service/{serviceId}', 'ServicesController@update')->name('service.update');
 
-    Route::get ('serviceDestroy/{service_number}'  , 'ServicesController@destroy')->name('service.destroy');
-    Route::delete('serviceDestroy/{service_number}', 'ServicesController@destroy')->name('service.destroy');
+    Route::get ('serviceDestroy/{serviceId}'  , 'ServicesController@destroy')->name('service.destroy');
+    Route::delete('serviceDestroy/{serviceId}', 'ServicesController@destroy')->name('service.destroy');
 
     Route::post('serviceAddTimetable/{id}', 'ServicesController@addTimetable')->name('service.addTimetable');
     Route::get('serviceDestroyTimetable/{service_id}/{timetable_id}', 'ServicesController@destroyTimetable')->name('service.destroyTimetable');

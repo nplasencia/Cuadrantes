@@ -52,13 +52,13 @@ class ServicesController extends Controller
 
         foreach ($services as $service) {
         	if (!isset( $service->timetables) || sizeof($service->timetables) == 0) {
-		        $viewServices[$service->time][$service->number][] = array();
+		        $viewServices[$service->time][$service->id][$service->number][] = array();
 	        }
             foreach($service->timetables as $timetable) {
                 $time = Carbon::createFromFormat('H:i:s', $timetable->time);
                 $hours[$service->time][$time->hour] = $time->hour;
                 if (!isset ($viewServices[$service->time][$service->number])) {
-                    $viewServices[$service->time][$service->number][$time->hour] = array();
+                    $viewServices[$service->time][$service->id][$service->number][$time->hour] = array();
                 }
 
                 $origin = $timetable->route->origin.$timetable->by;
@@ -75,15 +75,17 @@ class ServicesController extends Controller
                     $textColour = '#FFFFFF';
                 }
 
-                $viewServices[$service->time][$service->number][$time->hour][] = ['colour' => $backgroundColour,
+                $viewServices[$service->time][$service->id][$service->number][$time->hour][] = ['colour' => $backgroundColour,
                                                                                   'time'   => $time->format('H:i'),
                                                                                   'origin' => $origin,
                                                                                   'line'   => $timetable->route->line->number,
                                                                                   'text'   => $textColour ];
             }
         }
-        asort($hours['afternoon']);
-        asort($hours['morning']);
+        if (sizeof($viewServices) > 0) {
+	        asort( $hours['afternoon'] );
+	        asort( $hours['morning'] );
+        }
         //dd($viewServices);
         return view('pages.services.resume', compact('viewServices', 'hours', 'title', 'iconClass'));
     }
@@ -96,8 +98,11 @@ class ServicesController extends Controller
                 $this->title = "Servicios sábados";
                 break;
             case 3:
-                $this->title = "Servicios domingos/festivos";
+                $this->title = "Servicios domingos";
                 break;
+	        case 4:
+		        $this->title = "Servicios festivos";
+		        break;
         }
         return $this->resume($services);
     }
@@ -135,25 +140,23 @@ class ServicesController extends Controller
         return view('pages.services.details', compact('periods', 'title', 'iconClass', 'times', 'service', 'routes'));
     }
 
-    public function update($serviceNumber, Request $request)
+    public function update($serviceId, Request $request)
     {
         $this->genericValidation($request);
-        
-        $service = $this->serviceRepository->findByNumber($serviceNumber);
-        $service = $this->serviceRepository->updateById($service->id, $request);
+
+        $service = $this->serviceRepository->updateById($serviceId, $request);
 
         session()->flash('success', 'El servicio '.$service->number.' ha sido actualizado exitosamente');
         return Redirect::route('service.details', $service->id);
     }
 
-    public function destroy($serviceNumber)
+    public function destroy($serviceId)
     {
-        $service = $this->serviceRepository->findByNumber($serviceNumber);
-        $this->serviceTimetableRepository->deleteByServiceId($service->id);
-        $this->serviceRepository->deleteById($service->id);
+        $this->serviceTimetableRepository->deleteByServiceId($serviceId);
+	    $service = $this->serviceRepository->deleteById($serviceId);
 
         session()->flash('success', 'El servicio ha sido eliminado exitosamente');
-        return $this->all();
+        return $this->all($service->period->id);
     }
 
     public function addTimetable($serviceId, Request $request)

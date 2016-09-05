@@ -8,7 +8,8 @@
                 <a>
                     <i class="{{ $values['icon'] }}"></i>
                     <span class="link-title">&nbsp; {{ $routeName }}</span>
-                <span class="fa arrow"></span>
+                    <span class="fa arrow"></span>
+                </a>
                 <ul>
                     @foreach($values['subMenu'] as $subMenuName => $subMenuLink)
                         <li>

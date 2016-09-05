@@ -13,6 +13,15 @@ class CuadranteRepository extends BaseRepository{
         return new Cuadrante();
     }
 
+    public function getAllByDate(Carbon $date = null)
+    {
+    	if (!isset($date)) {
+    		$date = new Carbon();
+	    }
+
+    	return $this->newQuery()->where(CuadranteContract::DATE, $date->format('Y-m-d'))->get();
+    }
+
     public function deleteAllAfterDate(Carbon $date)
 	{
     	$this->newQuery()->withTrashed()->where(CuadranteContract::DATE, '>', $date)->forceDelete();

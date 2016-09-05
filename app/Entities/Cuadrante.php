@@ -15,7 +15,7 @@ class Cuadrante extends Entity
 
 	protected $dates = [CuadranteContract::DATE];
 
-	protected function services()
+	protected function service()
 	{
 		return $this->belongsTo(Service::class);
 	}

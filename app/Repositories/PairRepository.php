@@ -15,11 +15,11 @@ class PairRepository extends BaseRepository
 
     public function getAll()
     {
-        return $this->newQuery()->orderBy(PairContract::PAIR_ID)->with('driver','restDays', 'holidays')->get();
+        return $this->newQuery()->orderBy(PairContract::PAIR_ID)->with('driver')->get();
     }
 
     public function getAllPaginated($numberOfElements)
     {
-        return $this->newQuery()->orderBy(PairContract::PAIR_ID)->with('driver', 'restDays', 'holidays')->paginate($numberOfElements);
+        return $this->newQuery()->orderBy(PairContract::PAIR_ID)->with('driver')->paginate($numberOfElements);
     }
 }

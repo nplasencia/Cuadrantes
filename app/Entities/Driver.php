@@ -26,6 +26,11 @@ class Driver extends Entity
         return $this->hasMany(DriverHoliday::class);
     }
 
+    public function cuadrantes()
+    {
+    	return $this->hasMany(Cuadrante::class);
+    }
+
     public function isRestDay($weekday, Collection $restDays = null)
     {
     	if (!($weekday instanceof Weekday)) {
@@ -81,4 +86,5 @@ class Driver extends Entity
             }
         }
     }
+
 }

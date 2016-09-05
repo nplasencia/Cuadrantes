@@ -139,5 +139,8 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get ('cuadrantes' , 'CuadrantesController@complexAlgorithm')->name('cuadrantes.complex');
+    Route::get ('cuadrantesJob' , 'CuadrantesController@complexAlgorithm')->name('cuadrantes.complex');
+
+	Route::get ('cuadrantes', 'CuadrantesViewController@allToday')->name('cuadrantes.resume');
+	Route::post('cuadrantes', 'CuadrantesViewController@all')->name('cuadrantes.resumePost');
 });

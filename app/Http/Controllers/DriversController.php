@@ -26,7 +26,6 @@ class DriversController extends Controller
 
     public function __construct(DriverRepository $driverRepository, DriverHolidayRepository $holidayRepository, WeekdayRepository $weekdayRepository)
     {
-
         $this->driverRepository = $driverRepository;
         $this->holidayRepository = $holidayRepository;
         $this->weekdayRepository = $weekdayRepository;
@@ -62,12 +61,34 @@ class DriversController extends Controller
     public function ajaxResume()
     {
         return Datatables::of($this->driverRepository->getAll())
-            ->editColumn('cap', function (Driver $driver){
-                return with(new Carbon($driver->cap))->format('d-m-Y');
+            ->editColumn('cap', function (Driver $driver) {
+            	if (isset($driver->cap)) {
+		            return with( new Carbon( $driver->cap ) )->format( 'd-m-Y' );
+	            } else {
+	            	return "";
+	            }
             })
             ->editColumn('driver_expiration', function (Driver $driver){
-                return with(new Carbon($driver->driver_expiration))->format('d-m-Y');
+	            if (isset($driver->driver_expiration)) {
+		            return with(new Carbon($driver->driver_expiration))->format('d-m-Y');
+	            } else {
+		            return "";
+	            }
             })
+	        ->editColumn('restDays', function (Driver $driver){
+		        if (isset($driver->restDays) && sizeof($driver->restDays)==2) {
+			        return "Sí";
+		        } else {
+			        return "No";
+		        }
+	        })
+	        ->editColumn('holidays', function (Driver $driver){
+		        if (isset($driver->holidays) && sizeof($driver->holidays) > 0) {
+			        return "Sí";
+		        } else {
+			        return "No";
+		        }
+	        })
             ->addColumn('actions', function (Driver $driver) {
                 return $this->getTableActionButtons($driver);
             })
@@ -104,8 +125,8 @@ class DriversController extends Controller
 
     private function generateUserHolidays($holidays)
     {
-        $from = date("d/m/Y", strtotime($holidays->date_from));
-        $to = date("d/m/Y", strtotime($holidays->date_to));
+        $from = Carbon::createFromFormat('Y-m-d', $holidays->date_from)->format('d/m/Y');
+        $to = Carbon::createFromFormat('Y-m-d', $holidays->date_to)->format('d/m/Y');
         return $from.' - '.$to;
     }
 
@@ -132,21 +153,24 @@ class DriversController extends Controller
 
     public function details($id)
     {
-        $driver = $this->driverRepository->findOrFail($id);
-        $holidays = $driver->holidays;
+        $driver = $this->driverRepository->findById($id);
         $holidays1='';
         $holidays2='';
-        if (isset($holidays[0])) {
-            $holidays1 = $this->generateUserHolidays($holidays[0]);
+        if (isset($driver->holidays[0])) {
+            $holidays1 = $this->generateUserHolidays($driver->holidays[0]);
         }
-        if (isset($holidays[1])) {
-            $holidays2 = $this->generateUserHolidays($holidays[1]);
+        if (isset($driver->holidays[1])) {
+	        $holidays2 = $this->generateUserHolidays($driver->holidays[1]);
         }
-        $driver->cap               = Carbon::createFromFormat('Y-m-d', $driver->cap)->format('d/m/Y');
-        $driver->driver_expiration = Carbon::createFromFormat('Y-m-d', $driver->driver_expiration)->format('d/m/Y');
+        if (isset($driver->cap)) {
+	        $driver->cap = Carbon::createFromFormat( 'Y-m-d', $driver->cap )->format( 'd/m/Y' );
+        }
+	    if (isset($driver->driver_expiration)) {
+		    $driver->driver_expiration = Carbon::createFromFormat( 'Y-m-d', $driver->driver_expiration )->format( 'd/m/Y' );
+	    }
         $weekdays = Weekday::all();
-        $title = $driver->last_name . ', ' . $driver->first_name;
-        $iconClass = 'fa fa-user';
+        $title = "{$driver->last_name}, {$driver->first_name}";
+        $iconClass = $this->iconClass;
         return view('pages.drivers.details', compact('driver', 'holidays1', 'holidays2', 'weekdays', 'title', 'iconClass'));
     }
 

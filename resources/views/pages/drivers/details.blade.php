@@ -141,8 +141,8 @@
 
     <script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.24/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.24/daterangepicker.js"></script>
 
     <script>
         (function($){
@@ -151,7 +151,7 @@
             $(".datepicker").datepicker();
 
             $('.range-picker').daterangepicker({
-
+                autoUpdateInput: false,
                 separator: ' - ',
                 locale: {
                     format: 'DD/MM/YYYY',

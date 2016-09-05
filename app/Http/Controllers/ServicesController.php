@@ -49,7 +49,11 @@ class ServicesController extends Controller
         $hours = array();
         $viewServices = array();
 
+
         foreach ($services as $service) {
+        	if (!isset( $service->timetables) || sizeof($service->timetables) == 0) {
+		        $viewServices[$service->time][$service->number][] = array();
+	        }
             foreach($service->timetables as $timetable) {
                 $time = Carbon::createFromFormat('H:i:s', $timetable->time);
                 $hours[$service->time][$time->hour] = $time->hour;

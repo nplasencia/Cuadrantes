@@ -13,5 +13,6 @@ return array (
             'Sábados'      => '/services/2',
             'Dom/Festivos' => '/services/3',
         ]),
+        'Cuadrantes'  => array('link' => 'cuadrantes.resume', 'icon' => 'fa fa-braille', 'subMenu' => []),
     )
 );

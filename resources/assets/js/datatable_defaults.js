@@ -1,5 +1,6 @@
 $.extend( true, $.fn.dataTable.defaults, {
     "pageLength": 25,
+    "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Todos"]],
 
     language: {
         processing:     "Procesando ...",

@@ -21,8 +21,8 @@ class CreateDriversTable extends Migration
             $table->string(DriverContract::TELEPHONE);
             $table->unsignedSmallInteger(DriverContract::EXTENSION);
             $table->string(DriverContract::EMAIL);
-            $table->date(DriverContract::CAP);
-            $table->date(DriverContract::EXPIRATION);
+            $table->date(DriverContract::CAP)->nullable()->default(null);
+            $table->date(DriverContract::EXPIRATION)->nullable()->default(null);
             $table->boolean(DriverContract::MORNING)->default(false);
             $table->softDeletes();
             $table->timestamps();

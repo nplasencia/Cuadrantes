@@ -74,22 +74,28 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="cap">CAP</label>
                             <div class=" col-lg-4">
-                                <input class="form-control datepicker" name="cap" id="cap"
-                                       value="@if(isset($driver) && $driver != null){{ $driver->cap }}@else{{ old('cap') }}@endif" />
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" name="cap" id="cap"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->capFormatted }}@else{{ old('cap') }}@endif" />
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="driver_expiration">Carnet de conducir</label>
                             <div class=" col-lg-4">
-                                <input class="form-control datepicker" name="driver_expiration" id="driver_expiration"
-                                       value="@if(isset($driver) && $driver != null){{ $driver->driver_expiration }}@else{{ old('driver_expiration') }}@endif" />
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" name="driver_expiration" id="driver_expiration"
+                                       value="@if(isset($driver) && $driver != null){{ $driver->expirationFormatted }}@else{{ old('driver_expiration') }}@endif" />
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="restDays">Días de descanso</label>
                             <div class="col-lg-4">
-                                <select data-placeholder="Selecciona los días" multiple class="form-control chosen-select" tabindex="8" name="restDays[]" id="restDays">
+                                <select data-placeholder="Selecciona los días" multiple class="form-control chosen-select" multiple tabindex="8" name="restDays[]" id="restDays">
                                     @foreach($weekdays as $weekday)
                                         <option value="{{ $weekday->id }}"
                                                 @if(isset($driver) && $driver != null)
@@ -111,7 +117,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input type="text" name="holidays1" id="holidays1" class="form-control range-picker"
-                                           value="@if(isset($driver) && $driver != null){{ $holidays1 }}@else{{ old('holidays1') }}@endif" />
+                                           value="@if(isset($driver) && $driver != null){{ $driver->getHolidaysFormatted(0) }}@else{{ "" }}@endif" />
                                 </div>
                             </div>
                         </div>
@@ -121,7 +127,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input type="text" name="holidays2" id="holidays2" class="form-control range-picker"
-                                           value="@if(isset($driver) && $driver != null){{ $holidays2 }}@else{{ old('holidays2') }}@endif" />
+                                           value="@if(isset($driver) && $driver != null){{ $driver->getHolidaysFormatted(1) }}@endif" />
                                 </div>
                             </div>
                         </div>
@@ -153,6 +159,7 @@
             $('.range-picker').daterangepicker({
                 autoUpdateInput: false,
                 separator: ' - ',
+                drops: 'up',
                 locale: {
                     format: 'DD/MM/YYYY',
                     applyLabel: 'Guardar',
@@ -163,6 +170,14 @@
                     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                     firstDay: 1
                 }
+            });
+
+            $('.range-picker').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            });
+
+            $('.range-picker').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
             });
         }(jQuery));
     </script>

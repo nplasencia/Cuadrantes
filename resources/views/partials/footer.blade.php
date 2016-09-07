@@ -1,5 +1,5 @@
 <footer class="Footer bg-dark dker">
-    <p>2016 &copy; Nauzet Plasencia - Auret S.L.P. </p>
+    <p>2016 &copy;Auret</p>
 </footer><!-- /#footer -->
 
 <!-- #helpModal -->
@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Esta aplicación ha sido desarrollada por la empresa Auret S.L.P.. Si tienes cualquier problema, no dudes en contactar con ellos a través del email
+                    Esta aplicación ha sido desarrollada por la empresa Auret. Si tienes cualquier problema, no dudes en contactar con ellos a través del email
                     <a href="mailto:nplasencia@auret.es?subject=[CuadrantesApp]%20Ayuda">nplasencia@auret.es</a>.
                 </p>
             </div>

@@ -1,5 +1,5 @@
 <meta charset ="UTF-8">
-<meta name = "author" content = "Auret S.L.P.">
+<meta name = "author" content = "Auret">
 <meta name = "description" content = "">
 <title>{{ $title }}</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.22/daterangepicker.min.css">
 
 <!--Selects-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
 
 <!--Pick-A-Color-->
 <link rel="stylesheet" href="{{ asset('assets/css/pickacolor.min.css') }}">

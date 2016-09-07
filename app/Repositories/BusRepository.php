@@ -5,6 +5,9 @@ namespace Cuadrantes\Repositories;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Commons\BusContract;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 class BusRepository extends BaseRepository
 {
     
@@ -32,14 +35,21 @@ class BusRepository extends BaseRepository
             ->paginate($numberOfElements);
     }
 
-    public function update($bus, $license, $brandId, $seats, $stands, $registration)
+    public function insert( Request $request )
+    {
+		$bus = new Bus($request->all());
+	    $bus->registration = Carbon::createFromFormat('d/m/Y', $request->get(BusContract::REGISTRATION))->format('Y-m-d');
+	    $bus->save();
+	    return $bus;
+    }
+
+	public function update($bus, $license, $brandId, $seats, $stands, $registration)
     {
         $bus->license      = $license;
         $bus->brand_id     = $brandId;
         $bus->seats        = $seats;
         $bus->stands       = $stands;
         $bus->registration = $registration;
-        $bus->active       = true;
         $bus->update();
         return $bus;
     }

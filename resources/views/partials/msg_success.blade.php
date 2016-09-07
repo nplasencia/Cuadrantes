@@ -3,9 +3,18 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{ Session::get('success') }}
     </div>
-@elseif(Session::has('info'))
-    <div class="alert alert-info text-center fade in">
+@endif
+@if(Session::has('info'))
+    <div class="alert alert-info fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{ Session::get('info') }}
+        @if(Session::has('info_complementary'))
+            <br><br>
+            <ul>
+                @foreach(Session::get('info_complementary') as $infoComplementary)
+                    <li>{{ $infoComplementary }}</li>
+                @endforeach
+            </ul>
+        @endif
     </div>
 @endif

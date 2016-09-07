@@ -5,9 +5,9 @@ namespace Cuadrantes\Http\Controllers;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Repositories\BrandRepository;
 use Cuadrantes\Repositories\BusRepository;
+use Cuadrantes\Commons\BusContract;
 
 use Illuminate\Http\Request;
-use Cuadrantes\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Datatables;
@@ -34,7 +34,7 @@ class BusesController extends Controller
             'license'      => 'required|string',
             'seats'        => 'required|numeric',
             'stands'       => 'required|numeric',
-            'registration' => 'required|date'
+            'registration' => 'required|date_format:d/m/Y'
         ]);
     }
 
@@ -104,9 +104,10 @@ class BusesController extends Controller
 
     public function store(Request $request)
     {
+
         $this->genericValidation($request);
         try {
-            $bus = $this->busRepository->create($request->all());
+            $bus = $this->busRepository->insert($request);
             session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido creada exitosamente');
             return Redirect::route('bus.details', $bus->id);
         } catch (\PDOException $exception) {
@@ -118,9 +119,9 @@ class BusesController extends Controller
     public function update(Request $request, $id)
     {
         $this->genericValidation($request);
-
+		$registration = Carbon::createFromFormat('d/m/Y', $request->get(BusContract::REGISTRATION))->format('Y-m-d');
         $bus = $this->busRepository->updateById($id, $request->get('license'), $request->get('brand_id'),
-                                                $request->get('seats'), $request->get('stands'), $request->get('registration'));
+                                                $request->get('seats'), $request->get('stands'), $registration);
         
         session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido actualizada exitosamente');
         return Redirect::route('bus.details', $bus->id);

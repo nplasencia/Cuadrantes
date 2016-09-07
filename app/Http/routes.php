@@ -50,9 +50,9 @@ Route::group(['middleware' => 'auth'], function() {
 Route::group(['middleware' => 'auth'], function() {
 
     // INDEX
-    Route::get ('/', 'DriversController@all')->name('home');
+    Route::get ('/', 'DriversController@resume')->name('home');
 
-    Route::get ('drivers', 'DriversController@all')->name('driver.resume');
+    Route::get ('drivers', 'DriversController@resume')->name('driver.resume');
 
     Route::get ('newDriver', 'DriversController@create')->name('driver.create');
     Route::post('newDriver', 'DriversController@store')->name('driver.save');

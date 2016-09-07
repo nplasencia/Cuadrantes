@@ -68,8 +68,8 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="registration">Fecha de matriculación</label>
                             <div class=" col-lg-4">
-                                <input data-provide="datepicker" class="form-control" type="date" name="registration" id="registration"
-                                       value="@if(isset($bus) && $bus != null){{ $bus->registration }}@else{{ old('registration') }}@endif">
+                                <input data-provide="datepicker" class="form-control" type="text" name="registration" id="registration"
+                                       value="@if(isset($bus) && $bus != null){{ $bus->registrationFormatted }}@else{{ old('registration') }}@endif">
                             </div>
                         </div>
 
@@ -87,5 +87,9 @@
     <script src="{{ asset('assets/js/libs/chosen.jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
 
-    $(".chosen-select").chosen();
+    <script>
+        (function($){
+            $(".chosen-select").chosen();
+        }(jQuery));
+    </script>
 @endpush

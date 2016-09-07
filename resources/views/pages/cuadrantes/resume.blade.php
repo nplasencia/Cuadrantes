@@ -40,7 +40,7 @@
 
                                 <div class="body collapse in">
                                     @forelse($restingDrivers as $driver)
-                                        <p>{{ $driver->getCompleteName() }}</p>
+                                        <p>{{ $driver->completeName }}</p>
                                     @empty
                                         <span>No hay conductores que descansen este día</span>
                                     @endforelse
@@ -60,7 +60,7 @@
 
                                 <div class="body collapse in">
                                     @forelse($holidaysDrivers as $driver)
-                                        <p>{{ $driver->getCompleteName() }}</p>
+                                        <p>{{ $driver->completeName }}</p>
                                     @empty
                                         <p>No hay conductores de vacaciones este día</p>
                                     @endforelse
@@ -80,7 +80,7 @@
 
                                 <div class="body collapse in">
                                     @forelse($downDrivers as $driver)
-                                        <p>{{ $driver->getCompleteName() }}</p>
+                                        <p>{{ $driver->completeName }}</p>
                                     @empty
                                         <p>No hay conductores de baja este día</p>
                                     @endforelse
@@ -116,7 +116,7 @@
                                             <tr>
                                                 <td>Servicio {{ $cuadrante->service->number }}</td>
                                                 @if (isset($cuadrante->driver))
-                                                    <td>{{ $cuadrante->driver->getCompleteName() }}</td>
+                                                    <td>{{ $cuadrante->driver->completeName }}</td>
                                                 @else
                                                     <td>No quedan conductores disponibles</td>
                                                 @endif

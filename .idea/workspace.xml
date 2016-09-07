@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2a2d87fc-551d-4049-9c74-c90ba7f66003" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Entities/Bus.php" afterPath="$PROJECT_DIR$/app/Entities/Bus.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Entities/Driver.php" afterPath="$PROJECT_DIR$/app/Entities/Driver.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/BusesController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/BusesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Repositories/BusRepository.php" afterPath="$PROJECT_DIR$/app/Repositories/BusRepository.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/buses/details.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/buses/details.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/buses/resume.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/buses/resume.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/drivers/details.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/drivers/details.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pages/cuadrantes/resume.blade.php" afterPath="$PROJECT_DIR$/resources/views/pages/cuadrantes/resume.blade.php" />
     </list>
     <ignored path="Cuadrantes.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,6 +42,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="resume.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/cuadrantes/resume.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="118" column="91" selection-start-line="118" selection-start-column="91" selection-end-line="118" selection-end-column="91" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="BusRepository.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Repositories/BusRepository.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -71,11 +74,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="resume.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="resume.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/pages/buses/resume.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="495">
               <caret line="33" column="31" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CuadrantesViewController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CuadrantesViewController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-105">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,7 +131,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/CuadrantesController.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/datepicker_defaults.js" />
         <option value="$PROJECT_DIR$/app/Entities/Cuadrante.php" />
-        <option value="$PROJECT_DIR$/resources/views/pages/cuadrantes/resume.blade.php" />
         <option value="$PROJECT_DIR$/app/Repositories/CuadranteRepository.php" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/database/seeds/DriverTableSeeder.php" />
@@ -150,6 +162,7 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/BusesController.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/buses/details.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/drivers/details.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/cuadrantes/resume.blade.php" />
       </list>
     </option>
   </component>
@@ -304,6 +317,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="drivers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Cuadrantes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Cuadrantes" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cuadrantes" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -552,12 +591,12 @@
       <workItem from="1472640552173" duration="10493000" />
       <workItem from="1472984757237" duration="19546000" />
       <workItem from="1473060241210" duration="10458000" />
-      <workItem from="1473175117676" duration="22494000" />
+      <workItem from="1473175117676" duration="22746000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="574069000" />
+    <option name="totallyTimeSpent" value="574321000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="947" extended-state="6" />
@@ -603,20 +642,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/services/resume.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="74" column="76" selection-start-line="74" selection-start-column="76" selection-end-line="74" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/cuadrantes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ServicesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
@@ -970,22 +995,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BusesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="118" column="84" selection-start-line="118" selection-start-column="84" selection-end-line="118" selection-end-column="84" />
-          <folding>
-            <element signature="e#47#75#0#PHP" expanded="true" />
-            <marker date="1473249593000" expanded="true" signature="1283:1668" ph="..." />
-            <marker date="1473249593000" expanded="true" signature="1338:1641" ph="..." />
-            <marker date="1473249593000" expanded="true" signature="1518:1610" ph="..." />
-            <marker date="1473249593000" expanded="true" signature="1712:2116" ph="..." />
-            <marker date="1473249593000" expanded="true" signature="1771:2089" ph="..." />
-            <marker date="1473249593000" expanded="true" signature="1963:2058" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Repositories/BusRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="548">
@@ -1024,6 +1033,38 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="33" column="31" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CuadrantesViewController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-105">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/BusesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="118" column="84" selection-start-line="118" selection-start-column="84" selection-end-line="118" selection-end-column="84" />
+          <folding>
+            <element signature="e#47#75#0#PHP" expanded="true" />
+            <marker date="1473249593000" expanded="true" signature="1283:1668" ph="..." />
+            <marker date="1473249593000" expanded="true" signature="1338:1641" ph="..." />
+            <marker date="1473249593000" expanded="true" signature="1518:1610" ph="..." />
+            <marker date="1473249593000" expanded="true" signature="1712:2116" ph="..." />
+            <marker date="1473249593000" expanded="true" signature="1771:2089" ph="..." />
+            <marker date="1473249593000" expanded="true" signature="1963:2058" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/cuadrantes/resume.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="118" column="91" selection-start-line="118" selection-start-column="91" selection-end-line="118" selection-end-column="91" />
           <folding />
         </state>
       </provider>

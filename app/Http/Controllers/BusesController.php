@@ -30,11 +30,11 @@ class BusesController extends Controller
     protected function genericValidation(Request $request)
     {
         $this->validate($request, [
-            'brand_id'     => 'required|numeric',
-            'license'      => 'required|string',
-            'seats'        => 'required|numeric',
-            'stands'       => 'required|numeric',
-            'registration' => 'required|date_format:d/m/Y'
+            BusContract::BRAND_ID     => 'required|numeric',
+            BusContract::LICENSE      => 'required|string',
+            BusContract::SEATS        => 'required|numeric',
+            BusContract::STANDS       => 'required|numeric',
+            BusContract::REGISTRATION => 'required|date_format:d/m/Y'
         ]);
     }
 
@@ -61,10 +61,10 @@ class BusesController extends Controller
     {
         return Datatables::of($this->busRepository->getAll())
             ->addColumn('total', function(Bus $bus){
-                return with($bus->seats + $bus->stands);
+                return $bus->totalSeats;
             })
             ->editColumn('registration', function (Bus $bus){
-                return with(new Carbon($bus->registration))->format('d-m-Y');
+                return $bus->registrationFormatted;
             })
             ->addColumn('actions', function (Bus $bus) {
                 return $this->getTableActionButtons($bus);
@@ -72,67 +72,51 @@ class BusesController extends Controller
             ->make(true);
     }
 
-    private function resume($buses)
+    public function resume()
     {
-        $title = $this->title;
-        $iconClass = $this->iconClass;
-        return view('pages.buses.resume', compact('title', 'iconClass', 'buses'));
-    }
-
-    public function all()
-    {
-        $buses = $this->busRepository->getAllPaginated($this->defaultPagination);
-        return $this->resume($buses);
+	    $buses = $this->busRepository->getAllPaginated($this->defaultPagination);
+        return view('pages.buses.resume', ['title' => $this->title, 'iconClass' => $this->iconClass, 'buses' => $buses]);
     }
 
     public function create()
     {
         $title = 'Nueva guagua';
-        $iconClass = $this->iconClass;
         $brands = $this->brandRepository->getAll();
-        return view('pages.buses.details', compact('brands', 'title', 'iconClass'));
+        return view('pages.buses.details', ['brands' => $brands, 'title' => $title, 'iconClass' => $this->iconClass]);
     }
 
     public function details($id)
     {
         $bus = $this->busRepository->findOrFail($id);
         $brands = $this->brandRepository->getAll();
-        $title = $bus->brand->name.' - Matrícula: '.$bus->license;
-        $iconClass = $this->iconClass;
-        return view('pages.buses.details', compact('bus', 'brands', 'title', 'iconClass'));
+        return view('pages.buses.details', ['bus' => $bus, 'brands' => $brands, 'title' => $bus->nameLicense, 'iconClass' => $this->iconClass]);
     }
 
     public function store(Request $request)
     {
-
         $this->genericValidation($request);
         try {
             $bus = $this->busRepository->insert($request);
-            session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido creada exitosamente');
+            session()->flash('success', "La guagua {$bus->nameLicense} ha sido creada exitosamente");
             return Redirect::route('bus.details', $bus->id);
         } catch (\PDOException $exception) {
-            session()->flash('info', 'La guagua de matrícula '.$request->get('license').' ha sido creada con anterioridad.');
-            return $this->all();
+            session()->flash('info', "La guagua de matrícula {$request->get(BusContract::LICENSE)} ha sido creada con anterioridad.");
+            return $this->resume();
         }
     }
 
     public function update(Request $request, $id)
     {
         $this->genericValidation($request);
-		$registration = Carbon::createFromFormat('d/m/Y', $request->get(BusContract::REGISTRATION))->format('Y-m-d');
-        $bus = $this->busRepository->updateById($id, $request->get('license'), $request->get('brand_id'),
-                                                $request->get('seats'), $request->get('stands'), $registration);
-        
-        session()->flash('success', 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido actualizada exitosamente');
+        $bus = $this->busRepository->updateById($id, $request);
+        session()->flash('success', "La guagua {$bus->nameLicense} ha sido actualizada exitosamente");
         return Redirect::route('bus.details', $bus->id);
     }
 
     public function destroy($id)
     {
         $bus = $this->busRepository->deleteById($id);
-
-        $successMsg = 'La guagua '.$bus->brand->name.' de matrícula '.$bus->license.' ha sido eliminada exitosamente';
-        session()->flash('success', $successMsg);
-        return $this->all();
+        session()->flash('success', "La guagua {$bus->nameLicense} ha sido eliminada exitosamente");
+        return $this->resume();
     }
 }

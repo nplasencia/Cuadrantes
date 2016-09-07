@@ -63,7 +63,7 @@ class Driver extends Entity
 
 	public function getFormalCompleteNameAttribute()
 	{
-		return "{$this->last_name}, {$this->first_name} ({$this->id})";
+		return "{$this->last_name}, {$this->first_name}";
 	}
 
 	public function getHolidaysFormatted($index)

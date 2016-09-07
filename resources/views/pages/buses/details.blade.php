@@ -68,8 +68,11 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="registration">Fecha de matriculación</label>
                             <div class=" col-lg-4">
-                                <input data-provide="datepicker" class="form-control" type="text" name="registration" id="registration"
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input data-provide="datepicker" class="form-control" type="text" name="registration" id="registration"
                                        value="@if(isset($bus) && $bus != null){{ $bus->registrationFormatted }}@else{{ old('registration') }}@endif">
+                                </div>
                             </div>
                         </div>
 

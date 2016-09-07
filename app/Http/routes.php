@@ -75,9 +75,7 @@ Route::group(['middleware' => 'auth'], function() {
 // Buses
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get ('buses', 'BusesController@all')->name('bus.resume');
-
-    Route::post('busSearch', 'BusesController@search')->name('bus.search');
+    Route::get ('buses', 'BusesController@resume')->name('bus.resume');
 
     Route::get ('newBus', 'BusesController@create')->name('bus.create');
     Route::post('newBus', 'BusesController@store')->name('bus.save');

@@ -38,8 +38,8 @@
                                 <td>{{ $bus->brand->name }}</td>
                                 <td>{{ $bus->seats }}</td>
                                 <td>{{ $bus->stands }}</td>
-                                <td>{{ $bus->seats + $bus->stands }}</td>
-                                <td>{{ date('d-m-Y', strtotime($bus->registration)) }}</td>
+                                <td>{{ $bus->totalSeats }}</td>
+                                <td>{{ $bus->registrationFormatted }}</td>
                                 <td align="right">
                                     <div class="btn-group pull-right">
                                         <a href="{{ route('bus.details', $bus->id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">

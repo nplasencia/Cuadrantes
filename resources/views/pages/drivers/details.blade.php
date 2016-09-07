@@ -117,7 +117,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input type="text" name="holidays1" id="holidays1" class="form-control range-picker"
-                                           value="@if(isset($driver) && $driver != null){{ $driver->getHolidaysFormatted(0) }}@else{{ "" }}@endif" />
+                                           value="@if(isset($driver) && $driver != null){{ $driver->getHolidaysFormatted(0) }}@else{{ old('holidays1') }}@endif" />
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input type="text" name="holidays2" id="holidays2" class="form-control range-picker"
-                                           value="@if(isset($driver) && $driver != null){{ $driver->getHolidaysFormatted(1) }}@endif" />
+                                           value="@if(isset($driver) && $driver != null){{ $driver->getHolidaysFormatted(1) }}@else{{ old('holidays2') }}@endif" />
                                 </div>
                             </div>
                         </div>

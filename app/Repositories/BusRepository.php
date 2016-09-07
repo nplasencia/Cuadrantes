@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Repositories;
 
+use Cuadrantes\Commons\Globals;
 use Cuadrantes\Entities\Bus;
 use Cuadrantes\Commons\BusContract;
 
@@ -23,41 +24,32 @@ class BusRepository extends BaseRepository
 
     public function getAllPaginated($numberOfElements)
     {
-        return $this->newQuery()->with('brand')
-            ->orderBy(BusContract::LICENSE, 'ASC')
-            ->paginate($numberOfElements);
-    }
-    
-    public function searchByLicensePaginated($license, $numberOfElements)
-    {
-        return $this->newQuery()->where(BusContract::LICENSE, 'LIKE', '%'.$license.'%')
-            ->orderBy(BusContract::LICENSE, 'ASC')
-            ->paginate($numberOfElements);
+        return $this->newQuery()->with('brand')->orderBy(BusContract::LICENSE, 'ASC')->paginate($numberOfElements);
     }
 
     public function insert( Request $request )
     {
 		$bus = new Bus($request->all());
-	    $bus->registration = Carbon::createFromFormat('d/m/Y', $request->get(BusContract::REGISTRATION))->format('Y-m-d');
+	    $bus->registration = Carbon::createFromFormat(Globals::CARBON_VIEW_FORMAT, $request->get(BusContract::REGISTRATION))->format(Globals::CARBON_SQL_FORMAT);
 	    $bus->save();
 	    return $bus;
     }
 
-	public function update($bus, $license, $brandId, $seats, $stands, $registration)
+	public function update($bus, Request $request)
     {
-        $bus->license      = $license;
-        $bus->brand_id     = $brandId;
-        $bus->seats        = $seats;
-        $bus->stands       = $stands;
-        $bus->registration = $registration;
+        $bus->license      = $request->get(BusContract::LICENSE);
+        $bus->brand_id     = $request->get(BusContract::BRAND_ID);
+        $bus->seats        = $request->get(BusContract::SEATS);
+        $bus->stands       = $request->get(BusContract::STANDS);
+        $bus->registration = Carbon::createFromFormat(Globals::CARBON_VIEW_FORMAT, $request->get(BusContract::REGISTRATION))->format(Globals::CARBON_SQL_FORMAT);
         $bus->update();
         return $bus;
     }
 
-    public function updateById($id, $license, $brandId, $seats, $stands, $registration)
+    public function updateById($id, Request $request)
     {
         $bus = $this->findOrFail($id);
-        return $this->update($bus, $license, $brandId, $seats, $stands, $registration);
+        return $this->update($bus, $request);
     }
     
 }

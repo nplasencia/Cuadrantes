@@ -134,7 +134,7 @@ class CuadrantesController extends Controller
 
 	    $substitute = array_pop($this->substitutes);
 	    if ($substitute->isRestDay( $weekday, $substitute->restDays ) || $substitute->isInHolidays( $today, $substitute->holidays )) {
-	    	echo " El sustituto {$substitute->getCompleteName()} está de vacaciones o de descanso para este día.";
+	    	echo " El sustituto {$substitute->completeName} está de vacaciones o de descanso para este día.";
 	    	return $this->getSubstitute($today, $weekday);
 	    }
 	    return $substitute;
@@ -174,7 +174,7 @@ class CuadrantesController extends Controller
 	    //Eliminamos todos aquellos servicios almacenados en la base de datos cuya fecha sea mayor a hoy
 		$this->cuadranteRepository->deleteAllAfterDate(new Carbon());
 
-	    for ($i=0; $i<4;$i++) {
+	    for ($i=0; $i<8;$i++) {
 		    $cuadrantes = array();
 
 		    foreach ( $servicesOrdered as $period => $groups ) {
@@ -248,14 +248,14 @@ class CuadrantesController extends Controller
 						    $substitute = null;
 						    $driver = $condition->driver;
 						    if ( $driver->isInHolidays( $now, $driver->holidays ) ) {
-							    echo "El conductor {$driver->getCompleteName()} <b>está de vacaciones</b> este día. Buscamos sustituto.";
+							    echo "El conductor {$driver->completeName} <b>está de vacaciones</b> este día. Buscamos sustituto.";
 							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
 								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
 							    }
 							    $substitute = $substitutions[ $driver->id ];
 
 						    } else if ( $driver->isRestDay( $weekday, $driver->restDays ) ) {
-							    echo "El conductor {$driver->getCompleteName()} <b>descansa</b> este día. Buscamos sustituto.";
+							    echo "El conductor {$driver->completeName} <b>descansa</b> este día. Buscamos sustituto.";
 							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
 								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
 							    }
@@ -266,14 +266,14 @@ class CuadrantesController extends Controller
 							    $service = $groupServiceOrders[ $period ] [ $group ] [ $driver->id ][ $calculoNormalizado ];
 							    $serviciosAsignados[] = $service->id;
 							    if ( $substitute === null ) {
-								    echo "Servicio número {$service->number}: Conductor {$driver->getCompleteName()} <br>";
+								    echo "Servicio número {$service->number}: Conductor {$driver->completeName} <br>";
 								    $cuadrantes[ $now->toDateString() ][ $service->id ] = $driver;
 							    } else {
 								    if ( $substitute === false ) {
 									    echo "Servicio número {$service->number}: No existe conductor ni sustituto. Esperamos siguiente iteración.<br>";
 									    $cuadrantes[ $now->toDateString() ][ $service->id ] = false;
 								    } else {
-									    echo "Servicio número {$service->number}: Conductor {$substitute->getCompleteName()} <br>";
+									    echo "Servicio número {$service->number}: Conductor {$substitute->completeName} <br>";
 									    $cuadrantes[ $now->toDateString() ][ $service->id ] = $substitute;
 								    }
 							    }
@@ -342,7 +342,7 @@ class CuadrantesController extends Controller
 			    echo "<br>Sustitutos disponibles<br>";
 			    echo "------------------------<br>";
 			    foreach ($replacements as $replacement) {
-				    echo "{$replacement->getCompleteName()};";
+				    echo "{$replacement->completeName};";
 				    if (isset($horasTrabajadasSemana[ $replacement->id ]))
 				        echo "Días trabajados semana: {$horasTrabajadasSemana[ $replacement->id ]}";
 				    else
@@ -361,7 +361,7 @@ class CuadrantesController extends Controller
 					    if ( sizeof( $replacements ) > 0 ) {
 						    shuffle( $replacements );
 						    $replacement = array_pop( $replacements );
-						    echo "{$replacement->getCompleteName()};Sustituto;<br>";
+						    echo "{$replacement->completeName};Sustituto;<br>";
 						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $replacement;
 						    $cuadrante->driver_id = $replacement->id;
 						    $cuadrante->substitute = true;
@@ -398,7 +398,7 @@ class CuadrantesController extends Controller
 
 				    if (isset($selectedDriver) && $selectedDriver !== false ) {
 				    	if ($driver !== false) {
-						    echo "{$selectedDriver->getCompleteName()};<br>";
+						    echo "{$selectedDriver->completeName};<br>";
 					    }
 					    if ( isset( $horasTrabajadasSemana[ $selectedDriver->id ] ) ) {
 						    $horasTrabajadasSemana[ $selectedDriver->id ] ++;
@@ -417,7 +417,7 @@ class CuadrantesController extends Controller
 			    echo "<br>Sustitutos libres<br>";
 			    echo "------------------------<br>";
 			    foreach ($replacements as $replacement) {
-				    echo "{$replacement->getCompleteName()}<br>";
+				    echo "{$replacement->completeName}<br>";
 			    }
 		    }
 		    echo "<br>Días trabajados<br>";

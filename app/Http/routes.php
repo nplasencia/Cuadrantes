@@ -40,9 +40,8 @@ Route::group(['middleware' => 'auth'], function() {
 // Ajax
 Route::group(['middleware' => 'auth'], function() {
     Route::get ('ajax/drivers', 'DriversController@ajaxResume')->name('driver.ajaxResume');
-    Route::get ('ajax/buses'  , 'BusesController@ajaxResume')->name('bus.ajaxResume');
-    Route::get ('ajax/lines'  , 'LinesController@ajaxResume')->name('line.ajaxResume');
-    Route::get ('ajax/pairs'  , 'PairsController@ajaxResume')->name('pair.ajaxResume');
+    Route::get ('ajax/buses'  , 'BusesController@ajaxResume')  ->name('bus.ajaxResume');
+    Route::get ('ajax/lines'  , 'LinesController@ajaxResume')  ->name('line.ajaxResume');
 
 });
 
@@ -68,8 +67,17 @@ Route::group(['middleware' => 'auth'], function() {
 //Pairs
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get ('pairs', 'PairsController@all')->name('pairs.resume');
-    
+    Route::get ('pairs', 'PairsController@resume')->name('pair.resume');
+
+	Route::get ('newPair', 'PairsController@create')->name('pair.create');
+
+	Route::get ('pair/{pairNumber}', 'PairsController@details')->name('pair.details');
+
+	Route::get ('pairDestroy/{pairNumber}', 'PairsController@destroy')->name('pair.destroy');
+	Route::delete('pairDestroy/{pairNumber}', 'PairsController@destroy')->name('pair.destroy');
+
+	Route::post('pairDriverAdd/{pairNumber}', 'PairsController@driverAdd')->name('pair.driverAdd');
+	Route::delete('pairDriverDestroy/{pairNumber}/{driverId}', 'PairsController@driverDestroy')->name('pair.driverDestroy');
 });
 
 // Buses

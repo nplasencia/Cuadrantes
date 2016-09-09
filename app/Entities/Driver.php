@@ -34,7 +34,7 @@ class Driver extends Entity
 
 	public function pair()
 	{
-		return $this->belongsTo(Pair::class);
+		return $this->hasOne(Pair::class);
 	}
 
     public function cuadrantes()

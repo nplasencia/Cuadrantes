@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Commons\PairContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,13 +14,17 @@ class Pair extends Entity
 
     protected $fillable = [PairContract::PAIR_ID, PairContract::DRIVER_ID];
 
+	/*
+	 * Relations
+	 */
+
     public function driver()
     {
-        return $this->belongsTo(Driver::class);
+        return $this->belongsTo(Driver::class)->orderBy(DriverContract::FIRST_NAME)->orderBy(DriverContract::LAST_NAME);
     }
 
-    public function drivers()
-    {
-        return $this->belongsToMany(Driver::class, PairContract::TABLE_NAME);
-    }
+    /*
+     * Functions
+     */
+
 }

@@ -12,9 +12,9 @@
 
                     <div class="row" style="margin-left: 0px; margin-bottom: 10px;">
                         <div class="btn-group">
-                            <a href="{{ route('bus.create') }}" class="btn btn-success">
+                            <a href="{{ route('pair.create') }}" class="btn btn-success">
                                 <i class="fa fa-plus-circle"></i>
-                                <span class="link-title">&nbsp;Nueva pareja</span>
+                                <span class="link-title">Nueva pareja</span>
                             </a>
                         </div>
                     </div>
@@ -23,25 +23,23 @@
                         <thead>
                         <tr>
                             <th class="text-center">Número pareja</th>
-                            <th class="text-center">Apellidos</th>
-                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Conductores</th>
                             <th>&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($pairs as $pair)
-                            <tr data-id="{{ $pair->id }}">
-                                <td>{{ $pair->pair_id }}</td>
-                                <td>{{ $pair->driver->last_name }}</td>
-                                <td>{{ $pair->driver->first_name }}</td>
+                        @foreach($pairs as $pairNumber => $driversName)
+                            <tr>
+                                <td class="text-center">{{ $pairNumber }}</td>
+                                <td class="text-center">{{ $driversName }}</td>
                                 <td align="right">
-                                    <div class="btn-group pull-right">
-                                        <a href="{{ route('bus.details', $pair->pair_id) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
+                                    <div class="btn-group">
+                                        <a href="{{ route('pair.details', $pairNumber) }}" data-toggle="tooltip" data-original-title="Editar" data-placement="bottom" class="btn btn-success btn-xs">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     </div>
-                                    <div class="btn-group pull-right">
-                                        <a href="{{ route('bus.destroy', $pair->pair_id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
+                                    <div class="btn-group">
+                                        <a href="{{ route('pair.destroy', $pairNumber) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
                                             <i class="fa fa-trash-o"></i>
                                         </a>
                                     </div>
@@ -63,19 +61,16 @@
         $(function() {
             $('#pairsTableResume').DataTable({
                 "processing": true,
-                "serverSide": true,
-                "ajax": "{!! route('pair.ajaxResume') !!}",
                 "fnDrawCallback": function() {
                     $('[data-toggle="tooltip"]').tooltip();
                 },
                 columns: [
                     { data: 'pair_id', name: 'pair_id'},
-                    { data: 'driver.last_name', name: 'driver.last_name'},
-                    { data: 'driver.first_name', name: 'driver.first_name'},
+                    { data: 'drivers', name: 'drivers', orderable: false},
                     { data: 'actions', name: 'actions', orderable: false, searchable: false}
                 ],
                 "aoColumnDefs": [
-                    { "sClass": "text-right", "aTargets": [3] }
+                    { "sClass": "text-right", "aTargets": [2] }
                 ]
             });
         });

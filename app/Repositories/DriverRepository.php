@@ -126,4 +126,9 @@ class DriverRepository extends BaseRepository
 	    }
 	    return $holidaysDrivers;
     }
+
+    public function getDriversWithoutPair()
+    {
+    	return $this->newQuery()->whereDoesntHave('pair')->orderBy(DriverContract::FIRST_NAME)->get();
+    }
 }

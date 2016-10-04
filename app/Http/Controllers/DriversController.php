@@ -11,6 +11,7 @@ use Cuadrantes\Entities\DriverRestDay;
 use Cuadrantes\Entities\Weekday;
 use Cuadrantes\Repositories\DriverHolidayRepository;
 use Cuadrantes\Repositories\DriverRepository;
+use Cuadrantes\Repositories\PairRepository;
 use Cuadrantes\Repositories\WeekdayRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -24,11 +25,13 @@ class DriversController extends Controller {
 
 	private $driverRepository;
 	private $holidayRepository;
+	private $pairRepository;
 	private $weekdayRepository;
 
-	public function __construct( DriverRepository $driverRepository, DriverHolidayRepository $holidayRepository, WeekdayRepository $weekdayRepository ) {
+	public function __construct( DriverRepository $driverRepository, DriverHolidayRepository $holidayRepository, WeekdayRepository $weekdayRepository, PairRepository $pairRepository ) {
 		$this->driverRepository  = $driverRepository;
 		$this->holidayRepository = $holidayRepository;
+		$this->pairRepository    = $pairRepository;
 		$this->weekdayRepository = $weekdayRepository;
 	}
 
@@ -134,6 +137,7 @@ class DriversController extends Controller {
 
 	public function destroy( $id )
 	{
+		$this->pairRepository->deleteByDriverId($id);
 		$driver = $this->driverRepository->deleteById( $id );
 		session()->flash( 'success', "El conductor {$driver->completeName} ha sido eliminado exitosamente" );
 		return Redirect::route( 'driver.resume' );

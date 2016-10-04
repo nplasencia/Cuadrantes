@@ -22,14 +22,12 @@ class PairRepository extends BaseRepository
 		$pairs = $this->getAll();
 		foreach ($pairs as $pair) {
 			// Devolvemos los nombres de dicho número de pareja separados por guión
-			try {
-				if ( isset ( $res[ $pair->pair_id ] ) ) {
+			if ( isset ( $res[ $pair->pair_id ] ) ) {
+				if (isset($pair->driver)) {
 					$res[ $pair->pair_id ] .= " - {$pair->driver->completeName}";
-				} else {
-					$res[ $pair->pair_id ] = $pair->driver->completeName;
 				}
-			} catch (Exception $e) {
-				dd($pair);
+			} else {
+				$res[ $pair->pair_id ] = $pair->driver->completeName;
 			}
 		}
 		return $res;

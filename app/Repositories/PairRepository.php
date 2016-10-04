@@ -6,6 +6,7 @@ use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Commons\PairContract;
 use Cuadrantes\Entities\Pair;
 use Illuminate\Database\Eloquent\Collection;
+use Mockery\CountValidator\Exception;
 use PhpParser\Node\Expr\Cast\Array_;
 
 class PairRepository extends BaseRepository
@@ -21,10 +22,14 @@ class PairRepository extends BaseRepository
 		$pairs = $this->getAll();
 		foreach ($pairs as $pair) {
 			// Devolvemos los nombres de dicho número de pareja separados por guión
-			if (isset ($res[$pair->pair_id])) {
-				$res[ $pair->pair_id ] .= " - {$pair->driver->completeName}";
-			} else {
-				$res[ $pair->pair_id ] = $pair->driver->completeName;
+			try {
+				if ( isset ( $res[ $pair->pair_id ] ) ) {
+					$res[ $pair->pair_id ] .= " - {$pair->driver->completeName}";
+				} else {
+					$res[ $pair->pair_id ] = $pair->driver->completeName;
+				}
+			} catch (Exception $e) {
+				dd($pair);
 			}
 		}
 		return $res;

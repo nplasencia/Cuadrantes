@@ -24,16 +24,14 @@ Route::post ('password/email', 'Auth\PasswordController@postEmail')->name('passw
 Route::get ('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset')->name('passwordReset');
 
-Route::get('test', function() {
-   return view('pages.test.sortabletable');
-});
-
 // Drivers
 Route::group(['middleware' => 'auth'], function() {
 
-    Route::get('user',      'UserController@resume')->name('user_profile.resume');
-    Route::get('userImage', 'UserController@getProfileImage')->name('user_profile.image');
-    Route::post('user',     'UserController@update')->name('user_profile.update');
+    Route::get('user',      'UserProfileController@resume')->name('user_profile.resume');
+    Route::get('userImage', 'UserProfileController@getProfileImage')->name('user_profile.image');
+    Route::post('user',     'UserProfileController@update')->name('user_profile.update');
+
+	Route::post('changePassword', 'UserProfileController@changePassword')->name('user_profile.changePassword');
 
 });
 
@@ -42,6 +40,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('ajax/drivers', 'DriversController@ajaxResume')->name('driver.ajaxResume');
     Route::get ('ajax/buses'  , 'BusesController@ajaxResume')  ->name('bus.ajaxResume');
     Route::get ('ajax/lines'  , 'LinesController@ajaxResume')  ->name('line.ajaxResume');
+	Route::get ('ajax/users'  , 'UserController@ajaxResume')   ->name('user.ajaxResume');
 
 });
 
@@ -149,4 +148,20 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get ('cuadrantes', 'CuadrantesViewController@allToday')->name('cuadrantes.resume');
 	Route::post('cuadrantes', 'CuadrantesViewController@all')->name('cuadrantes.resumePost');
+});
+
+// Users
+Route::group(['middleware' => 'auth', 'admin'], function() {
+
+	Route::get('users', 'UserController@resume')->name('users.resume');
+
+	Route::get ('newUser', 'UserController@create')->name('user.create');
+	Route::post('newUser', 'UserController@store')->name('user.store');
+
+	Route::get ('users/{id}', 'UserController@details')->name('user.details');
+	Route::post('users/{id}', 'UserController@update')->name('user.update');
+
+	Route::get ('userDelete/{id}', 'UserController@delete')->name('user.delete');
+	Route::delete('userDelete/{id}', 'UserController@delete')->name('user.delete');
+
 });

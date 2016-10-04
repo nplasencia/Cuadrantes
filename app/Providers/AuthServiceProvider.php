@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Providers;
 
+use Cuadrantes\Entities\User;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -26,6 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        //
+	    $gate->define('admin', function (User $user) {
+		    return $user->isAdmin();
+	    });
     }
 }

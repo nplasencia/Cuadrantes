@@ -47,7 +47,6 @@ class DriverRepository extends BaseRepository
 			$driverHoliday->date_to   = Carbon::createFromFormat( Globals::CARBON_VIEW_FORMAT, $holidays[1] )->format( Globals::CARBON_SQL_FORMAT );
 			$driverHoliday->save();
 		}
-
 	}
 
     public function store(Request $request)

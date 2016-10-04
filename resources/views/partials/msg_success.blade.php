@@ -5,14 +5,14 @@
     </div>
 @endif
 @if(Session::has('info'))
-    <div class="alert alert-info fade in">
+    <div class="alert alert-info text-center fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{ Session::get('info') }}
         @if(Session::has('info_complementary'))
             <br><br>
             <ul>
                 @foreach(Session::get('info_complementary') as $infoComplementary)
-                    <li>{{ $infoComplementary }}</li>
+                    <li class="text-left">{{ $infoComplementary }}</li>
                 @endforeach
             </ul>
         @endif

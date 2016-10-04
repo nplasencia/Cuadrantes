@@ -23,6 +23,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal --><!-- /#helpModal -->
 
+@stack('modals')
+
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
 
 @stack('scripts')

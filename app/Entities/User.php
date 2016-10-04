@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\Roles;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -30,7 +31,7 @@ class User extends Entity implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = [UserContract::NAME, UserContract::SURNAME, UserContract::EMAIL, UserContract::ROLE, UserContract::PASSWORD,];
+    protected $fillable = [UserContract::NAME, UserContract::SURNAME, UserContract::EMAIL, UserContract::ROLE, UserContract::TELEPHONE];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -39,11 +40,21 @@ class User extends Entity implements AuthenticatableContract,
      */
     protected $hidden = [UserContract::PASSWORD, 'remember_token'];
 
-    public function getCompleteName() {
+	public function isAdmin()
+	{
+		if ($this->role == Roles::ADMIN) {
+			return true;
+		}
+		return false;
+	}
+
+    public function getCompleteNameAttribute()
+    {
         return "{$this->name} {$this->surname}";
     }
 
-    public function hasProfileImage() {
+    public function hasProfileImage()
+    {
         if (Storage::disk('public')->exists('avatar'.'/'.$this->id.'.jpg')) {
             return true;
         } else {

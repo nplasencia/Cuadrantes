@@ -37,4 +37,13 @@
         </a>
     </li>
 
+    @can('admin')
+        <li>
+            <a href="{{ route('users.resume') }}">
+                <i class="fa fa-users"></i>
+                <span class="link-title">&nbsp; @lang('menu.users')</span>
+            </a>
+        </li>
+    @endcan
+
 </ul><!-- /#menu -->

@@ -1,5 +1,6 @@
 <?php
 
+use App\Commons\Roles;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -20,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string(UserContract::SURNAME);
             $table->string(UserContract::EMAIL)->unique();
             $table->string(UserContract::TELEPHONE);
-            $table->enum(UserContract::ROLE, ['Admin', 'User']);
+            $table->enum(UserContract::ROLE, [Roles::ADMIN, Roles::USER]);
             $table->string(UserContract::PASSWORD);
             $table->rememberToken();
             $table->timestamps();

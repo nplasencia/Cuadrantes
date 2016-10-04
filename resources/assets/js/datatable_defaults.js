@@ -2,12 +2,16 @@ $.extend( true, $.fn.dataTable.defaults, {
     "pageLength": 25,
     "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Todos"]],
 
+    search: {
+        caseInsensitive: true
+    },
+
     language: {
         processing:     "Procesando ...",
         search:         "Buscar &nbsp;:",
         lengthMenu:     "Mostrar _MENU_ elementos",
         info:           "Mostrando del _START_ al _END_ de _TOTAL_ elementos",
-        infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+        infoEmpty:      "No se han encontrado registros",
         infoFiltered:   "(De un total de _MAX_ elementos)",
         infoPostFix:    "",
         loadingRecords: "Chargement en cours...",

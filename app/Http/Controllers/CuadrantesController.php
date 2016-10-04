@@ -106,24 +106,6 @@ class CuadrantesController extends Controller
         return $orderedOrders;
     }
 
-    private function comprobaciones($services, $conditions)
-    {
-        // Comprobaciones
-        $driversCount = 0;
-        foreach ($conditions as $condition) {
-
-        }
-
-        // 1. El número de conductores debe de cuadrar con el número de servicios
-        if (sizeof($services) != $driversCount) {
-            return "El número de conductores no coincide con el número de servicios.";
-        }
-        // 2. El número de días de descanso dentro del periodo debe ser menor o igual que el número de conductores sustitutos
-
-        // 3. No pueden coincidir las vacaciones de
-        return true;
-    }
-
     private function getSubstitute($today, $weekday)
     {
     	if ($this->substitutes === null || sizeof($this->substitutes) == 0) {

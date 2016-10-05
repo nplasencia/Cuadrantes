@@ -129,7 +129,7 @@ class CuadrantesController extends Controller
 		// Siempre tengo que saber qué servicio realizó el conductor la semana anterior el primer día después del último día de descanso.
 		$lastRestingDay = $driver->getLastRestingDay($driverRestDays);
 		if ($lastRestingDay == null) {
-			dd('ProblemaRestingDay');
+			dd('ProblemaRestingDay', $driver);
 		}
 		$dayAfterRestWeekBefore = Carbon::create()->addWeeks(-1)->startOfWeek()->addDays($lastRestingDay->id);
 		$lastCuadrante = $this->cuadranteRepository->getByServiceDateDriver($dayAfterRestWeekBefore, $driver);

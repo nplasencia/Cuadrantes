@@ -5,6 +5,7 @@ namespace Cuadrantes\Repositories;
 use Carbon\Carbon;
 use Cuadrantes\Commons\CuadranteContract;
 use Cuadrantes\Entities\Cuadrante;
+use Cuadrantes\Entities\Driver;
 
 class CuadranteRepository extends BaseRepository{
     
@@ -25,5 +26,10 @@ class CuadranteRepository extends BaseRepository{
     public function deleteAllAfterDate(Carbon $date)
 	{
     	$this->newQuery()->withTrashed()->where(CuadranteContract::DATE, '>', $date)->forceDelete();
+	}
+
+	public function getByServiceDateDriver(Carbon $date, Driver $driver)
+	{
+		return $this->newQuery()->where(CuadranteContract::DATE, $date->format('Y-m-d'))->where(CuadranteContract::DRIVER_ID, $driver->id)->first();
 	}
 }

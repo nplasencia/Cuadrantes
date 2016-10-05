@@ -3,10 +3,9 @@
 namespace Cuadrantes\Entities;
 
 use Carbon\Carbon;
-use Cuadrantes\Commons\ServiceTimetablesContract;
 use Cuadrantes\Commons\ServiceContract;
+use Cuadrantes\Commons\ServiceTimetablesContract;
 use Cuadrantes\Commons\TimetableContract;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -31,6 +30,11 @@ class Service extends Model
     public function excludedPeriod()
     {
     	return $this->belongsTo(ServiceExcludedPeriod::class);
+    }
+
+    public function cuadrantes()
+    {
+    	return $this->hasMany(Cuadrante::class);
     }
 
     public function isExcluded()

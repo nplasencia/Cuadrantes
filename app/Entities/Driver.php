@@ -2,9 +2,11 @@
 
 namespace Cuadrantes\Entities;
 
+use Cuadrantes\Commons\CuadranteContract;
 use Cuadrantes\Commons\DriverContract;
 use Cuadrantes\Commons\DriverRestdayContract;
 use Cuadrantes\Commons\Globals;
+use Cuadrantes\Repositories\CuadranteRepository;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
@@ -133,6 +135,54 @@ class Driver extends Entity
             }
         }
         return false;
+    }
+
+    private function getOrderedRestDays(Collection $driverRestDays = null)
+    {
+	    if (!isset($driverRestDays)) {
+		    $driverRestDays = $this->restDays();
+	    }
+
+	    $orderedRestDays = new Collection();
+	    foreach ($driverRestDays as $restDay) {
+		    if ($restDay->code == 'SUN') {
+			    $restDay->id = 0;
+		    }
+		    $orderedRestDays->put($restDay->id, $restDay);
+	    }
+
+	    return $orderedRestDays;
+    }
+
+    public function getLastRestingDay(Collection $driverRestDays = null)
+    {
+    	if ($driverRestDays->count() > 0 ) {
+		    $orderedRestDays = $this->getOrderedRestDays( $driverRestDays );
+
+		    return $orderedRestDays->last();
+	    } else {
+	    	return null;
+	    }
+    }
+
+	/**
+	 * Este método se utiliza para conocer saber si el día pasado por parámetro se encuentra después del último descanso del conductor.
+	 * NOTA: Sólo utilizar para métodos que vayan mirando semana a semana, pues el método no sabe si se ha producido un cambio de semana. Ahora mismo,
+	 * sólo se utiliza para el cálculo de los cuadrantes.
+	 *
+	 * @param Carbon $date
+	 * @param Collection|null $driverRestDays
+	 *
+	 * @return bool
+	 */
+    public function isDayAfterResting (Carbon $date, Collection $driverRestDays = null)
+    {
+	    $lastDay = $this->getLastRestingDay($driverRestDays);
+
+	    if ($date->dayOfWeek  > $lastDay->id) {
+	    	return true;
+	    }
+	    return false;
     }
 
 }

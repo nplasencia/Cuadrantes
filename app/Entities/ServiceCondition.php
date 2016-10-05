@@ -23,4 +23,9 @@ class ServiceCondition extends Entity
     {
         return $this->belongsTo(Driver::class);
     }
+
+    public function service()
+    {
+    	return $this->belongsTo(Service::class);
+    }
 }

@@ -150,7 +150,7 @@ class CuadrantesController extends Controller
 
 	}
 
-    private function getReplacements(Array $drivers, $today, $weekday, Array $horasTrabajadasSemana)
+    private function getReplacements(Array $drivers,Carbon $today, $weekday, Array $horasTrabajadasSemana)
     {
 		if ($weekday == Carbon::SUNDAY) {
 			$weekday = 7;
@@ -381,9 +381,20 @@ class CuadrantesController extends Controller
 
 			    	echo "Service $service;";
 				    if ( $driver === false ) {
+					    $otherServiceTime = 'morning';
+				    	if ($serviceTime == 'morning') {
+				    		$otherServiceTime = 'afternoon';
+					    }
 					    if ( sizeof( $replacements[$serviceTime] ) > 0 ) {
 						    shuffle( $replacements[$serviceTime] );
 						    $replacement = array_pop( $replacements[$serviceTime] );
+						    echo "{$replacement->completeName};Sustituto;<br>";
+						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $replacement;
+						    $cuadrante->driver_id = $replacement->id;
+						    $cuadrante->substitute = true;
+					    } else if ( sizeof( $replacements[$otherServiceTime] ) > 0) {
+						    shuffle( $replacements[$otherServiceTime] );
+						    $replacement = array_pop( $replacements[$otherServiceTime] );
 						    echo "{$replacement->completeName};Sustituto;<br>";
 						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $replacement;
 						    $cuadrante->driver_id = $replacement->id;

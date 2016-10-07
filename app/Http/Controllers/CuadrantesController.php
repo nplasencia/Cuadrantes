@@ -131,7 +131,7 @@ class CuadrantesController extends Controller
 		if ($lastRestingDay == null) {
 			dd('ProblemaRestingDay', $driver);
 		}
-		$dayAfterRestWeekBefore = Carbon::create()->addWeeks(-1)->startOfWeek()->addDays($lastRestingDay->id);
+		$dayAfterRestWeekBefore = $date->copy()->addWeeks(-1)->startOfWeek()->addDays($lastRestingDay->id);
 		$lastCuadrante = $this->cuadranteRepository->getByServiceDateDriver($dayAfterRestWeekBefore, $driver);
 		if($lastCuadrante == null) {
 			$lastServiceTime = array_rand(['morning', 'afternoon']);

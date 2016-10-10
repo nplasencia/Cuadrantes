@@ -114,7 +114,7 @@
                                         <tbody>
                                         @foreach($cuadrantes as $cuadrante)
                                             <tr>
-                                                <td>Servicio {{ $cuadrante->service->number }}</td>
+                                                <td>Servicio {{ $cuadrante->service->number }} ({{ trans('pages/services.'.$cuadrante->service->time) }})</td>
                                                 @if (isset($cuadrante->driver))
                                                     <td>{{ $cuadrante->driver->completeName }}</td>
                                                 @else

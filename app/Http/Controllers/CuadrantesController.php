@@ -194,7 +194,8 @@ class CuadrantesController extends Controller
 
 	    for ($i=0; $i<8;$i++) {
 		    $cuadrantes = array();
-
+			$servicioSergioHernandez = null;
+		    $servicioJoseDominguez = null;
 		    foreach ( $servicesOrdered as $period => $groups ) {
 			    foreach ( $groups as $group => $services ) {
 
@@ -255,6 +256,16 @@ class CuadrantesController extends Controller
 						    	$driver = $condition->driver;
 							    if (isset( $groupServiceOrders[ $period ] [ $group ] [ $driver->id ][ $calculoNormalizado ])) {
 							    	$conditions = [$condition];
+
+								    if ($condition->driver->id == 19) {
+									    //Sergio Hernández -> Significa que el servicio que haga esa semana Sergio debe marcarse para que lo haga un sustituto
+									    echo 'Hay que cambiar el servicio de Sergio que no sea el servicio 52';
+									    $cuadrantes[ $now->toDateString() ][ $servicioSergioHernandez ] = false;
+								    } else if ($condition->driver->id == 5) {
+									    //José Domínguez -> Significa que el servicio que haga esa semana José debe marcarse para que lo haga un sustituto
+									    echo 'Hay que cambiar el servicio de Sergio que no sea el servicio 52';
+									    $cuadrantes[ $now->toDateString() ][ $servicioJoseDominguez ] = false;
+								    }
 								    break;
 							    }
 						    }
@@ -284,6 +295,11 @@ class CuadrantesController extends Controller
 							    $service = $groupServiceOrders[ $period ] [ $group ] [ $driver->id ][ $calculoNormalizado ];
 							    $serviciosAsignados[] = $service->id;
 							    if ( $substitute === null ) {
+							    	if ($driver->id == 19) {
+							    		$servicioSergioHernandez = "{$service->id}-{$service->time}";
+								    } else if ($driver->id == 5) {
+									    $servicioJoseDominguez = "{$service->id}-{$service->time}";
+								    }
 								    echo "Servicio número {$service->number}: Conductor {$driver->completeName} <br>";
 								    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = $driver;
 							    } else {

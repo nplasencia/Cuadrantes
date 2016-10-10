@@ -131,7 +131,18 @@ class CuadrantesController extends Controller
 		if ($lastRestingDay == null) {
 			dd('ProblemaRestingDay', $driver);
 		}
-		$dayAfterRestWeekBefore = $date->copy()->addWeeks(-1)->startOfWeek()->addDays($lastRestingDay->id);
+
+		$dateDiaSemana = $date->dayOfWeek;
+		if ($date->dayOfWeek == Carbon::SUNDAY) {
+			$dateDiaSemana = 7;
+		}
+
+		if ($dateDiaSemana < $lastRestingDay->id) {
+			$dayAfterRestWeekBefore = $date->copy()->addWeeks(-2)->startOfWeek()->addDays($lastRestingDay->id);
+		} else {
+			$dayAfterRestWeekBefore = $date->copy()->addWeeks(-1)->startOfWeek()->addDays($lastRestingDay->id);
+		}
+
 		$lastCuadrante = $this->cuadranteRepository->getByServiceDateDriver($dayAfterRestWeekBefore, $driver);
 		if($lastCuadrante == null) {
 			$lastServiceTime = array_rand(['morning', 'afternoon']);
@@ -207,7 +218,7 @@ class CuadrantesController extends Controller
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
-						    continue;
+						    //continue;
 					    }
 
 					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {

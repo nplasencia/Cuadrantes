@@ -150,14 +150,10 @@ class CuadrantesController extends Controller
 			$lastServiceTime = $lastCuadrante->service->time;
 		}
 
-		if ($driver->isDayAfterResting($date, $driverRestDays)) {
-			if ($lastServiceTime == 'morning') {
-				return 'afternoon';
-			}
-			return 'morning';
-		} else {
-			return $lastServiceTime;
+		if ($lastServiceTime == 'morning') {
+			return 'afternoon';
 		}
+		return 'morning';
 
 	}
 

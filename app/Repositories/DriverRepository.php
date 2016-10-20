@@ -126,6 +126,22 @@ class DriverRepository extends BaseRepository
 	    return $holidaysDrivers;
     }
 
+	public function getOffWorkDriversByDate(Carbon $date = null)
+	{
+		$holidaysDrivers = new Collection();
+		if ( ! isset( $date ) ) {
+			$date = Carbon::create();
+		}
+		$drivers = $this->newQuery()->orderBy(DriverContract::FIRST_NAME, 'ASC')->orderBy(DriverContract::LAST_NAME, 'ASC')->with('offWorks')->get();
+		dd($drivers);
+		foreach ($drivers as $driver) {
+			if($driver->isOffWork( $date, $driver->offWorks )) {
+				$holidaysDrivers->add($driver);
+			}
+		}
+		return $holidaysDrivers;
+	}
+
     public function getDriversWithoutPair()
     {
     	return $this->newQuery()->whereDoesntHave('pair')->orderBy(DriverContract::FIRST_NAME)->get();

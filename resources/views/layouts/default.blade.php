@@ -16,7 +16,7 @@
     </div>
     <div id="content">
         <div class="outer">
-            <div class="inner bg-light lter">
+            <div class="inner bg-light lter" style="min-height: 521px;">
                 @yield('content')
             </div>
         </div>

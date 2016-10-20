@@ -2,10 +2,7 @@
 
 namespace Cuadrantes\Entities;
 
-use Carbon\Carbon;
 use Cuadrantes\Commons\BusContract;
-
-use Cuadrantes\Commons\Globals;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bus extends Entity

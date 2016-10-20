@@ -79,8 +79,8 @@
                                 </header>
 
                                 <div class="body collapse in">
-                                    @forelse($downDrivers as $driver)
-                                        <p>{{ $driver->completeName }}</p>
+                                    @forelse($offWorkDrivers as $offWork)
+                                        <p>{{ $offWork->driver->completeName }}</p>
                                     @empty
                                         <p>No hay conductores de baja este día</p>
                                     @endforelse

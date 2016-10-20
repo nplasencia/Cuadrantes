@@ -1,6 +1,6 @@
 <?php
 
-use App\Commons\Roles;
+use Cuadrantes\Commons\Roles;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 

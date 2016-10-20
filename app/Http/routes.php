@@ -37,10 +37,11 @@ Route::group(['middleware' => 'auth'], function() {
 
 // Ajax
 Route::group(['middleware' => 'auth'], function() {
-    Route::get ('ajax/drivers', 'DriversController@ajaxResume')->name('driver.ajaxResume');
-    Route::get ('ajax/buses'  , 'BusesController@ajaxResume')  ->name('bus.ajaxResume');
-    Route::get ('ajax/lines'  , 'LinesController@ajaxResume')  ->name('line.ajaxResume');
-	Route::get ('ajax/users'  , 'UserController@ajaxResume')   ->name('user.ajaxResume');
+    Route::get ('ajax/drivers' , 'DriversController@ajaxResume')->name('driver.ajaxResume');
+    Route::get ('ajax/buses'   , 'BusesController@ajaxResume')  ->name('bus.ajaxResume');
+    Route::get ('ajax/lines'   , 'LinesController@ajaxResume')  ->name('line.ajaxResume');
+	Route::get ('ajax/users'   , 'UserController@ajaxResume')   ->name('user.ajaxResume');
+	Route::get ('ajax/offWorks', 'OffWorkController@ajaxResume')->name('offWork.ajaxResume');
 
 });
 
@@ -60,6 +61,19 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get ('driverDestroy/{id}', 'DriversController@destroy')->name('driver.destroy');
     Route::delete ('driverDestroy/{id}', 'DriversController@destroy')->name('driver.destroy');
+
+});
+
+// OffWork
+Route::group(['middleware' => 'auth'], function() {
+
+	// INDEX
+	Route::get ('offwork', 'OffWorkController@resume')->name('offWork.resume');
+
+	Route::post('newDriverOffWork', 'OffWorkController@store')->name('offWork.save');
+
+	Route::get ('offWorkDestroy/{id}', 'OffWorkController@destroy')->name('offWork.destroy');
+	Route::delete ('offWorkDestroy/{id}', 'OffWorkController@destroy')->name('offWork.destroy');
 
 });
 

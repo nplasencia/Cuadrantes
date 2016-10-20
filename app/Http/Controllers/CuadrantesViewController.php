@@ -5,6 +5,7 @@ namespace Cuadrantes\Http\Controllers;
 use Carbon\Carbon;
 use Cuadrantes\Repositories\CuadranteRepository;
 use Cuadrantes\Repositories\DriverRepository;
+use Cuadrantes\Repositories\OffWorkRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class CuadrantesViewController extends Controller
 
 	private $cuadranteRepository;
 	private $driverRepository;
+	private $offWorkRepository;
 
 	protected function genericValidation(Request $request) {
 		$this->validate($request, [
@@ -23,10 +25,11 @@ class CuadrantesViewController extends Controller
 		]);
 	}
 
-	public function __construct(CuadranteRepository $cuadranteRepository, DriverRepository $driverRepository)
+	public function __construct(CuadranteRepository $cuadranteRepository, DriverRepository $driverRepository, OffWorkRepository $offWorkRepository)
 	{
 		$this->cuadranteRepository = $cuadranteRepository;
-		$this->driverRepository = $driverRepository;
+		$this->driverRepository    = $driverRepository;
+		$this->offWorkRepository   = $offWorkRepository;
 	}
 
 	private function resume(Collection $cuadrantes, Carbon $date = null)
@@ -38,10 +41,11 @@ class CuadrantesViewController extends Controller
 
 		$restingDrivers = $this->driverRepository->getRestingDriversByDate($date);
 		$holidaysDrivers = $this->driverRepository->getHolidaysDriversByDate($date);
+		$offWorkDrivers = $this->offWorkRepository->getDriversByDate($date);
 		$downDrivers = new Collection();
 		$title = $this->title;
 		$iconClass = $this->iconClass;
-		return view('pages.cuadrantes.resume', compact('title', 'iconClass', 'cuadrantes', 'restingDrivers', 'holidaysDrivers', 'downDrivers', 'date'));
+		return view('pages.cuadrantes.resume', compact('title', 'iconClass', 'cuadrantes', 'restingDrivers', 'holidaysDrivers', 'downDrivers', 'date', 'offWorkDrivers'));
 	}
 
 	public function allToday()

@@ -208,6 +208,7 @@ class CuadrantesController extends Controller
 				    }
 
 				    $now = new Carbon();
+				    $now->setTime(0, 0, 0);
 
 				    $now->addWeeks( $i );
 				    foreach ( $weekdays[ $period ] as $weekday ) {
@@ -215,7 +216,7 @@ class CuadrantesController extends Controller
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
-						    //continue;
+						    continue;
 					    }
 
 					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {
@@ -285,6 +286,12 @@ class CuadrantesController extends Controller
 
 						    } else if ( $driver->isRestDay( $weekday, $driver->restDays ) ) {
 							    echo "El conductor {$driver->completeName} <b>descansa</b> este día. Buscamos sustituto.";
+							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
+								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
+							    }
+							    $substitute = $substitutions[ $driver->id ];
+						    } else if ( $driver->isOffWork( $now, $driver->offWorks) ) {
+							    echo "El conductor {$driver->completeName} <b>está de baja</b> este día. Buscamos sustituto.";
 							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
 								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
 							    }

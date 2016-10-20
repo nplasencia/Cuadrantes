@@ -37,9 +37,21 @@ abstract class BaseRepository {
         return $item;
     }
 
+	public function forceDelete(Model $item)
+	{
+		$item->forceDelete();
+		return $item;
+	}
+
     public function deleteById($id)
     {
         $item = $this->findOrFail($id);
         return $this->delete($item);
+    }
+
+    public function forceDeleteById($id)
+    {
+	    $item = $this->findOrFail($id);
+	    return $this->forceDelete($item);
     }
 }

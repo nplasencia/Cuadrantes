@@ -44,6 +44,11 @@ class Driver extends Entity
     	return $this->hasMany(Cuadrante::class);
     }
 
+    public function offWorks()
+    {
+	    return $this->hasMany(OffWork::class)->whereNull('deleted_at');
+    }
+
     /*
      * Attributes
      */
@@ -181,6 +186,21 @@ class Driver extends Entity
 
 	    if ($date->dayOfWeek  > $lastDay->id) {
 	    	return true;
+	    }
+	    return false;
+    }
+
+    public function isOffWork (Carbon $date, Collection $offWorks = null)
+    {
+    	if (!isset($offWorks)) {
+		    $offWorks = $this->offWorks;
+	    }
+
+	    foreach ($offWorks as $offWork) {
+	    	$offWorkDate = Carbon::createFromFormat( Globals::CARBON_SQL_FORMAT, $offWork->when )->setTime(0, 0, 0);
+	    	if ($offWorkDate->eq($date)) {
+	    		return true;
+		    }
 	    }
 	    return false;
     }

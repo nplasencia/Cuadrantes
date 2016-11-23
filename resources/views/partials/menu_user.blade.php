@@ -6,10 +6,10 @@
         <a class="user-link" href="{{ route('user_profile.resume') }}">
             <img class="media-object img-thumbnail user-img" alt="User Picture"  width="64px" src="
                 @if(Auth::user()->hasProfileImage())
-            {{ route('user_profile.image') }}
-            @else
-            {{ asset('assets/img/user.gif') }}
-            @endif
+                    {{ route('user_profile.image') }}
+                @else
+                    {{ asset('assets/img/user.gif') }}
+                @endif
             ">
             {{--<span class="label label-danger user-label">16</span>--}}
         </a>

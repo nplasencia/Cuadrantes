@@ -13,6 +13,7 @@ return [
     |
     */
 
+	'page_title'   => 'Acceso',
     'failed'   => 'Estas credenciales no coinciden con ninguna de nuestros registros.',
     'throttle' => 'Muchos intentos de conexión erróneos. Por favor, inténtalo de nuevo en :seconds segundos.',
     'login_title' => 'Introduce tu usuario y contraseña',

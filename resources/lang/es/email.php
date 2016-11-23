@@ -13,6 +13,8 @@ return [
     |
     */
 
-    'reset_text' => 'Pulsa en el siguiente link para restablecer tu contraseña:',
+	'reset_subject'    => '[Cuadrantes] Tu enlace para restablecer tu contraseña',
+
+	'new_user_subject' => '[Cuadrantes] Bienvenido al nuevo software de cuadrantes de Intercity Bus',
 
 ];

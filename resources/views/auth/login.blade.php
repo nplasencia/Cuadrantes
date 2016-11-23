@@ -1,34 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+@extends('layouts.login')
 
-    <meta charset ="UTF-8">
-    <meta name = "author" content = "Auret S.L.P.">
-    <title>Login Page</title>
-    <meta name = "description" content = "">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    @include('partials.favicon')
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-    <!-- Metis core stylesheet -->
-    <link rel="stylesheet" href="{!! asset('assets/css/main.min.css') !!}">
-</head>
-<body class="login">
-<div class="form-signin">
-    <div class="text-center">
-        <img src="{{ asset('assets/img/logoIntercity.png') }}" alt="Intercity Bus Logo">
-    </div>
-    <hr>
+@section('content')
     <div class="tab-content">
         <div id="login" class="tab-pane active">
             <form method="POST" action="{{ route('login') }}">
                 {!! csrf_field() !!}
 
+                @include('partials.msg_success')
                 @include('partials.errors')
                 <p class="text-muted text-center">
                     @lang('auth.login_title')
@@ -44,7 +22,7 @@
             </form>
         </div>
         <div id="forgot" class="tab-pane">
-            <form method="POST" action="{{ route('passwordEmail') }}">
+            <form method="POST" action="{{ url('/password/email') }}">
                 {!! csrf_field() !!}
                 @include('partials.errors')
                 <p class="text-muted text-center">
@@ -73,27 +51,4 @@
             <!--<li> <a class="text-muted" href="#signup" data-toggle="tab">Signup</a>  </li>-->
         </ul>
     </div>
-</div>
-
-<!--jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-<!--Bootstrap -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-    (function($) {
-        $(document).ready(function() {
-            $('.list-inline li > a').click(function() {
-                var activeForm = $(this).attr('href') + ' > form';
-                //console.log(activeForm);
-                $(activeForm).addClass('animated fadeIn');
-                //set timer to 1 seconds, after that, unload the animate animation
-                setTimeout(function() {
-                    $(activeForm).removeClass('animated fadeIn');
-                }, 1000);
-            });
-        });
-    })(jQuery);
-</script>
-</body>
-</html>
+@endsection

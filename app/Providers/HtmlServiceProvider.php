@@ -7,10 +7,10 @@ use Cuadrantes\Helpers\HtmlBuilder;
 
 class HtmlServiceProvider extends CollectiveHtmlServiceProvider {
 
-    protected function registerHtmlBuilder()
-    {
-        $this->app->singleton('html', function ($app) {
-            return new HtmlBuilder($app['url']);
-        });
-    }
+	protected function registerHtmlBuilder()
+	{
+		$this->app->singleton('html', function ($app) {
+			return new HtmlBuilder($app['url'], $app ['view']);
+		});
+	}
 }

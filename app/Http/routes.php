@@ -10,10 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::auth();
 // Authentication routes...
 
-Route::get ('login', 'Auth\AuthController@getLogin')->name('login');
+/*Route::get ('login', 'Auth\AuthController@getLogin')->name('login');
 Route::post('login', 'Auth\AuthController@postLogin');
 
 Route::get ('logout', 'Auth\AuthController@getLogout')->name('logout');
@@ -22,13 +22,13 @@ Route::post ('password/email', 'Auth\PasswordController@postEmail')->name('passw
 
 // Password reset routes...
 Route::get ('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset')->name('passwordReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset')->name('passwordReset');*/
 
 // Drivers
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('user',      'UserProfileController@resume')->name('user_profile.resume');
-    Route::get('userImage', 'UserProfileController@getProfileImage')->name('user_profile.image');
+	Route::get('userImage', 'UserProfileController@getProfileImage')->name('user_profile.image');
     Route::post('user',     'UserProfileController@update')->name('user_profile.update');
 
 	Route::post('changePassword', 'UserProfileController@changePassword')->name('user_profile.changePassword');

@@ -4,7 +4,7 @@ namespace Cuadrantes\Http\Controllers;
 
 
 use Cuadrantes\Repositories\UserProfileRepository;
-use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;

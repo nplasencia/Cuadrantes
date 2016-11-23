@@ -9,15 +9,18 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 use Cuadrantes\Commons\UserContract;
-use Illuminate\Support\Facades\Storage;
+use Cuadrantes\Notifications\ResetPassword as ResetPasswordNotification;
+
 
 class User extends Entity implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
     /**
      * The database table used by the model.
@@ -61,4 +64,15 @@ class User extends Entity implements AuthenticatableContract,
             return false;
         }
     }
+
+	/**
+	 * Send the password reset notification.
+	 *
+	 * @param  string  $token
+	 * @return void
+	 */
+	public function sendPasswordResetNotification($token)
+	{
+		$this->notify(new ResetPasswordNotification($token));
+	}
 }

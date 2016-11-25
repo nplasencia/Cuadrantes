@@ -81,6 +81,10 @@
 @stop
 @push('scripts')
     <script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
 
     <script>
         $(function() {
@@ -92,7 +96,25 @@
                 searching:      false,
                 info:           false,
                 ordering:       false,
-                fixedColumns:   true
+                fixedColumns:   true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        customize: function ( win ) {
+                            $(win.document.body)
+                                .css( 'font-size', '10pt' );
+
+                            $(win.document.body).find( 'table' )
+                                .addClass( 'compact' )
+                                .css( 'font-size', 'inherit' );
+
+                            $(win.document.body).find( 'table tr td a' )
+                                .addClass('btn btn-sm btn-default text-center')
+                        },
+                        text: 'Imprimir'
+                    }
+                ]
             });
         });
     </script>

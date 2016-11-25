@@ -54,12 +54,10 @@ class ServicesController extends Controller
         	if (!isset( $service->timetables) || sizeof($service->timetables) == 0) {
 		        $viewServices[$service->time][$service->id][$service->number][] = array();
 	        }
+
             foreach($service->timetables as $timetable) {
                 $time = Carbon::createFromFormat('H:i:s', $timetable->time);
                 $hours[$service->time][$time->hour] = $time->hour;
-                if (!isset ($viewServices[$service->time][$service->number])) {
-                    $viewServices[$service->time][$service->id][$service->number][$time->hour] = array();
-                }
 
                 $origin = $timetable->route->origin.$timetable->by;
                 if ($timetable->pass) {

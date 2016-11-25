@@ -24,7 +24,8 @@ class Service extends Model
 
     public function timetables()
     {
-        return $this->belongsToMany(Timetable::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)->orderBy(TimetableContract::TIME);
+        return $this->belongsToMany(Timetable::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)->orderBy(TimetableContract::TIME)
+	        ->whereNull('timetables.deleted_at');
     }
 
     public function excludedPeriod()

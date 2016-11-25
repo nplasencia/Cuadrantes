@@ -197,12 +197,12 @@ class Driver extends Entity
 	    }
 
 	    foreach ($offWorks as $offWork) {
-	    	$offWorkDate = Carbon::createFromFormat( Globals::CARBON_SQL_FORMAT, $offWork->when )->setTime(0, 0, 0);
-	    	if ($offWorkDate->eq($date)) {
-	    		return true;
+		    $offWorkFrom = Carbon::createFromFormat( Globals::CARBON_SQL_FORMAT, $offWork->from)->setTime(0, 0, 0);
+		    $offWorkTo   = Carbon::createFromFormat( Globals::CARBON_SQL_FORMAT, $offWork->to)->setTime(23, 59, 59);
+		    if( $date->between($offWorkFrom, $offWorkTo, true)) {
+			    return true;
 		    }
 	    }
 	    return false;
     }
-
 }

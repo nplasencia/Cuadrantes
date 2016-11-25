@@ -7,5 +7,6 @@ class OffWorkContract extends CuadrantesContract
     const
         TABLE_NAME   = 'off_works',
         DRIVER_ID    = 'driver_id',
-        WHEN         = 'when';
+        FROM         = 'from',
+		TO           = 'to';
 }

@@ -136,6 +136,10 @@ return [
 
         // Service
         'timetable_id'      => 'Horario',
+
+	    // Off works
+	    'driver_id'         => 'Conductor',
+	    'offWork'           => 'Fechas de baja',
     ],
 
 ];

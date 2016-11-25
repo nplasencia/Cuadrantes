@@ -10,6 +10,8 @@
 
                     @include('partials.msg_success')
 
+                    @include('partials.errors')
+
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="box">
@@ -37,7 +39,7 @@
                                             <div class="col-lg-4">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                    <input title="Fecha" data-provide="datepicker" class="form-control" type="text" name="when" id="when">
+                                                    <input type="text" name="offWork" id="offWork" class="form-control range-picker"/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
@@ -69,7 +71,8 @@
                                         <thead>
                                         <tr>
                                             <th class="text-center">Conductor</th>
-                                            <th class="text-center">Fecha</th>
+                                            <th class="text-center">Desde</th>
+                                            <th class="text-center">Hasta</th>
                                             <th>&nbsp;</th>
                                         </tr>
                                         </thead>
@@ -77,7 +80,8 @@
                                         @foreach($offWorks as $offWork)
                                             <tr data-id="{{ $offWork->id }}">
                                                 <td>{{ $offWork->driver->completeName }}</td>
-                                                <td>{{ $offWork->dateFormatted }}</td>
+                                                <td>{{ $offWork->fromFormatted }}</td>
+                                                <td>{{ $offWork->toFormatted }}</td>
                                                 <td align="center">
                                                     <div class="btn-group">
                                                         <a href="{{ route('offWork.destroy', $offWork->id) }}" data-toggle="tooltip" data-original-title="Eliminar" data-placement="bottom" class="btn btn-danger btn-xs btn-delete">
@@ -102,12 +106,39 @@
 @push('scripts')
     <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/js/libs/chosen.jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.24/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.24/daterangepicker.js"></script>
 
     <script>
         $(function() {
-            $("#when").datepicker({minDate: 0, maxDate: "1Y"});
+
+            $('.range-picker').daterangepicker({
+                autoUpdateInput: false,
+                separator: ' - ',
+                drops: 'down',
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    applyLabel: 'Guardar',
+                    cancelLabel: 'Cancelar',
+                    fromLabel: 'Desde',
+                    toLabel: 'Hasta',
+                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    firstDay: 1
+                }
+            });
+
+            $('.range-picker').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            });
+
+            $('.range-picker').on('cancel.daterangepicker', function() {
+                $(this).val('');
+            });
+
+
             $(".chosen-select").chosen();
+
             $('#offWorksTableResume').DataTable({
                 "processing": true,
                 "serverSide": true,
@@ -119,11 +150,12 @@
                 "order": [[ 1, "asc" ]],
                 columns: [
                     { data: 'driverName', name: 'driverName'},
-                    { data: 'date', name: 'date'},
+                    { data: 'from', name: 'from'},
+                    { data: 'to', name: 'to'},
                     { data: 'actions', name: 'actions', orderable: false, searchable: false}
                 ],
                 "aoColumnDefs": [
-                    { "sClass": "text-center", "aTargets": [2] }
+                    { "sClass": "text-center", "aTargets": [3] }
                 ]
             });
         });

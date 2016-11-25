@@ -18,13 +18,14 @@ class CreateOffWorksTable extends Migration
 	    Schema::create(OffWorkContract::TABLE_NAME, function (Blueprint $table) {
 		    $table->increments(OffWorkContract::ID);
 		    $table->unsignedInteger(OffWorkContract::DRIVER_ID);
-		    $table->date(OffWorkContract::WHEN);
+		    $table->date(OffWorkContract::FROM);
+		    $table->date(OffWorkContract::TO);
 		    $table->softDeletes();
 		    $table->timestamps();
 
 		    $table->foreign(OffWorkContract::DRIVER_ID)->references(DriverContract::ID)->on(DriverContract::TABLE_NAME)->onDelete('cascade');
 
-		    $table->unique( [OffWorkContract::DRIVER_ID, OffWorkContract::WHEN] );
+		    $table->unique( [OffWorkContract::DRIVER_ID, OffWorkContract::FROM, OffWorkContract::TO, 'deleted_at'] );
 
 	    });
     }

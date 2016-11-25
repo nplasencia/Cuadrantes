@@ -11,7 +11,7 @@ class OffWork extends Entity
 
 	protected $table = OffWorkContract::TABLE_NAME;
 
-	protected $fillable = [OffWorkContract::DRIVER_ID, OffWorkContract::WHEN];
+	protected $fillable = [OffWorkContract::DRIVER_ID, OffWorkContract::FROM, OffWorkContract::TO];
 
 	/*
 	 * Relations
@@ -26,8 +26,13 @@ class OffWork extends Entity
 	 * Attributes
 	 */
 
-	public function getDateFormattedAttribute()
+	public function getFromFormattedAttribute()
 	{
-		return $this->getFormattedDate($this->when);
+		return $this->getFormattedDate($this->from);
+	}
+
+	public function getToFormattedAttribute()
+	{
+		return $this->getFormattedDate($this->to);
 	}
 }

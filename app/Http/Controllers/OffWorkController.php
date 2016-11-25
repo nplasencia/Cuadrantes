@@ -28,7 +28,7 @@ class OffWorkController extends Controller
 	{
 		$this->validate($request, [
 			OffWorkContract::DRIVER_ID => 'required|numeric',
-			OffWorkContract::WHEN      => 'required|date_format:d/m/Y'
+			'offWork'                  => 'required',
 		]);
 	}
 
@@ -48,15 +48,18 @@ class OffWorkController extends Controller
 	public function ajaxResume()
 	{
 		return Datatables::of($this->offWorkRepository->getAll())
-						 ->editColumn('driverName', function (OffWork $offWork) {
-							 return $offWork->driver->completeName;
-						 })
-						 ->editColumn('date', function (OffWork $offWork) {
-						 	 return $offWork->dateFormatted;
-						 })
-		                 ->addColumn('actions', function (OffWork $offWork) {
-			                 return $this->getTableActionButtons($offWork);
-		                 })->make(true);
+							->editColumn('driverName', function (OffWork $offWork) {
+								return $offWork->driver->completeName;
+							})
+							->editColumn('from', function (OffWork $offWork) {
+								return $offWork->fromFormatted;
+							})
+							->editColumn('to', function (OffWork $offWork) {
+								return $offWork->toFormatted;
+							})
+							->addColumn('actions', function (OffWork $offWork) {
+								return $this->getTableActionButtons($offWork);
+							})->make(true);
 	}
 
 	public function resume()
@@ -72,10 +75,6 @@ class OffWorkController extends Controller
 		try {
 			$offWork = $this->offWorkRepository->store($request);
 			session()->flash('success', "Se ha añadido una baja para el conductor {$offWork->driver->completeName} correctamente");
-			$driver = $offWork->driver;
-			if ($driver->isOffWork($request->get('when'))) {
-				dd("Correcto");
-			}
 		} catch (\PDOException $exception) {
 			session()->flash('info', "Esta baja ya ha sido creada con anterioridad");
 

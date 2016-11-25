@@ -16,18 +16,20 @@ class OffWorkRepository extends BaseRepository
     }
 
     public function getAll() {
-        return $this->newQuery()->with('driver')->orderBy(OffWorkContract::WHEN, 'ASC')->get();
+        return $this->newQuery()->with('driver')->orderBy(OffWorkContract::FROM, 'ASC')->get();
     }
 
 	public function getAllPaginated($numberOfElements)
 	{
-		return $this->newQuery()->with('driver')->orderBy(OffWorkContract::WHEN, 'ASC')->paginate($numberOfElements);
+		return $this->newQuery()->with('driver')->orderBy(OffWorkContract::FROM, 'ASC')->paginate($numberOfElements);
 	}
 
 	public function store(Request $request)
 	{
 		$offWork = new OffWork($request->all());
-		$offWork->when = Carbon::createFromFormat(Globals::CARBON_VIEW_FORMAT, $offWork->when)->format(Globals::CARBON_SQL_FORMAT);
+		$offWorkDates = str_split( str_replace( ' - ', '', $request['offWork'] ), strpos( $request['offWork'], ' - ' ) );
+		$offWork->from = Carbon::createFromFormat(Globals::CARBON_VIEW_FORMAT, $offWorkDates[0])->format(Globals::CARBON_SQL_FORMAT);
+		$offWork->to   = Carbon::createFromFormat(Globals::CARBON_VIEW_FORMAT, $offWorkDates[1])->format(Globals::CARBON_SQL_FORMAT);
 		$offWork->save();
 
 		return $offWork;
@@ -35,7 +37,7 @@ class OffWorkRepository extends BaseRepository
 
 	public function getDriversByDate(Carbon $date)
 	{
-		$when = $date->format(Globals::CARBON_SQL_FORMAT);
-		return $this->newQuery()->with('driver')->where(OffWorkContract::WHEN, $when)->get();
+		$date = $date->format(Globals::CARBON_SQL_FORMAT);
+		return $this->newQuery()->with('driver')->where(OffWorkContract::FROM, '<=' ,$date)->where(OffWorkContract::TO, '>=' ,$date)->get();
 	}
 }

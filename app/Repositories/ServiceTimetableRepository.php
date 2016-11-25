@@ -15,11 +15,11 @@ class ServiceTimetableRepository extends BaseRepository
 
     public function deleteByServiceId($serviceId)
     {
-        $this->newQuery()->where(ServiceTimetablesContract::SERVICE_ID,$serviceId)->delete();
+        $this->newQuery()->where(ServiceTimetablesContract::SERVICE_ID,$serviceId)->forceDelete();
     }
 
     public function deleteByTimetableId($timetableId)
     {
-        $this->newQuery()->where(ServiceTimetablesContract::TIMETABLE_ID, $timetableId)->delete();
+        $this->newQuery()->where(ServiceTimetablesContract::TIMETABLE_ID, $timetableId)->forceDelete();
     }
 }

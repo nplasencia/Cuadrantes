@@ -208,7 +208,6 @@ class CuadrantesController extends Controller
 				    }
 
 				    $now = new Carbon();
-				    $now->setDate(2016, 10, 20);
 				    $now->setTime(0, 0, 0);
 
 				    $now->addWeeks( $i );

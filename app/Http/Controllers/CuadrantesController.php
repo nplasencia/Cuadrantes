@@ -211,7 +211,7 @@ class CuadrantesController extends Controller
 
 				    $now = new Carbon();
 				    $now->setTime(0, 0, 0);
-
+					$now->setDate(2016, 10, 17);
 				    $now->addWeeks( $i );
 				    if ($period == 4) continue;
 				    foreach ( $weekdays[ $period ] as $weekday ) {

@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get ('ajax/lines'   , 'LinesController@ajaxResume')  ->name('line.ajaxResume');
 	Route::get ('ajax/users'   , 'UserController@ajaxResume')   ->name('user.ajaxResume');
 	Route::get ('ajax/offWorks', 'OffWorkController@ajaxResume')->name('offWork.ajaxResume');
+	Route::get ('ajax/festives', 'FestiveController@ajaxResume')->name('festive.ajaxResume');
 
 });
 
@@ -177,5 +178,18 @@ Route::group(['middleware' => 'auth', 'admin'], function() {
 
 	Route::get ('userDelete/{id}', 'UserController@delete')->name('user.delete');
 	Route::delete('userDelete/{id}', 'UserController@delete')->name('user.delete');
+
+});
+
+// Festives
+Route::group(['middleware' => 'auth'], function() {
+
+	// INDEX
+	Route::get ('festives', 'FestiveController@resume')->name('festive.resume');
+
+	Route::post('newFestive', 'FestiveController@store')->name('festive.save');
+
+	Route::get ('festiveDestroy/{id}', 'FestiveController@destroy')->name('festive.destroy');
+	Route::delete ('festiveDestroy/{id}', 'FestiveController@destroy')->name('festive.destroy');
 
 });

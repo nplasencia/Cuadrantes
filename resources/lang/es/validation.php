@@ -140,6 +140,9 @@ return [
 	    // Off works
 	    'driver_id'         => 'Conductor',
 	    'offWork'           => 'Fechas de baja',
+
+	    // Festives
+	    'date'              => 'Fecha',
     ],
 
 ];

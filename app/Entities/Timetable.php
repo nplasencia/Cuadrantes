@@ -3,6 +3,7 @@
 namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\ServiceTimetablesContract;
+use Cuadrantes\Helpers\ColourHelper;
 use Illuminate\Database\Eloquent\Model;
 use Cuadrantes\Commons\TimetableContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,6 +28,20 @@ class Timetable extends Model
 
     public function service()
     {
-        return $this->belongsToMany(Service::class, ServiceTimetablesContract::TABLE_NAME);
+        return $this->belongsToMany(Service::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)
+	        ->whereNull('services.deleted_at');;
     }
+
+	public function getBackgroundColorAttribute()
+	{
+		return '#'.$this->pivot->colour;
+	}
+
+	public function getTextColorAttribute()
+	{
+		if (ColourHelper::isDark($this->getBackgroundColorAttribute())) {
+			return '#FFFFFF';
+		}
+		return '#000000';
+	}
 }

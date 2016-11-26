@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Cuadrantes\Commons\ServiceContract;
 use Cuadrantes\Commons\ServiceTimetablesContract;
 use Cuadrantes\Commons\TimetableContract;
+use Cuadrantes\Helpers\ColourHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

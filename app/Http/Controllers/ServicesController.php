@@ -49,7 +49,7 @@ class ServicesController extends Controller
         $hours = array();
         $viewServices = array();
 
-
+		//TODO: Mejorar este método y la vista. Es muy sencillo.
         foreach ($services as $service) {
         	if (!isset( $service->timetables) || sizeof($service->timetables) == 0) {
 		        $viewServices[$service->time][$service->id][$service->number][] = array();
@@ -67,17 +67,12 @@ class ServicesController extends Controller
                         $origin = $timetable->route->origin.'<br>('.$timetable->by.')';
                     }
                 }
-                $backgroundColour = '#'.$timetable->pivot->colour;
-                $textColour = '#000000';
-                if (ColourHelper::isDark($backgroundColour)) {
-                    $textColour = '#FFFFFF';
-                }
 
-                $viewServices[$service->time][$service->id][$service->number][$time->hour][] = ['colour' => $backgroundColour,
+                $viewServices[$service->time][$service->id][$service->number][$time->hour][] = ['colour' => $timetable->backgroundColor,
                                                                                   'time'   => $time->format('H:i'),
                                                                                   'origin' => $origin,
                                                                                   'line'   => $timetable->route->line->number,
-                                                                                  'text'   => $textColour ];
+                                                                                  'text'   => $timetable->textColor ];
             }
         }
         if (sizeof($viewServices) > 0) {

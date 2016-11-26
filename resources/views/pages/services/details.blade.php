@@ -77,7 +77,11 @@
                         </div>
 
                         <div class="form-actions no-margin-bottom text-center">
-                            <a class="btn btn-default btn-sm" href="{{ route('service.resume', $service->period_id) }}">@lang('general.cancel')</a>
+                            @if(isset($service) && $service != null)
+                                <a class="btn btn-default btn-sm" href="{{ route('service.resume', $service->period_id) }}">@lang('general.cancel')</a>
+                            @else
+                                <a class="btn btn-default btn-sm" href="{{ URL::previous() }}">@lang('general.cancel')</a>
+                            @endif
                             <input type="submit" value="@lang('general.save')" class="btn btn-primary">
                         </div>
 
@@ -155,7 +159,7 @@
                                     </thead>
                                     <tbody>
                                     @forelse($service->timetables as $timetable)
-                                        <tr>
+                                        <tr style="background-color: {{ $timetable->backgroundColor }}; color: {{ $timetable->textColor }}">
                                             <td>{{ $timetable->route->line->number }}</td>
                                             <td class="text-center">
                                                 {{ $timetable->route->origin }}

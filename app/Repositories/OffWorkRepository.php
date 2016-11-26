@@ -11,11 +11,13 @@ use Illuminate\Http\Request;
 class OffWorkRepository extends BaseRepository
 {
     
-    public function getEntity() {
+    public function getEntity()
+    {
         return new OffWork();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         return $this->newQuery()->with('driver')->orderBy(OffWorkContract::FROM, 'ASC')->get();
     }
 

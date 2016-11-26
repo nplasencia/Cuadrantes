@@ -196,9 +196,9 @@ class CuadrantesController extends Controller
 	    $eliminarAPartirDe = new Carbon();
 	    if ($eliminarAPartirDe->dayOfWeek == Carbon::SATURDAY || $eliminarAPartirDe->dayOfWeek == Carbon::SUNDAY) {
 		    echo "El algoritmo no puede lanzarse ni un sábado ni un domingo";
-		    //return;
+		    return;
 	    }
-	    $eliminarAPartirDe->setDate(2016, 11, 20);
+	    //$eliminarAPartirDe->setDate(2016, 11, 20);
 		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
 
 	    for ($i=0; $i<8;$i++) {
@@ -218,7 +218,7 @@ class CuadrantesController extends Controller
 
 				    $now = new Carbon();
 				    $now->setTime(0, 0, 0);
-					$now->setDate(2016, 11, 21);
+					//$now->setDate(2016, 11, 21);
 				    $now->addWeeks( $i );
 				    if ($period == 4) continue;
 				    foreach ( $weekdays[ $period ] as $weekday ) {
@@ -226,7 +226,7 @@ class CuadrantesController extends Controller
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
-						    //continue;
+						    continue;
 					    }
 
 					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {

@@ -28,8 +28,8 @@ class ServicesController extends Controller
                                 RouteRepository $routeRepository, ServiceTimetableRepository $serviceTimetableRepository)
     {
         $this->serviceRepository = $serviceRepository;
-        $this->periodRepository = $periodRepository;
-        $this->routeRepository = $routeRepository;
+        $this->periodRepository  = $periodRepository;
+        $this->routeRepository   = $routeRepository;
         $this->serviceTimetableRepository = $serviceTimetableRepository;
     }
 
@@ -42,62 +42,47 @@ class ServicesController extends Controller
         ]);
     }
 
-    private function resume($services)
+    private function getTitle($period_id)
     {
-        $title = $this->title;
-        $iconClass = $this->iconClass;
+	    switch ($period_id) {
+		    case 2:
+			    $this->title = "Servicios sábados";
+			    break;
+		    case 3:
+			    $this->title = "Servicios domingos";
+			    break;
+		    case 4:
+			    $this->title = "Servicios festivos";
+			    break;
+	    }
+    }
+
+    private function resume($services, $period_id)
+    {
         $hours = array();
         $viewServices = array();
 
-		//TODO: Mejorar este método y la vista. Es muy sencillo.
         foreach ($services as $service) {
-        	if (!isset( $service->timetables) || sizeof($service->timetables) == 0) {
-		        $viewServices[$service->time][$service->id][$service->number][] = array();
-	        }
-
             foreach($service->timetables as $timetable) {
                 $time = Carbon::createFromFormat('H:i:s', $timetable->time);
                 $hours[$service->time][$time->hour] = $time->hour;
 
-                $origin = $timetable->route->origin.$timetable->by;
-                if ($timetable->pass) {
-                    $origin = $timetable->by;
-                } else {
-                    if ($timetable->by != '') {
-                        $origin = $timetable->route->origin.'<br>('.$timetable->by.')';
-                    }
-                }
-
-                $viewServices[$service->time][$service->id][$service->number][$time->hour][] = ['colour' => $timetable->backgroundColor,
-                                                                                  'time'   => $time->format('H:i'),
-                                                                                  'origin' => $origin,
-                                                                                  'line'   => $timetable->route->line->number,
-                                                                                  'text'   => $timetable->textColor ];
+                $viewServices[$service->time][$service->id][$service->number][$time->hour][] = $timetable;
             }
         }
         if (sizeof($viewServices) > 0) {
 	        asort( $hours['afternoon'] );
 	        asort( $hours['morning'] );
         }
-        //dd($viewServices);
-        return view('pages.services.resume', compact('viewServices', 'hours', 'title', 'iconClass'));
+        return view('pages.services.resume', ['period_id' => $period_id, 'viewServices' => $viewServices, 'hours' => $hours,
+                                              'title' => $this->title, 'iconClass' => $this->iconClass]);
     }
 
     public function all($period_id)
     {
+	    $this->getTitle($period_id);
         $services = $this->serviceRepository->findByPeriod($period_id);
-        switch ($period_id) {
-            case 2:
-                $this->title = "Servicios sábados";
-                break;
-            case 3:
-                $this->title = "Servicios domingos";
-                break;
-	        case 4:
-		        $this->title = "Servicios festivos";
-		        break;
-        }
-        return $this->resume($services);
+        return $this->resume($services, $period_id);
     }
 
     public function create()
@@ -170,5 +155,18 @@ class ServicesController extends Controller
         $this->serviceTimetableRepository->deleteByTimetableId($timetableId);
         session()->flash('success', 'Se ha eliminado el horario del servicio exitosamente');
         return Redirect::route('service.details', $serviceId);
+    }
+
+    public function printServices($period_id)
+    {
+	    $this->getTitle($period_id);
+	    $services = $this->serviceRepository->findByPeriod($period_id);
+	    $viewServices = array();
+	    foreach ($services as $service) {
+		    foreach($service->timetables as $timetable) {
+			    $viewServices[ $service->number ][] = $timetable;
+		    }
+	    }
+	    return view('pages.services.print', ['viewServices' => $viewServices, 'title' => $this->title]);
     }
 }

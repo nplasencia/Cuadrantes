@@ -3,6 +3,16 @@
 
     <div class="row">
         <div class="col-lg-12">
+            <div class="row" style="margin-left: 0px; margin: 10px 0px;">
+                <div class="btn-group">
+                    <a href="{{ route('service.print', $period_id) }}" class="btn btn-success" target="_blank">
+                        <i class="fa fa-print"></i>
+                        <span class="link-title">&nbsp;Imprimir servicios</span>
+                    </a>
+                </div>
+
+            </div>
+
             @forelse($viewServices as $time => $viewService)
                 <div class="box">
                     <header class="dark">
@@ -54,10 +64,10 @@
                                                             @foreach($serviceHours[$hour] as $timetable)
                                                                 <a data-placement="bottom" data-original-title="Servicio {{ $serviceNumber }}"
                                                                    data-toggle="tooltip" class="btn btn-sm btn-default text-center"
-                                                                   style="background-color: {{ $timetable['colour'] }}; color: {{$timetable['text']}};">
-                                                                    {{ $timetable['time'] }}<br>
-                                                                    {!! $timetable['origin'] !!}<br>
-                                                                    Línea {{ $timetable['line'] }}
+                                                                   style="background-color: {{ $timetable->backgroundColor }}; color: {{$timetable->textColor}};">
+                                                                    {{ $timetable->formattedTime }}<br>
+                                                                    {!! $timetable->originTitle !!}<br>
+                                                                    Línea {{ $timetable->route->line->number }}
                                                                 </a>
                                                             @endforeach
                                                          @endif
@@ -81,10 +91,7 @@
 @stop
 @push('scripts')
     <script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
 
     <script>
         $(function() {
@@ -97,24 +104,6 @@
                 info:           false,
                 ordering:       false,
                 fixedColumns:   true,
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'print',
-                        customize: function ( win ) {
-                            $(win.document.body)
-                                .css( 'font-size', '10pt' );
-
-                            $(win.document.body).find( 'table' )
-                                .addClass( 'compact' )
-                                .css( 'font-size', 'inherit' );
-
-                            $(win.document.body).find( 'table tr td a' )
-                                .addClass('btn btn-sm btn-default text-center')
-                        },
-                        text: 'Imprimir'
-                    }
-                ]
             });
         });
     </script>

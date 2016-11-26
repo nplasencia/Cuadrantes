@@ -2,6 +2,7 @@
 
 namespace Cuadrantes\Entities;
 
+use Carbon\Carbon;
 use Cuadrantes\Commons\ServiceTimetablesContract;
 use Cuadrantes\Helpers\ColourHelper;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +30,12 @@ class Timetable extends Model
     public function service()
     {
         return $this->belongsToMany(Service::class, ServiceTimetablesContract::TABLE_NAME)->withPivot(ServiceTimetablesContract::COLOUR)
-	        ->whereNull('services.deleted_at');;
+	        ->whereNull('services.deleted_at');
     }
+
+    /*
+     * Attributes
+     */
 
 	public function getBackgroundColorAttribute()
 	{
@@ -43,5 +48,23 @@ class Timetable extends Model
 			return '#FFFFFF';
 		}
 		return '#000000';
+	}
+
+	public function getFormattedTimeAttribute()
+	{
+		return Carbon::createFromFormat('H:i:s', $this->time)->format('H:i');
+	}
+
+	public function getOriginTitleAttribute()
+	{
+		$origin = $this->route->origin.$this->by;
+		if ($this->pass) {
+			return $this->by;
+		} else {
+			if ($this->by != '') {
+				return $this->route->origin.'<br>('.$this->by.')';
+			}
+		}
+		return $origin;
 	}
 }

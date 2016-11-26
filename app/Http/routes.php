@@ -156,6 +156,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('serviceAddTimetable/{id}', 'ServicesController@addTimetable')->name('service.addTimetable');
     Route::get('serviceDestroyTimetable/{service_id}/{timetable_id}', 'ServicesController@destroyTimetable')->name('service.destroyTimetable');
 
+	Route::get ('printServices/{period_id}' , 'ServicesController@printServices')->name('service.print');
+
 });
 
 Route::group(['middleware' => 'auth'], function() {

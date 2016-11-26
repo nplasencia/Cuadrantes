@@ -117,7 +117,7 @@ class CuadrantesController extends Controller
 	    shuffle($this->substitutes);
 
 	    $substitute = array_pop($this->substitutes);
-	    if ($substitute->isRestDay( $weekday, $substitute->restDays ) || $substitute->isInHolidays( $today, $substitute->holidays )) {
+	    if ($substitute->isRestDay( $weekday, $substitute->restDays ) || $substitute->isInHolidays( $today, $substitute->holidays) || $substitute->isOffWork( $today, $substitute->offWorks )) {
 	    	echo " El sustituto {$substitute->completeName} está de vacaciones o de descanso para este día.";
 	    	return $this->getSubstitute($today, $weekday);
 	    }
@@ -191,7 +191,7 @@ class CuadrantesController extends Controller
 
 	    //Eliminamos todos aquellos servicios almacenados en la base de datos cuya fecha sea mayor a hoy
 	    $eliminarAPartirDe = new Carbon();
-	    $eliminarAPartirDe->setDate(2016, 10, 16);
+
 		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
 
 	    for ($i=0; $i<8;$i++) {
@@ -211,7 +211,7 @@ class CuadrantesController extends Controller
 
 				    $now = new Carbon();
 				    $now->setTime(0, 0, 0);
-					$now->setDate(2016, 10, 17);
+
 				    $now->addWeeks( $i );
 				    if ($period == 4) continue;
 				    foreach ( $weekdays[ $period ] as $weekday ) {

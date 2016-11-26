@@ -167,6 +167,6 @@ class ServicesController extends Controller
 			    $viewServices[ $service->number ][] = $timetable;
 		    }
 	    }
-	    return view('pages.services.print', ['viewServices' => $viewServices, 'title' => $this->title]);
+	    return view('pages.services.print', ['viewServices' => $viewServices, 'title' => 'Imprimir '.$this->title]);
     }
 }

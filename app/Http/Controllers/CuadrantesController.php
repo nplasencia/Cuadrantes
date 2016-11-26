@@ -208,15 +208,17 @@ class CuadrantesController extends Controller
 				    }
 
 				    $now = new Carbon();
+				    $now->setDate(2016, 10, 20);
 				    $now->setTime(0, 0, 0);
 
 				    $now->addWeeks( $i );
+				    if ($period == 4) continue;
 				    foreach ( $weekdays[ $period ] as $weekday ) {
 					    $now = $now->startOfWeek()->addDays( $weekday->id - 1 );
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
-						    continue;
+						    //continue;
 					    }
 
 					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {
@@ -261,11 +263,11 @@ class CuadrantesController extends Controller
 								    if ($condition->driver->id == 19) {
 									    //Sergio Hernández -> Significa que el servicio que haga esa semana Sergio debe marcarse para que lo haga un sustituto
 									    echo 'Hay que cambiar el servicio de Sergio que no sea el servicio 52';
-									    $cuadrantes[ $now->toDateString() ][ $servicioSergioHernandez ] = false;
+									    //$cuadrantes[ $now->toDateString() ][ $servicioSergioHernandez ] = false;
 								    } else if ($condition->driver->id == 5) {
 									    //José Domínguez -> Significa que el servicio que haga esa semana José debe marcarse para que lo haga un sustituto
 									    echo 'Hay que cambiar el servicio de Sergio que no sea el servicio 52';
-									    $cuadrantes[ $now->toDateString() ][ $servicioJoseDominguez ] = false;
+									    //$cuadrantes[ $now->toDateString() ][ $servicioJoseDominguez ] = false;
 								    }
 								    break;
 							    }

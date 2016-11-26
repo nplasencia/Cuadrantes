@@ -11,7 +11,8 @@
         </style>
     </head>
 
-    <body class="  " onload="window.print()">
+    <body class="  " onload="window.print();">
         @yield('content')
+
     </body>
 </html>

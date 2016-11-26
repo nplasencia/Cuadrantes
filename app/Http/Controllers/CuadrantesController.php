@@ -190,7 +190,9 @@ class CuadrantesController extends Controller
         $groupServiceOrders = $this->getServiceGroupOrder();
 
 	    //Eliminamos todos aquellos servicios almacenados en la base de datos cuya fecha sea mayor a hoy
-		$this->cuadranteRepository->deleteAllAfterDate(new Carbon());
+	    $eliminarAPartirDe = new Carbon();
+	    $eliminarAPartirDe->setDate(2016, 10, 17);
+		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
 
 	    for ($i=0; $i<8;$i++) {
 		    $cuadrantes = array();
@@ -209,7 +211,7 @@ class CuadrantesController extends Controller
 
 				    $now = new Carbon();
 				    $now->setTime(0, 0, 0);
-
+					$now->setDate(2016, 10, 17);
 				    $now->addWeeks( $i );
 				    if ($period == 4) continue;
 				    foreach ( $weekdays[ $period ] as $weekday ) {

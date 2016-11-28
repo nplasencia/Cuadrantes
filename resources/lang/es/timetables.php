@@ -15,6 +15,7 @@ return [
 
     'WORK'     => 'Horarios laborales',
     'SATURDAY' => 'Horarios sábados',
-    'SUNDAY'   => 'Horarios domingos y festivos',
+    'SUNDAY'   => 'Horarios domingos',
+    'FESTIVES' => 'Horarios festivos',
 
 ];

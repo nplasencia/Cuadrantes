@@ -252,7 +252,7 @@ class CuadrantesController extends Controller
 					    //$calculoNormalizado = intval( ( $now->weekOfYear / sizeof( $services ) - floor( $now->weekOfYear / sizeof( $services ) ) ) * sizeof( $services ) );
 					    $aux = intval($now->weekOfYear / sizeof( $services ));
 					    $calculoNormalizado = $now->weekOfYear - sizeof( $services ) * $aux;
-					    //echo "CALCULO: $calculoNormalizado<br>";
+					    echo "CALCULO NORMALIZADO: <b>$calculoNormalizado</b><br>";
 
 					    if ($services[0]->number != 52) {
 						    while ( sizeof( $conditions ) > sizeof( $services ) ) {

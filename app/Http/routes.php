@@ -165,6 +165,8 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get ('cuadrantes', 'CuadrantesViewController@allToday')->name('cuadrantes.resume');
 	Route::post('cuadrantes', 'CuadrantesViewController@all')->name('cuadrantes.resumePost');
+
+	Route::post('cuadrantesUpdate', 'CuadrantesViewController@update')->name('cuadrantes.update');
 });
 
 // Users

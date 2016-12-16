@@ -133,8 +133,9 @@ class ServicesController extends Controller
 
     public function destroy($serviceId)
     {
-        $this->serviceTimetableRepository->deleteByServiceId($serviceId);
-	    $service = $this->serviceRepository->deleteById($serviceId);
+        $service = $this->serviceRepository->findOrFail($serviceId);
+	    $service->timetables()->detach();
+	    $service->delete();
 
         session()->flash('success', 'El servicio ha sido eliminado exitosamente');
         return $this->all($service->period->id);

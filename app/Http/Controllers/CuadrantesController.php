@@ -8,6 +8,7 @@ use Cuadrantes\Entities\Period;
 use Cuadrantes\Entities\Weekday;
 use Cuadrantes\Repositories\CuadranteRepository;
 use Cuadrantes\Repositories\DriverRepository;
+use Cuadrantes\Repositories\FestiveRepository;
 use Cuadrantes\Repositories\ServiceConditionRepository;
 use Cuadrantes\Repositories\ServiceGroupOrderRepository;
 use Cuadrantes\Repositories\ServiceRepository;
@@ -27,11 +28,12 @@ class CuadrantesController extends Controller
 	private $driverRepository;
 	private $substitutes;
 	private $cuadranteRepository;
+	private $festiveRepository;
 
     public function __construct(ServiceConditionRepository $serviceConditionRepository, ServiceRepository $serviceRepository,
                                 WeekdayRepository $weekdayRepository, ServiceGroupOrderRepository $serviceGroupOrderRepository,
 								ServiceSubstituteRepository $serviceSubstituteRepository, DriverRepository $driverRepository,
-								CuadranteRepository $cuadranteRepository)
+								CuadranteRepository $cuadranteRepository, FestiveRepository $festiveRepository)
     {
         $this->serviceConditionRepository  = $serviceConditionRepository;
         $this->serviceRepository = $serviceRepository;
@@ -40,6 +42,7 @@ class CuadrantesController extends Controller
 	    $this->serviceSubstituteRepository = $serviceSubstituteRepository;
 	    $this->driverRepository = $driverRepository;
 	    $this->cuadranteRepository = $cuadranteRepository;
+	    $this->festiveRepository = $festiveRepository;
     }
 
     private function getConditions()
@@ -181,6 +184,15 @@ class CuadrantesController extends Controller
 	    return $replacements;
     }
 
+    private function isFestive(Carbon $date, Collection $festivesByYear) {
+	    foreach ($festivesByYear as $festive) {
+		    if ($festive->isFestive($date)) {
+			    return true;
+		    }
+	    }
+	    return false;
+    }
+
 	/**
 	 * El algoritmo no puede lanzarse ni un sábado ni un domingo
 	 */
@@ -191,6 +203,7 @@ class CuadrantesController extends Controller
         $servicesOrdered = $this->getServices();
         $weekdays = $this->getWeekdays();
         $groupServiceOrders = $this->getServiceGroupOrder();
+	    $festives = $this->festiveRepository->getAllByYear();
 
 	    //Eliminamos todos aquellos servicios almacenados en la base de datos cuya fecha sea mayor a hoy
 	    $eliminarAPartirDe = new Carbon();
@@ -201,32 +214,38 @@ class CuadrantesController extends Controller
 	    //$eliminarAPartirDe->setDate(2016, 11, 20);
 		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
 
-	    for ($i=0; $i<8;$i++) {
+	    for ($i=0; $i<1;$i++) {
 		    $cuadrantes = array();
 			$servicioSergioHernandez = null;
 		    $servicioJoseDominguez = null;
-		    foreach ( $servicesOrdered as $period => $groups ) {
+		    foreach ( $servicesOrdered as $periodAux => $groups ) {
 			    foreach ( $groups as $group => $services ) {
 
 				    $substitutions = array(); //Este array almacenará las sustituciones que existan para cada grupo de servicios
 
 				    $this->substitutes = null;
-				    if ( isset( $servicesSubstitutes[ $period ][ $group ] ) ) {
-					    $this->substitutes = $servicesSubstitutes[ $period ][ $group ];
-					    echo "Hay asignados " . sizeof( $this->substitutes ) . " sustitutos para el grupo de servicios $group del periodo $period<br>";
+				    if ( isset( $servicesSubstitutes[ $periodAux ][ $group ] ) ) {
+					    $this->substitutes = $servicesSubstitutes[ $periodAux ][ $group ];
+					    echo "Hay asignados " . sizeof( $this->substitutes ) . " sustitutos para el grupo de servicios $group del periodo $periodAux<br>";
 				    }
 
 				    $now = new Carbon();
 				    $now->setTime(0, 0, 0);
 					//$now->setDate(2016, 11, 21);
 				    $now->addWeeks( $i );
-				    if ($period == 4) continue;
-				    foreach ( $weekdays[ $period ] as $weekday ) {
+				    if ($periodAux == 4) continue;
+				    foreach ( $weekdays[ $periodAux ] as $weekday ) {
 					    $now = $now->startOfWeek()->addDays( $weekday->id - 1 );
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
 						    continue;
+					    }
+
+					    $period = $periodAux;
+
+					    if ($this->isFestive($now, $festives)) {
+						    $period = 4;
 					    }
 
 					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {

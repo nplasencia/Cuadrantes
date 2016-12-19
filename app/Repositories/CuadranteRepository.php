@@ -4,6 +4,9 @@ namespace Cuadrantes\Repositories;
 
 use Carbon\Carbon;
 use Cuadrantes\Commons\CuadranteContract;
+use Cuadrantes\Commons\Globals;
+use Cuadrantes\Commons\ServiceContract;
+use Cuadrantes\Commons\TimetableContract;
 use Cuadrantes\Entities\Cuadrante;
 use Cuadrantes\Entities\Driver;
 
@@ -20,12 +23,12 @@ class CuadranteRepository extends BaseRepository{
     		$date = new Carbon();
 	    }
 
-    	return $this->newQuery()->where(CuadranteContract::DATE, $date->format('Y-m-d'))->get();
+    	return $this->newQuery()->where(CuadranteContract::DATE, $date->format(Globals::CARBON_SQL_FORMAT))->get();
     }
 
     public function getByDateServiceId(Carbon $date, $serviceId)
     {
-	    return $this->newQuery()->where(CuadranteContract::DATE, $date->format('Y-m-d'))->where(CuadranteContract::SERVICE_ID, $serviceId)->firstOrFail();
+	    return $this->newQuery()->where(CuadranteContract::DATE, $date->format(Globals::CARBON_SQL_FORMAT))->where(CuadranteContract::SERVICE_ID, $serviceId)->firstOrFail();
     }
 
     public function deleteAllAfterDate(Carbon $date)
@@ -35,6 +38,6 @@ class CuadranteRepository extends BaseRepository{
 
 	public function getByServiceDateDriver(Carbon $date, Driver $driver)
 	{
-		return $this->newQuery()->where(CuadranteContract::DATE, $date->format('Y-m-d'))->where(CuadranteContract::DRIVER_ID, $driver->id)->first();
+		return $this->newQuery()->where(CuadranteContract::DATE, $date->format(Globals::CARBON_SQL_FORMAT))->where(CuadranteContract::DRIVER_ID, $driver->id)->first();
 	}
 }

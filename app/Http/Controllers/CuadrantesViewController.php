@@ -3,10 +3,12 @@
 namespace Cuadrantes\Http\Controllers;
 
 use Carbon\Carbon;
+use Cuadrantes\Commons\Globals;
 use Cuadrantes\Repositories\BusRepository;
 use Cuadrantes\Repositories\CuadranteRepository;
 use Cuadrantes\Repositories\DriverRepository;
 use Cuadrantes\Repositories\OffWorkRepository;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -44,9 +46,10 @@ class CuadrantesViewController extends Controller
 
 		$buses = $this->busRepository->getAll();
 		$drivers = $this->driverRepository->getAll();
-		$restingDrivers = $this->driverRepository->getRestingDriversByDate($date);
-		$holidaysDrivers = $this->driverRepository->getHolidaysDriversByDate($date);
 		$offWorkDrivers = $this->offWorkRepository->getDriversByDate($date);
+		$holidaysDrivers = $this->driverRepository->getHolidaysDriversByDate($date, true);
+		$restingDrivers = $this->driverRepository->getRestingDriversByDate($date, true, true);
+
 		$downDrivers = new Collection();
 		$title = $this->title;
 		$iconClass = $this->iconClass;
@@ -99,5 +102,18 @@ class CuadrantesViewController extends Controller
 		}*/
 
 		return back();
+	}
+
+	public function printCuadrantes($date)
+	{
+		$carbonDate = Carbon::createFromFormat(Globals::CARBON_SQL_FORMAT, $date);
+		$cuadrantesData = $this->cuadranteRepository->getAllByDate($carbonDate);
+
+		$cuadrantes = [];
+		foreach ($cuadrantesData as $cuadrante) {
+			$cuadrantes[$cuadrante->service->number] = $cuadrante;
+		}
+		ksort($cuadrantes);
+		return view('pages.cuadrantes.print', ['cuadrantes' => $cuadrantes, 'title' => 'Imprimir '.$this->title]);
 	}
 }

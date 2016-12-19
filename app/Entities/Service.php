@@ -18,6 +18,10 @@ class Service extends Model
 
     protected $fillable = [ServiceContract::PERIOD_ID, ServiceContract::TIME, ServiceContract::NUMBER, ServiceContract::AUX];
 
+    /*
+     * Relations
+     */
+
     public function period()
     {
         return $this->belongsTo(Period::class, TimetableContract::PERIOD_ID);
@@ -39,6 +43,10 @@ class Service extends Model
     	return $this->hasMany(Cuadrante::class);
     }
 
+	/*
+	 * Functions
+	 */
+
     public function isExcluded()
     {
     	if ($this->excludedPeriod != null) {
@@ -50,5 +58,21 @@ class Service extends Model
 		    }
 	    }
 	    return false;
+    }
+
+    public function getOrderedTimetablesAttribute()
+    {
+	    if ($this->timetables->count() > 1) {
+		    $lastElement     = $this->timetables->pop();
+		    $lastElementTime = Carbon::createFromFormat( 'H:i:s', $lastElement->time );
+		    $previousLastElementTime = Carbon::createFromFormat( 'H:i:s', $this->timetables->last()->time );
+
+		    if ( $lastElementTime > $previousLastElementTime->addHours( 12 ) ) {
+			    $this->timetables->prepend( $lastElement );
+		    } else {
+			    $this->timetables->push( $lastElement );
+		    }
+	    }
+	    return $this->timetables;
     }
 }

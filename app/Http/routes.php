@@ -160,6 +160,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 });
 
+// Cuadrantes
 Route::group(['middleware' => 'auth'], function() {
     Route::get ('cuadrantesJob' , 'CuadrantesController@complexAlgorithm')->name('cuadrantes.complex');
 
@@ -167,6 +168,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('cuadrantes', 'CuadrantesViewController@all')->name('cuadrantes.resumePost');
 
 	Route::post('cuadrantesUpdate', 'CuadrantesViewController@update')->name('cuadrantes.update');
+
+	Route::get ('printCuadrantes/{date}' , 'CuadrantesViewController@printCuadrantes')->name('cuadrantes.print');
 });
 
 // Users

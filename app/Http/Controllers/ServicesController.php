@@ -66,7 +66,7 @@ class ServicesController extends Controller
 	        // Esto está puesto como inicialización ya que puede ocurrir que se cree un servicio pero no se le asignen horarios.
 	        $viewServices[$service->time][$service->id][$service->number][0] = array();
 	        $hours[$service->time][0] = 0;
-            foreach($service->timetables as $timetable) {
+            foreach($service->orderedTimetables as $timetable) {
                 $time = Carbon::createFromFormat('H:i:s', $timetable->time);
                 $hours[$service->time][$time->hour] = $time->hour;
 
@@ -167,7 +167,7 @@ class ServicesController extends Controller
 	    $services = $this->serviceRepository->findByPeriod($period_id);
 	    $viewServices = array();
 	    foreach ($services as $service) {
-		    foreach($service->timetables as $timetable) {
+		    foreach($service->orderedTimetables as $timetable) {
 			    $viewServices[ $service->number ][] = $timetable;
 		    }
 	    }

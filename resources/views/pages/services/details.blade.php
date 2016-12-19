@@ -158,7 +158,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($service->timetables as $timetable)
+                                    @forelse($service->orderedTimetables as $timetable)
                                         <tr style="background-color: {{ $timetable->backgroundColor }}; color: {{ $timetable->textColor }}">
                                             <td>{{ $timetable->route->line->number }}</td>
                                             <td class="text-center">

@@ -101,6 +101,15 @@
                                 </header>
 
                                 <div class="body collapse in">
+                                    <div class="row" style="margin-left: 0px; margin: 10px 0px;">
+                                        <div class="btn-group">
+                                            <a href="{{ route('cuadrantes.print', $date->format('Y-m-d')) }}" class="btn btn-success" target="_blank">
+                                                <i class="fa fa-print"></i>
+                                                <span class="link-title">&nbsp;Imprimir cuadrante</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                     <form action="{{  route('cuadrantes.update') }}" class="form-horizontal" method="POST" id="cuadranteForm">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="selectedBuses" value="">

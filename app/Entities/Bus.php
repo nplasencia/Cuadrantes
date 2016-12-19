@@ -22,6 +22,11 @@ class Bus extends Entity
         return $this->belongsTo(Brand::class, BusContract::BRAND_ID);
     }
 
+    public function cuadrantes()
+    {
+    	return $this->hasMany(Cuadrante::class);
+    }
+
     /*
      * Attributes
      */

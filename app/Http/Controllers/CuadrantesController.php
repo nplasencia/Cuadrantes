@@ -214,7 +214,7 @@ class CuadrantesController extends Controller
 	    //$eliminarAPartirDe->setDate(2016, 11, 20);
 		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
 
-	    for ($i=0; $i<1;$i++) {
+	    for ($i=0; $i<8;$i++) {
 		    $cuadrantes = array();
 			$servicioSergioHernandez = null;
 		    $servicioJoseDominguez = null;

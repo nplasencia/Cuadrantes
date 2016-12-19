@@ -93,7 +93,7 @@ class DriverRepository extends BaseRepository
 		    ->orderBy(DriverContract::FIRST_NAME, 'ASC')->with('restDays', 'holidays')->get();
     }
 
-    public function getRestingDriversByDate(Carbon $date = null)
+    public function getRestingDriversByDate(Carbon $date = null, $removeOffWorkDrivers = false, $removeHolidaysDrivers = false)
     {
 	    $restingDrivers = new Collection();
     	if (!isset($date)){ $date = Carbon::create();}
@@ -104,6 +104,8 @@ class DriverRepository extends BaseRepository
 
 	    $drivers = $this->newQuery()->orderBy(DriverContract::FIRST_NAME, 'ASC')->orderBy(DriverContract::LAST_NAME, 'ASC')->with('restDays', 'holidays')->get();
 	    foreach ($drivers as $driver) {
+		    if ($removeOffWorkDrivers && $driver->isOffWork($date)) continue;
+		    if ($removeHolidaysDrivers && $driver->isInHolidays($date)) continue;
 	    	if($driver->isRestDay( $weekday, $driver->restDays )) {
 	    		$restingDrivers->add($driver);
 		    }
@@ -111,7 +113,7 @@ class DriverRepository extends BaseRepository
 	    return $restingDrivers;
     }
 
-    public function getHolidaysDriversByDate(Carbon $date = null)
+    public function getHolidaysDriversByDate(Carbon $date = null, $removeOffWorkDrivers = false)
     {
 	    $holidaysDrivers = new Collection();
 	    if ( ! isset( $date ) ) {
@@ -119,6 +121,7 @@ class DriverRepository extends BaseRepository
 	    }
 	    $drivers = $this->newQuery()->orderBy(DriverContract::FIRST_NAME, 'ASC')->orderBy(DriverContract::LAST_NAME, 'ASC')->with('restDays', 'holidays')->get();
 	    foreach ($drivers as $driver) {
+	    	if ($removeOffWorkDrivers && $driver->isOffWork($date)) continue;
 		    if($driver->isInHolidays( $date, $driver->holidays )) {
 			    $holidaysDrivers->add($driver);
 		    }

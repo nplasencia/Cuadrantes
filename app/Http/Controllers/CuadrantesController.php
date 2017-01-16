@@ -114,14 +114,12 @@ class CuadrantesController extends Controller
     private function getSubstitute($today, $weekday)
     {
     	if ($this->substitutes === null || sizeof($this->substitutes) == 0) {
-    		echo " No existen sustitutos o no quedan.<br>";
     		return false;
 	    }
 	    shuffle($this->substitutes);
 
 	    $substitute = array_pop($this->substitutes);
 	    if ($substitute->isRestDay( $weekday, $substitute->restDays ) || $substitute->isInHolidays( $today, $substitute->holidays) || $substitute->isOffWork( $today, $substitute->offWorks )) {
-	    	echo " El sustituto {$substitute->completeName} está de vacaciones o de descanso para este día.";
 	    	return $this->getSubstitute($today, $weekday);
 	    }
 	    return $substitute;
@@ -719,7 +717,6 @@ class CuadrantesController extends Controller
 				    $cuadrante->service_id = $service;
 				    $cuadrante->date = $date;
 
-				    echo "Service $service;";
 				    if ( $driver === false ) {
 					    $otherServiceTime = 'morning';
 					    if ($serviceTime == 'morning') {

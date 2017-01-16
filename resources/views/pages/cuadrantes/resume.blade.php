@@ -24,7 +24,7 @@
                                         <input type="text" name="date" id="date" class="form-control datepicker" value="{{ $date->format('d/m/Y') }}"/>
                                     </div>
                                 </div>
-                                <a href="{{ route('cuadrantes.user') }}" class="btn btn-success" target="_blank">
+                                <a href="{{ route('cuadrantes.user') }}" class="btn btn-success">
                                     <i class="fa fa-spinner"></i>
                                     <span class="link-title">&nbsp;Recalcular cuadrantes</span>
                                 </a>

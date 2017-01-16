@@ -16,12 +16,18 @@
 
                         {{ csrf_field() }}
 
-                        <div class="form-group text-center">
-                            <div class="col-lg-4">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" name="date" id="date" class="form-control datepicker" value="{{ $date->format('d/m/Y') }}"/>
+                        <div class="form-group row">
+                            <div class="col-lg-2">
+                                <div class="btn-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="date" id="date" class="form-control datepicker" value="{{ $date->format('d/m/Y') }}"/>
+                                    </div>
                                 </div>
+                                <a href="{{ route('cuadrantes.user') }}" class="btn btn-success" target="_blank">
+                                    <i class="fa fa-spinner"></i>
+                                    <span class="link-title">&nbsp;Recalcular cuadrantes</span>
+                                </a>
                             </div>
                         </div>
 

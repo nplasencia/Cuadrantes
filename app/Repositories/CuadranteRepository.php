@@ -28,7 +28,11 @@ class CuadranteRepository extends BaseRepository{
 
     public function getByDateServiceId(Carbon $date, $serviceId)
     {
-	    return $this->newQuery()->where(CuadranteContract::DATE, $date->format(Globals::CARBON_SQL_FORMAT))->where(CuadranteContract::SERVICE_ID, $serviceId)->firstOrFail();
+    	try {
+		    return $this->newQuery()->where( CuadranteContract::DATE, $date->format( Globals::CARBON_SQL_FORMAT ) )->where( CuadranteContract::SERVICE_ID, $serviceId )->firstOrFail();
+	    } catch (\Exception $e) {
+    		dd($date, $serviceId);
+	    }
     }
 
     public function deleteAllAfterDate(Carbon $date)

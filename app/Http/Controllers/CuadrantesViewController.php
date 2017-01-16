@@ -77,8 +77,8 @@ class CuadrantesViewController extends Controller
 		$date = Carbon::createFromFormat('d/m/Y', $request->get('date'))->setTime(0, 0, 0);
 
 		foreach ($busesCuadrantes as $serviceId => $busId) {
-			if (!empty($serviceId)) {
-				$cuadrante         = $this->cuadranteRepository->getByDateServiceId( $date, $serviceId );
+			if (!empty($busId) && !empty($serviceId)) {
+				$cuadrante = $this->cuadranteRepository->getByDateServiceId( $date, $serviceId );
 				if (empty($busId)) {
 					$cuadrante->bus_id = NULL;
 				} else {
@@ -89,9 +89,9 @@ class CuadrantesViewController extends Controller
 			}
 		}
 
-		/*foreach ($driversCuadrantes as $serviceId => $driverId) {
-			if (!empty($serviceId)) {
-				$cuadrante            = $this->cuadranteRepository->getByDateServiceId( $date, $serviceId );
+		foreach ($driversCuadrantes as $serviceId => $driverId) {
+			if (!empty($driverId) && !empty($serviceId)) {
+				$cuadrante = $this->cuadranteRepository->getByDateServiceId( $date, $serviceId );
 				if (empty($driverId)) {
 					$cuadrante->driver_id = NULL;
 				} else {
@@ -99,9 +99,10 @@ class CuadrantesViewController extends Controller
 				}
 				$cuadrante->save();
 			}
-		}*/
+		}
 
-		return back();
+		$cuadrantes = $this->cuadranteRepository->getAllByDate($date);
+		return $this->resume($cuadrantes, $date);
 	}
 
 	public function printCuadrantes($date)

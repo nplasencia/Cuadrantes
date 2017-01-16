@@ -209,7 +209,7 @@ class CuadrantesController extends Controller
 	    $eliminarAPartirDe = new Carbon();
 	    if ($eliminarAPartirDe->dayOfWeek == Carbon::SATURDAY || $eliminarAPartirDe->dayOfWeek == Carbon::SUNDAY) {
 		    echo "El algoritmo no puede lanzarse ni un sábado ni un domingo";
-		    return;
+		    //return;
 	    }
 	    //$eliminarAPartirDe->setDate(2016, 11, 20);
 		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
@@ -526,5 +526,263 @@ class CuadrantesController extends Controller
 		    }
 	    }
 
+    }
+
+    public function userComplexAlgorithm()
+    {
+	    $servicesConditions = $this->getConditions();
+	    $servicesSubstitutes = $this->getSubstitutes();
+	    $servicesOrdered = $this->getServices();
+	    $weekdays = $this->getWeekdays();
+	    $groupServiceOrders = $this->getServiceGroupOrder();
+	    $festives = $this->festiveRepository->getAllByYear();
+
+	    //Eliminamos todos aquellos servicios almacenados en la base de datos cuya fecha sea mayor a hoy
+	    $eliminarAPartirDe = new Carbon();
+	    $this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
+
+	    for ($i=0; $i<8;$i++) {
+		    $cuadrantes = array();
+		    $servicioSergioHernandez = null;
+		    $servicioJoseDominguez = null;
+		    foreach ( $servicesOrdered as $periodAux => $groups ) {
+			    foreach ( $groups as $group => $services ) {
+
+				    $substitutions = array(); //Este array almacenará las sustituciones que existan para cada grupo de servicios
+
+				    $this->substitutes = null;
+				    if ( isset( $servicesSubstitutes[ $periodAux ][ $group ] ) ) {
+					    $this->substitutes = $servicesSubstitutes[ $periodAux ][ $group ];
+				    }
+
+				    $now = new Carbon();
+				    $now->setTime(0, 0, 0);
+				    //$now->setDate(2016, 11, 21);
+				    $now->addWeeks( $i );
+				    if ($periodAux == 4) continue;
+				    foreach ( $weekdays[ $periodAux ] as $weekday ) {
+					    $now = $now->startOfWeek()->addDays( $weekday->id - 1 );
+					    if (!$now->isFuture()) {
+						    continue;
+					    }
+
+					    $period = $periodAux;
+
+					    if ($this->isFestive($now, $festives)) {
+						    $period = 4;
+					    }
+
+					    if ( !isset( $servicesConditions[ $period ][ $group ] ) ) {
+						    if ($period == Period::SUNDAY && $services[0]->number == 13) {
+							    $cuadrantes[ $now->toDateString() ][ "{$services[0]->id}-{$services[0]->time}" ] = null;
+						    } elseif ($period == Period::SUNDAY && $services[0]->number == 28) {
+							    foreach ( $services as $service ) {
+								    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = null;
+							    }
+						    } else {
+							    foreach ( $services as $service ) {
+								    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = false;
+							    }
+						    }
+						    $now->addDay();
+						    continue;
+					    }
+					    $conditions = $servicesConditions[ $period ][ $group ];
+
+					    //$calculoNormalizado = intval( ( $now->weekOfYear / sizeof( $services ) - floor( $now->weekOfYear / sizeof( $services ) ) ) * sizeof( $services ) );
+					    $aux = intval($now->weekOfYear / sizeof( $services ));
+					    $calculoNormalizado = $now->weekOfYear - sizeof( $services ) * $aux;
+
+					    if ($services[0]->number != 52) {
+						    while ( sizeof( $conditions ) > sizeof( $services ) ) {
+							    shuffle( $conditions );
+							    array_pop( $conditions );
+						    }
+					    } else {
+						    // Para el servicio 52 tenemos asignados varios conductores. Debido a ello, debemos de encontrar la condición que esté preparada para
+						    // el calculo normalizado
+						    foreach ($conditions as $condition) {
+							    $driver = $condition->driver;
+							    if (isset( $groupServiceOrders[ $period ] [ $group ] [ $driver->id ][ $calculoNormalizado ])) {
+								    $conditions = [$condition];
+
+								    if ($condition->driver->id == 19) {
+									    //Sergio Hernández -> Significa que el servicio que haga esa semana Sergio debe marcarse para que lo haga un sustituto
+									    //$cuadrantes[ $now->toDateString() ][ $servicioSergioHernandez ] = false;
+								    } else if ($condition->driver->id == 5) {
+									    //José Domínguez -> Significa que el servicio que haga esa semana José debe marcarse para que lo haga un sustituto
+									    //$cuadrantes[ $now->toDateString() ][ $servicioJoseDominguez ] = false;
+								    }
+								    break;
+							    }
+						    }
+					    }
+
+					    $serviciosAsignados = array();
+
+					    foreach ( $conditions as $condition ) {
+						    $substitute = null;
+						    $driver = $condition->driver;
+						    if ( $driver->isInHolidays( $now, $driver->holidays ) ) {
+							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
+								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
+							    }
+							    $substitute = $substitutions[ $driver->id ];
+
+						    } else if ( $driver->isRestDay( $weekday, $driver->restDays ) ) {
+							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
+								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
+							    }
+							    $substitute = $substitutions[ $driver->id ];
+						    } else if ( $driver->isOffWork( $now, $driver->offWorks) ) {
+							    if ( ! isset( $substitutions[ $driver->id ] ) ) {
+								    $substitutions[ $driver->id ] = $this->getSubstitute( $now, $weekday );
+							    }
+							    $substitute = $substitutions[ $driver->id ];
+						    }
+
+						    if ( isset( $groupServiceOrders[ $period ] [ $group ] [ $driver->id ][ $calculoNormalizado ] ) ) {
+							    $service = $groupServiceOrders[ $period ] [ $group ] [ $driver->id ][ $calculoNormalizado ];
+							    $serviciosAsignados[] = $service->id;
+							    if ( $substitute === null ) {
+								    if ($driver->id == 19) {
+									    $servicioSergioHernandez = "{$service->id}-{$service->time}";
+								    } else if ($driver->id == 5) {
+									    $servicioJoseDominguez = "{$service->id}-{$service->time}";
+								    }
+								    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = $driver;
+							    } else {
+								    if ( $substitute === false ) {
+									    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = false;
+								    } else {
+									    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = $substitute;
+								    }
+							    }
+						    }
+					    }
+
+					    // Por si hay servicios dentro de un grupo que no tienen condición. Suele ocurrir los sábados.
+					    if ( sizeof($conditions) < sizeof($services) ) {
+						    foreach ($services as $service) {
+							    if (!in_array($service->id, $serviciosAsignados)) {
+								    $cuadrantes[ $now->toDateString() ][ "{$service->id}-{$service->time}" ] = false;
+							    }
+						    }
+					    }
+
+					    $now->addDay();
+				    }
+			    }
+		    }
+
+		    $horasTrabajadasSemana = array();
+		    $cuadranteFinal = array();
+		    $conductorServicio13Sabado = null;
+		    $conductoresLinea3Semana = array();
+
+		    foreach ( $cuadrantes as $day => $services ) {
+			    $date = Carbon::createFromFormat('Y-m-d', $day)->setTime(0, 0, 0);
+
+			    $drivers = array();
+
+			    ksort( $services );
+			    foreach ( $services as $service => $driver ) {
+				    if (isset($driver) && $driver !== false ) {
+					    $drivers[]=$driver->id;
+				    }
+			    }
+
+			    $conductoresEspecialesDomingo = array();
+			    if ($date->dayOfWeek == Carbon::SUNDAY) {
+				    //No podemos asignar como replacement para el domingo al conductor que haya realizado el servicio 13 el sábado
+				    //TODO: Esto tengo que arreglarlo sí o sí
+				    $conductorServicio13Sabado = $cuadranteFinal[ $date->copy()->addDays(-1)->toDateString() ][ 75 ];
+				    $drivers[] = $conductorServicio13Sabado->id;
+
+				    // Tampoco podemos asignar como replacements a los 5 conductores que seleccionemos para los servicios 28, 29, 30, 33 y 34 del domingo
+				    shuffle($conductoresLinea3Semana);
+				    foreach ($conductoresLinea3Semana as $conductorLinea3) {
+					    if (!$conductorLinea3->isInHolidays( $date, $conductorLinea3->holidays ) && $horasTrabajadasSemana[$conductorLinea3->id] < 5) {
+						    $conductoresEspecialesDomingo[] = $conductorLinea3;
+						    $drivers[] = $conductorLinea3->id;
+						    //if (sizeof($conductoresEspecialesDomingo) == 5) break;
+					    }
+				    }
+			    }
+
+			    $replacements = $this->getReplacements($drivers, $date, $date->dayOfWeek, $horasTrabajadasSemana);
+
+			    foreach ( $services as $serviceAndTime => $driver ) {
+				    $service = explode('-',$serviceAndTime)[0];
+				    $serviceTime = explode('-',$serviceAndTime)[1];
+				    $cuadrante = new Cuadrante();
+				    $cuadrante->service_id = $service;
+				    $cuadrante->date = $date;
+
+				    echo "Service $service;";
+				    if ( $driver === false ) {
+					    $otherServiceTime = 'morning';
+					    if ($serviceTime == 'morning') {
+						    $otherServiceTime = 'afternoon';
+					    }
+					    if ( sizeof( $replacements[$serviceTime] ) > 0 ) {
+						    shuffle( $replacements[$serviceTime] );
+						    $replacement = array_pop( $replacements[$serviceTime] );
+						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $replacement;
+						    $cuadrante->driver_id = $replacement->id;
+						    $cuadrante->substitute = true;
+					    } else if ( sizeof( $replacements[$otherServiceTime] ) > 0) {
+						    shuffle( $replacements[$otherServiceTime] );
+						    $replacement = array_pop( $replacements[$otherServiceTime] );
+						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $replacement;
+						    $cuadrante->driver_id = $replacement->id;
+						    $cuadrante->substitute = true;
+					    } else {
+						    $cuadranteFinal[ $date->toDateString() ][ $service ] = false;
+					    }
+				    } elseif ($driver === null) {
+					    // El servicio 13 el domingo
+					    if ($service == 75) {
+						    // Servicio 13 el domingo que ha de ser realizado por el que hizo el servicio 13 el sábado
+						    $cuadranteFinal[ $date->toDateString() ][ $service ] = $conductorServicio13Sabado;
+					    } else {
+						    // Servicios 28, 29, 30, 33 y 34 del domingo
+
+						    if (!empty($conductoresEspecialesDomingo)) {
+							    $conductorSeleccionado = array_pop( $conductoresEspecialesDomingo );
+							    $cuadranteFinal[ $date->toDateString() ][ $service ] = $conductorSeleccionado;
+						    } else {
+							    $cuadranteFinal[ $date->toDateString() ][ $service ] = false;
+						    }
+					    }
+				    } else {
+					    $cuadranteFinal[ $date->toDateString() ][ $service ] = $driver;
+				    }
+				    $selectedDriver = $cuadranteFinal[ $date->toDateString() ][ $service ];
+				    if ($selectedDriver !== false)
+					    $cuadrante->driver_id = $selectedDriver->id;
+				    else
+					    $cuadrante->driver_id = null;
+
+				    $cuadrante->save();
+
+				    if (isset($selectedDriver) && $selectedDriver !== false ) {
+
+					    if ( isset( $horasTrabajadasSemana[ $selectedDriver->id ] ) ) {
+						    $horasTrabajadasSemana[ $selectedDriver->id ] ++;
+					    } else {
+						    $horasTrabajadasSemana[ $selectedDriver->id ] = 1;
+					    }
+
+					    if ( ! $date->isWeekend() && $service > 36 && $service < 49 ) {
+						    if ( $selectedDriver->isRestDay( Weekday::SATURDAY, $selectedDriver->weekdays ) ) {
+							    $conductoresLinea3Semana[ $selectedDriver->id ] = $selectedDriver;
+						    }
+					    }
+				    }
+			    }
+		    }
+	    }
+	    return back();
     }
 }

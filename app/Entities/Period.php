@@ -8,6 +8,7 @@ use Cuadrantes\Commons\TimetableContract;
 
 class Period extends Model
 {
+	const WORK = 1;
 	const SUNDAY = 3;
 
     public $timestamps = false;

@@ -145,10 +145,11 @@ class CuadrantesController extends Controller
 		}
 
 		$lastCuadrante = $this->cuadranteRepository->getByServiceDateDriver($dayAfterRestWeekBefore, $driver);
-		if($lastCuadrante == null) {
+		if($lastCuadrante == null || $lastCuadrante->service == null) {
 			$lastServiceTime = array_rand(['morning', 'afternoon']);
 		} else {
 			$lastServiceTime = $lastCuadrante->service->time;
+
 		}
 
 		if ($lastServiceTime == 'morning') {
@@ -207,7 +208,7 @@ class CuadrantesController extends Controller
 	    $eliminarAPartirDe = new Carbon();
 	    if ($eliminarAPartirDe->dayOfWeek == Carbon::SATURDAY || $eliminarAPartirDe->dayOfWeek == Carbon::SUNDAY) {
 		    echo "El algoritmo no puede lanzarse ni un sábado ni un domingo";
-		    //return;
+		    return;
 	    }
 	    //$eliminarAPartirDe->setDate(2016, 11, 20);
 		$this->cuadranteRepository->deleteAllAfterDate($eliminarAPartirDe);
@@ -237,7 +238,7 @@ class CuadrantesController extends Controller
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
-						    continue;
+						    //continue;
 					    }
 
 					    $period = $periodAux;

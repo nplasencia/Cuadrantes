@@ -238,7 +238,7 @@ class CuadrantesController extends Controller
 					    echo "Miramos el día {$weekday->value} {$now->day}<br>";
 					    if (!$now->isFuture()) {
 					    	echo "No analizamos el día {$now->day} porque es pasado<br>";
-						    //continue;
+						    continue;
 					    }
 
 					    $period = $periodAux;

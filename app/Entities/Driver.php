@@ -4,7 +4,7 @@ namespace Cuadrantes\Entities;
 
 use Cuadrantes\Commons\CuadranteContract;
 use Cuadrantes\Commons\DriverContract;
-use Cuadrantes\Commons\DriverRestdayContract;
+use Cuadrantes\Commons\DriverRestDayContract;
 use Cuadrantes\Commons\Globals;
 use Cuadrantes\Repositories\CuadranteRepository;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,7 +26,7 @@ class Driver extends Entity
 
 	public function restDays()
     {
-        return $this->belongsToMany(Weekday::class, DriverRestdayContract::TABLE_NAME)->withTimestamps()->whereNull('deleted_at');
+        return $this->belongsToMany(Weekday::class, DriverRestDayContract::TABLE_NAME)->withTimestamps()->whereNull('deleted_at');
     }
 
     public function holidays()

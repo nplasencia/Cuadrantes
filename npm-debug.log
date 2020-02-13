@@ -1,0 +1,68 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'issues', 'gulp-util@3.0.8' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
+4 silly fetchPackageMetaData gulp-util@3.0.8
+5 silly fetchNamedPackageData gulp-util
+6 silly mapToRegistry name gulp-util
+7 silly mapToRegistry using default registry
+8 silly mapToRegistry registry https://registry.npmjs.org/
+9 silly mapToRegistry uri https://registry.npmjs.org/gulp-util
+10 verbose request uri https://registry.npmjs.org/gulp-util
+11 verbose request no auth needed
+12 info attempt registry request try #1 at 9:45:09 AM
+13 verbose request id 3a208eacc92df1ba
+14 verbose etag W/"f238d6e10a1f0ce2792ecf094561276e"
+15 verbose lastModified Sun, 27 May 2018 03:21:22 GMT
+16 http request GET https://registry.npmjs.org/gulp-util
+17 http 304 https://registry.npmjs.org/gulp-util
+18 verbose headers { date: 'Thu, 13 Feb 2020 09:45:09 GMT',
+18 verbose headers   connection: 'keep-alive',
+18 verbose headers   'set-cookie':
+18 verbose headers    [ '__cfduid=db0244fc061fcd91e15e3bc1dd67f08fc1581587109; expires=Sat, 14-Mar-20 09:45:09 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+18 verbose headers   'cf-ray': '5645de2b9e4aeeee-CDG',
+18 verbose headers   age: '1240',
+18 verbose headers   'cache-control': 'public, max-age=300',
+18 verbose headers   etag: '"f238d6e10a1f0ce2792ecf094561276e"',
+18 verbose headers   'last-modified': 'Sun, 27 May 2018 03:21:22 GMT',
+18 verbose headers   vary: 'Accept-Encoding',
+18 verbose headers   'cf-cache-status': 'HIT',
+18 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+18 verbose headers   server: 'cloudflare' }
+19 silly get cb [ 304,
+19 silly get   { date: 'Thu, 13 Feb 2020 09:45:09 GMT',
+19 silly get     connection: 'keep-alive',
+19 silly get     'set-cookie':
+19 silly get      [ '__cfduid=db0244fc061fcd91e15e3bc1dd67f08fc1581587109; expires=Sat, 14-Mar-20 09:45:09 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+19 silly get     'cf-ray': '5645de2b9e4aeeee-CDG',
+19 silly get     age: '1240',
+19 silly get     'cache-control': 'public, max-age=300',
+19 silly get     etag: '"f238d6e10a1f0ce2792ecf094561276e"',
+19 silly get     'last-modified': 'Sun, 27 May 2018 03:21:22 GMT',
+19 silly get     vary: 'Accept-Encoding',
+19 silly get     'cf-cache-status': 'HIT',
+19 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+19 silly get     server: 'cloudflare' } ]
+20 verbose etag https://registry.npmjs.org/gulp-util from cache
+21 verbose get saving gulp-util to /home/nplasencia/.npm/registry.npmjs.org/gulp-util/.cache.json
+22 silly bugs url https://github.com/gulpjs/gulp-util/issues
+23 verbose stack Error: spawn xdg-open ENOENT
+23 verbose stack     at _errnoException (util.js:1022:11)
+23 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:190:19)
+23 verbose stack     at onErrorNT (internal/child_process.js:372:16)
+23 verbose stack     at _combinedTickCallback (internal/process/next_tick.js:138:11)
+23 verbose stack     at process._tickCallback (internal/process/next_tick.js:180:9)
+24 verbose cwd /var/www/cuadrantes
+25 error Linux 4.15.0-76-generic
+26 error argv "/usr/bin/node" "/usr/bin/npm" "issues" "gulp-util@3.0.8"
+27 error node v8.10.0
+28 error npm  v3.5.2
+29 error path xdg-open
+30 error code ENOENT
+31 error errno ENOENT
+32 error syscall spawn xdg-open
+33 error enoent spawn xdg-open ENOENT
+34 error enoent spawn xdg-open ENOENT
+34 error enoent This is most likely not a problem with npm itself
+34 error enoent and is related to npm not being able to find a file.
+35 verbose exit [ 1, true ]

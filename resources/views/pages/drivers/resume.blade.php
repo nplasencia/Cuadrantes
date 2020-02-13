@@ -67,7 +67,6 @@
 @stop
 @push('scripts')
     <script src="{{ asset('/assets/js/datatables.min.js') }}"></script>
-
     <script>
         $(function() {
             $('#driversTableResume').DataTable({

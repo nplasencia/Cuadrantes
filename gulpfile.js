@@ -30,6 +30,7 @@ elixir(function(mix) {
                 'bower_components/datatables/media/js/jquery.dataTables.js',
                 'bower_components/datatables/media/js/dataTables.bootstrap.js',
                 'bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js',
+		'bower_components/popper.js/dist/umd/popper.js',
 
                 'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
                 'bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js',
@@ -49,13 +50,14 @@ elixir(function(mix) {
             [
                 'resources/assets/js/vendor/jquery.js',
                 'resources/assets/js/vendor/autosize.js',
+		'resources/assets/js/vendor/popper.js',
                 'resources/assets/js/vendor/bootstrap.js',
                 'resources/assets/js/vendor/bootstrap-switch.js',
                 'resources/assets/js/vendor/bootstrap-tagsinput.js',
                 'resources/assets/js/vendor/jasny-bootstrap.js',
                 'resources/assets/js/vendor/screenfull.js',
                 'resources/assets/js/vendor/metisMenu.js',
-                'resources/assets/js/vendor/metisCore.js'
+                'resources/assets/js/vendor/metisCore.js',
             ],
             'public/assets/js/app.min.js')
 
